@@ -11,6 +11,13 @@ export interface Team {
   goalDifference: number;
   points: number;
   lastFiveGames: PossibleResults[];
+  gameHistory: GameHistory[];
 }
 
 export type PossibleResults = "WIN" | "LOSS" | "TIE";
+export interface GameHistory {
+  result: string;
+  against: string;
+  goalsScored: number;
+  goalsReceived: number;
+}

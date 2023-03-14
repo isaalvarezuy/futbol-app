@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import Sidebar from "@/components/Sidebar/Sidebar";
+;
 import Dashboard from "@/components/Dashboard/Dashboard";
 import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 const LoggedInLayout = () => {
   return (

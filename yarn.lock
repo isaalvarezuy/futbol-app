@@ -804,14 +804,28 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.18.6"
 
-"@babel/plugin-transform-react-jsx-development@^7.18.6":
+"@babel/plugin-transform-react-jsx-development@^7.16.0", "@babel/plugin-transform-react-jsx-development@^7.18.6":
   "integrity" "sha512-SA6HEjwYFKF7WDjWcMcMGUimmw/nhNRDWxr+KaLSCrkD/LMDBvWRmHAYgE1HDeF8KUuI8OAu+RT6EOtKxSW2qA=="
   "resolved" "https://registry.npmjs.org/@babel/plugin-transform-react-jsx-development/-/plugin-transform-react-jsx-development-7.18.6.tgz"
   "version" "7.18.6"
   dependencies:
     "@babel/plugin-transform-react-jsx" "^7.18.6"
 
-"@babel/plugin-transform-react-jsx@^7.14.9", "@babel/plugin-transform-react-jsx@^7.18.6":
+"@babel/plugin-transform-react-jsx-self@^7.16.0":
+  "integrity" "sha512-f/Eq+79JEu+KUANFks9UZCcvydOOGMgF7jBrcwjHa5jTZD8JivnhCJYvmlhR/WTXBWonDExPoW0eO/CR4QJirA=="
+  "resolved" "https://registry.npmjs.org/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.21.0.tgz"
+  "version" "7.21.0"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.20.2"
+
+"@babel/plugin-transform-react-jsx-source@^7.16.0":
+  "integrity" "sha512-RpAi004QyMNisst/pvSanoRdJ4q+jMCWyk9zdw/CyLB9j8RXEahodR6l2GyttDRyEVWZtbN+TpLiHJ3t34LbsQ=="
+  "resolved" "https://registry.npmjs.org/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.19.6.tgz"
+  "version" "7.19.6"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.19.0"
+
+"@babel/plugin-transform-react-jsx@^7.14.9", "@babel/plugin-transform-react-jsx@^7.16.0", "@babel/plugin-transform-react-jsx@^7.18.6":
   "integrity" "sha512-6OAWljMvQrZjR2DaNhVfRz6dkCAVV+ymcLUmaf8bccGOHn2v5rHJK3tTpij0BuhdYWP4LLaqj5lwcdlpAAPuvg=="
   "resolved" "https://registry.npmjs.org/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.21.0.tgz"
   "version" "7.21.0"
@@ -1632,6 +1646,14 @@
     "estree-walker" "^1.0.1"
     "picomatch" "^2.2.2"
 
+"@rollup/pluginutils@^4.1.1":
+  "integrity" "sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ=="
+  "resolved" "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.2.1.tgz"
+  "version" "4.2.1"
+  dependencies:
+    "estree-walker" "^2.0.1"
+    "picomatch" "^2.2.2"
+
 "@rushstack/eslint-patch@^1.1.0":
   "integrity" "sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg=="
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz"
@@ -2271,6 +2293,20 @@
     "@typescript-eslint/types" "5.54.0"
     "eslint-visitor-keys" "^3.3.0"
 
+"@vitejs/plugin-react@1.1.1":
+  "integrity" "sha512-IJSRD4culdwQ6cRK0D1mstV1vdvYSb2HK1JQ1FDo6Hr7j5ppWJEwBC2v/Gy0h/A1lMmi4AnXACY/d10EgbQNEA=="
+  "resolved" "https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-1.1.1.tgz"
+  "version" "1.1.1"
+  dependencies:
+    "@babel/core" "^7.16.0"
+    "@babel/plugin-transform-react-jsx" "^7.16.0"
+    "@babel/plugin-transform-react-jsx-development" "^7.16.0"
+    "@babel/plugin-transform-react-jsx-self" "^7.16.0"
+    "@babel/plugin-transform-react-jsx-source" "^7.16.0"
+    "@rollup/pluginutils" "^4.1.1"
+    "react-refresh" "^0.11.0"
+    "resolve" "^1.20.0"
+
 "@webassemblyjs/ast@1.11.1":
   "integrity" "sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw=="
   "resolved" "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.11.1.tgz"
@@ -2724,13 +2760,13 @@
   "resolved" "https://registry.npmjs.org/at-least-node/-/at-least-node-1.0.0.tgz"
   "version" "1.0.0"
 
-"autoprefixer@^10.4.12", "autoprefixer@^10.4.13":
-  "integrity" "sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg=="
-  "resolved" "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.13.tgz"
-  "version" "10.4.13"
+"autoprefixer@^10.4.12", "autoprefixer@^10.4.13", "autoprefixer@^10.4.14":
+  "integrity" "sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ=="
+  "resolved" "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.14.tgz"
+  "version" "10.4.14"
   dependencies:
-    "browserslist" "^4.21.4"
-    "caniuse-lite" "^1.0.30001426"
+    "browserslist" "^4.21.5"
+    "caniuse-lite" "^1.0.30001464"
     "fraction.js" "^4.2.0"
     "normalize-range" "^0.1.2"
     "picocolors" "^1.0.0"
@@ -3106,10 +3142,10 @@
     "lodash.memoize" "^4.1.2"
     "lodash.uniq" "^4.5.0"
 
-"caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30001426", "caniuse-lite@^1.0.30001449":
-  "integrity" "sha512-lQ1VlUUq5q9ro9X+5gOEyH7i3vm+AYVT1WDCVB69XOZ17KZRhnZ9J0Sqz7wTHQaLBJccNCHq8/Ww5LlOIZbB0w=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001458.tgz"
-  "version" "1.0.30001458"
+"caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30001449", "caniuse-lite@^1.0.30001464":
+  "integrity" "sha512-ewtFBSfWjEmxUgNBSZItFSmVtvk9zkwkl1OfRZlKA8slltRN+/C/tuGVrF9styXkN36Yu3+SeJ1qkXxDEyNZ5w=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001466.tgz"
+  "version" "1.0.30001466"
 
 "case-sensitive-paths-webpack-plugin@^2.4.0":
   "integrity" "sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw=="
@@ -4137,6 +4173,34 @@
     "is-date-object" "^1.0.1"
     "is-symbol" "^1.0.2"
 
+"esbuild-darwin-64@0.13.15":
+  "integrity" "sha512-ihOQRGs2yyp7t5bArCwnvn2Atr6X4axqPpEdCFPVp7iUj4cVSdisgvEKdNR7yH3JDjW6aQDw40iQFoTqejqxvQ=="
+  "resolved" "https://registry.npmjs.org/esbuild-darwin-64/-/esbuild-darwin-64-0.13.15.tgz"
+  "version" "0.13.15"
+
+"esbuild@^0.13.12":
+  "integrity" "sha512-raCxt02HBKv8RJxE8vkTSCXGIyKHdEdGfUmiYb8wnabnaEmHzyW7DCHb5tEN0xU8ryqg5xw54mcwnYkC4x3AIw=="
+  "resolved" "https://registry.npmjs.org/esbuild/-/esbuild-0.13.15.tgz"
+  "version" "0.13.15"
+  optionalDependencies:
+    "esbuild-android-arm64" "0.13.15"
+    "esbuild-darwin-64" "0.13.15"
+    "esbuild-darwin-arm64" "0.13.15"
+    "esbuild-freebsd-64" "0.13.15"
+    "esbuild-freebsd-arm64" "0.13.15"
+    "esbuild-linux-32" "0.13.15"
+    "esbuild-linux-64" "0.13.15"
+    "esbuild-linux-arm" "0.13.15"
+    "esbuild-linux-arm64" "0.13.15"
+    "esbuild-linux-mips64le" "0.13.15"
+    "esbuild-linux-ppc64le" "0.13.15"
+    "esbuild-netbsd-64" "0.13.15"
+    "esbuild-openbsd-64" "0.13.15"
+    "esbuild-sunos-64" "0.13.15"
+    "esbuild-windows-32" "0.13.15"
+    "esbuild-windows-64" "0.13.15"
+    "esbuild-windows-arm64" "0.13.15"
+
 "escalade@^3.1.1":
   "integrity" "sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw=="
   "resolved" "https://registry.npmjs.org/escalade/-/escalade-3.1.1.tgz"
@@ -4446,6 +4510,11 @@
   "integrity" "sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg=="
   "resolved" "https://registry.npmjs.org/estree-walker/-/estree-walker-1.0.1.tgz"
   "version" "1.0.1"
+
+"estree-walker@^2.0.1":
+  "integrity" "sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w=="
+  "resolved" "https://registry.npmjs.org/estree-walker/-/estree-walker-2.0.2.tgz"
+  "version" "2.0.2"
 
 "esutils@^2.0.2":
   "integrity" "sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g=="
@@ -4962,6 +5031,11 @@
     "ignore" "^5.2.0"
     "merge2" "^1.4.1"
     "slash" "^3.0.0"
+
+"globrex@^0.1.2":
+  "integrity" "sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg=="
+  "resolved" "https://registry.npmjs.org/globrex/-/globrex-0.1.2.tgz"
+  "version" "0.1.2"
 
 "gopd@^1.0.1":
   "integrity" "sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA=="
@@ -7517,7 +7591,7 @@
   "resolved" "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   "version" "4.2.0"
 
-"postcss@^7.0.0 || ^8.0.1", "postcss@^8", "postcss@^8.0.0", "postcss@^8.0.3", "postcss@^8.0.9", "postcss@^8.1.0", "postcss@^8.1.4", "postcss@^8.2", "postcss@^8.2.14", "postcss@^8.2.15", "postcss@^8.2.2", "postcss@^8.3", "postcss@^8.3.5", "postcss@^8.4", "postcss@^8.4.19", "postcss@^8.4.21", "postcss@^8.4.4", "postcss@^8.4.6", "postcss@>= 8", "postcss@>=8", "postcss@>=8.0.9":
+"postcss@^7.0.0 || ^8.0.1", "postcss@^8", "postcss@^8.0.0", "postcss@^8.0.3", "postcss@^8.0.9", "postcss@^8.1.0", "postcss@^8.1.4", "postcss@^8.2", "postcss@^8.2.14", "postcss@^8.2.15", "postcss@^8.2.2", "postcss@^8.3", "postcss@^8.3.11", "postcss@^8.3.5", "postcss@^8.4", "postcss@^8.4.19", "postcss@^8.4.21", "postcss@^8.4.4", "postcss@^8.4.6", "postcss@>= 8", "postcss@>=8", "postcss@>=8.0.9":
   "integrity" "sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg=="
   "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.4.21.tgz"
   "version" "8.4.21"
@@ -7790,7 +7864,7 @@
   dependencies:
     "@remix-run/router" "1.3.2"
 
-"react-scripts@^5.0.0", "react-scripts@5.0.1":
+"react-scripts@^5.0.0":
   "integrity" "sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ=="
   "resolved" "https://registry.npmjs.org/react-scripts/-/react-scripts-5.0.1.tgz"
   "version" "5.0.1"
@@ -8084,7 +8158,7 @@
     "serialize-javascript" "^4.0.0"
     "terser" "^5.0.0"
 
-"rollup@^1.20.0 || ^2.0.0", "rollup@^1.20.0||^2.0.0", "rollup@^2.0.0", "rollup@^2.43.1":
+"rollup@^1.20.0 || ^2.0.0", "rollup@^1.20.0||^2.0.0", "rollup@^2.0.0", "rollup@^2.43.1", "rollup@^2.59.0":
   "integrity" "sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw=="
   "resolved" "https://registry.npmjs.org/rollup/-/rollup-2.79.1.tgz"
   "version" "2.79.1"
@@ -8893,6 +8967,11 @@
     "v8-compile-cache-lib" "^3.0.1"
     "yn" "3.1.1"
 
+"tsconfck@^2.0.1":
+  "integrity" "sha512-lztI9ohwclQHISVWrM/hlcgsRpphsii94DV9AQtAw2XJSVNiv+3ppdEsrL5J+xc5oTeHXe1qDqlOAGw8VSa9+Q=="
+  "resolved" "https://registry.npmjs.org/tsconfck/-/tsconfck-2.1.0.tgz"
+  "version" "2.1.0"
+
 "tsconfig-paths@^3.14.1":
   "integrity" "sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g=="
   "resolved" "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-3.14.2.tgz"
@@ -8978,7 +9057,7 @@
   dependencies:
     "is-typedarray" "^1.0.0"
 
-"typescript@^3.2.1 || ^4", "typescript@^4.9.5", "typescript@>= 2.7", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3":
+"typescript@^3.2.1 || ^4", "typescript@^4.3.5 || ^5.0.0", "typescript@^4.9.5", "typescript@>= 2.7", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3":
   "integrity" "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
   "version" "4.9.5"
@@ -9132,6 +9211,27 @@
   "integrity" "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="
   "resolved" "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   "version" "1.1.2"
+
+"vite-tsconfig-paths@^4.0.7":
+  "integrity" "sha512-MwIYaby6kcbQGZqMH+gAK6h0UYQGOkjsuAgw4q6bP/5vWkn8VKvnmLuCQHA2+IzHAJHnE8OFTO4lnJLFMf9+7Q=="
+  "resolved" "https://registry.npmjs.org/vite-tsconfig-paths/-/vite-tsconfig-paths-4.0.7.tgz"
+  "version" "4.0.7"
+  dependencies:
+    "debug" "^4.1.1"
+    "globrex" "^0.1.2"
+    "tsconfck" "^2.0.1"
+
+"vite@*", "vite@2.7.0":
+  "integrity" "sha512-ZM629j9n6f1Gcr2KsfpLhJ0FRkift4SsTLSvExmNpGJYzyi1JyLOFybz85ShqFP5f4oCfJSblWAma9X8lZg/vA=="
+  "resolved" "https://registry.npmjs.org/vite/-/vite-2.7.0.tgz"
+  "version" "2.7.0"
+  dependencies:
+    "esbuild" "^0.13.12"
+    "postcss" "^8.3.11"
+    "resolve" "^1.20.0"
+    "rollup" "^2.59.0"
+  optionalDependencies:
+    "fsevents" "~2.3.2"
 
 "w3c-hr-time@^1.0.2":
   "integrity" "sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ=="

@@ -17,6 +17,7 @@ import { Pie } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
 import ChartWrapper from "@/components/ChartWrapper/ChartWrapper";
 import CardWrapper from "@/components/CardWrapper/CardWrapper";
+import AddGameForm from "../AddGameForm/AddGameForm";
 
 interface Props {
   teams?: Team[];
@@ -85,9 +86,9 @@ const TeamDetail = ({ teams }: Props) => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-3 col-span-3 gap-4 bg-teal-200 ">
+      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
         <div className="col-span-4">
-          <CardWrapper>hola</CardWrapper>
+          {teams && <AddGameForm teams={teams} />}
         </div>
         <div className="h-20 col-span-4 bg-gray-400"></div>
       </div>

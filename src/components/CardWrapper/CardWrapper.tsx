@@ -1,14 +1,20 @@
-import  { ReactNode } from "react";
+import { ReactNode } from "react";
 import Divider from "@/components/Divider/Divider";
-import Button from "@/components/Button/Button";
 
-const CardWrapper = ({ children }: { children: ReactNode }) => {
+interface CardProps {
+  children: ReactNode;
+  title?: string;
+}
+
+const CardWrapper = ({ children, title }: CardProps) => {
   return (
     <div className="flex flex-col gap-2 p-3 bg-white border border-gray-200 rounded-md ">
-        <h2 className="text-sm font-semibold font-body">Agregar Partido</h2>
-        <Divider/>
-        <Button>hola</Button>
-        <Button variant='secondary' onClick={()=>console.log('hey')}>hola</Button>
+      {title && (
+        <>
+          <h2 className="text-sm font-semibold font-body">Agregar Partido</h2>
+          <Divider />
+        </>
+      )}
 
       {children}
     </div>

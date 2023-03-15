@@ -15,8 +15,8 @@ import {
 import { Pie } from "react-chartjs-2";
 
 import { Line } from "react-chartjs-2";
-import TableWrapper from "../TableWrapper/TableWrapper";
-import ChartWrapper from "../ChartWrapper/ChartWrapper";
+import ChartWrapper from "@/components/ChartWrapper/ChartWrapper";
+import CardWrapper from "@/components/CardWrapper/CardWrapper";
 
 interface Props {
   teams?: Team[];
@@ -70,14 +70,14 @@ const TeamDetail = ({ teams }: Props) => {
   };
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
-      <div className="grid grid-cols-8 col-span-8 gap-4 ">
+      <div className="grid grid-cols-8 col-span-9 gap-4 ">
         <div className="col-span-8">
           <TeamDetailsTable team={team} />
         </div>
         <div className="col-span-5">
-        <ChartWrapper>
+          <ChartWrapper>
             <Line data={data} />
-            </ChartWrapper>
+          </ChartWrapper>
         </div>
         <div className="col-span-3 ">
           <ChartWrapper>
@@ -85,8 +85,10 @@ const TeamDetail = ({ teams }: Props) => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-4 col-span-4 gap-4 bg-teal-200 ">
-        <div className="h-20 col-span-4 bg-gray-400"></div>
+      <div className="grid content-start grid-cols-3 col-span-3 gap-4 bg-teal-200 ">
+        <div className="col-span-4">
+          <CardWrapper>hola</CardWrapper>
+        </div>
         <div className="h-20 col-span-4 bg-gray-400"></div>
       </div>
 

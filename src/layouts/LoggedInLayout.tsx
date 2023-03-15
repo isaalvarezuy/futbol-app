@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-;
+
 import Dashboard from "@/components/Dashboard/Dashboard";
 import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
@@ -11,7 +11,7 @@ const LoggedInLayout = () => {
   const { data: teams } = useQuery(["get-teams"], getTeams);
   const { data: players } = useQuery(["get-players"], getPlayers);
   return (
-    <div className="bg-gray-400">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar />
       <Container>
         <Routes>

@@ -10,10 +10,13 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
+import { Pie } from "react-chartjs-2";
 
 import { Line } from "react-chartjs-2";
 import TableWrapper from "../TableWrapper/TableWrapper";
+import ChartWrapper from "../ChartWrapper/ChartWrapper";
 
 interface Props {
   teams?: Team[];
@@ -29,21 +32,9 @@ const TeamDetail = ({ teams }: Props) => {
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ArcElement
   );
-
-  const options = {
-    scales: {
-      x: {
-        ticks: {
-          // Include a dollar sign in the ticks
-          callback: function (value:any, index:any, ticks:any) {
-            return "$" + value;
-          },
-        },
-      },
-    },
-  };
 
   if (!team) {
     return <>go back</>;
@@ -67,6 +58,16 @@ const TeamDetail = ({ teams }: Props) => {
     labels: team.gameHistory.map((game) => game.against.slice(0, 4)),
   };
 
+  const pieData = {
+    labels: ["Wins", "Ties", "Losses"],
+    datasets: [
+      {
+        data: [team.wins, team.ties, team.loses],
+        backgroundColor: ["#D1D5DB", "#9CA3AF", "#374151"],
+        borderWidth: 0,
+      },
+    ],
+  };
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 col-span-8 gap-4 ">
@@ -74,14 +75,14 @@ const TeamDetail = ({ teams }: Props) => {
           <TeamDetailsTable team={team} />
         </div>
         <div className="col-span-5">
-          <TableWrapper>
-            <Line data={data} options={options} />
-          </TableWrapper>
-        </div>
-        <div className="col-span-3 bg-gray-400 h-60">
-          <TableWrapper>
+        <ChartWrapper>
             <Line data={data} />
-          </TableWrapper>
+            </ChartWrapper>
+        </div>
+        <div className="col-span-3 ">
+          <ChartWrapper>
+            <Pie data={pieData} />
+          </ChartWrapper>
         </div>
       </div>
       <div className="grid content-start grid-cols-4 col-span-4 gap-4 bg-teal-200 ">

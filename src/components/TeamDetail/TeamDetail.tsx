@@ -16,15 +16,19 @@ import { Pie } from "react-chartjs-2";
 
 import { Line } from "react-chartjs-2";
 import ChartWrapper from "@/components/ChartWrapper/ChartWrapper";
-import CardWrapper from "@/components/CardWrapper/CardWrapper";
 import AddGameForm from "../AddGameForm/AddGameForm";
+import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
+import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
+import { Player } from "@/types/responses/Player";
 
 interface Props {
   teams?: Team[];
+  players?: Player[];
 }
-const TeamDetail = ({ teams }: Props) => {
+const TeamDetail = ({ teams, players }: Props) => {
   const { id } = useParams();
   const team = teams?.find((team) => team.id === id);
+  const teamPlayers = players?.filter((player) => player.team === id);
 
   ChartJS.register(
     CategoryScale,
@@ -59,6 +63,18 @@ const TeamDetail = ({ teams }: Props) => {
     labels: team.gameHistory.map((game) => game.against.slice(0, 4)),
   };
 
+  const playersData = {
+    datasets: [
+      {
+        label: "Goals per game",
+        data: teamPlayers?.map(player=>player.goals/team.games),
+        borderColor: "#D1D5DB",
+        backgroundColor: "#D1D5DB",
+      },
+    ],
+    labels: teamPlayers?.map(player=>player.fullName),
+  };
+
   const pieData = {
     labels: ["Wins", "Ties", "Losses"],
     datasets: [
@@ -90,13 +106,20 @@ const TeamDetail = ({ teams }: Props) => {
         <div className="col-span-4">
           {teams && <AddGameForm teams={teams} />}
         </div>
-        <div className="h-20 col-span-4 bg-gray-400"></div>
+        <div className=" col-span-4 ">
+          {teams && <AddPlayerForm teams={teams} />}
+        </div>
       </div>
-
-      <div>hola</div>
-      <div>hola</div>
-      <div>hola</div>
-      <div>hola</div>
+      <div className="grid grid-cols-8 col-span-9 gap-4 ">
+        <div className="col-span-5">
+          {teamPlayers && id && <TeamPlayersTable players={teamPlayers} teamId={id} />}
+        </div>
+        <div className="col-span-3 ">
+          <ChartWrapper>
+            <Line data={playersData} />
+          </ChartWrapper>
+        </div>
+      </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ const LoggedInLayout = () => {
       <Container>
         <Routes>
           <Route path="/dashboard" element={<Dashboard  teams={teams} players={players}/>} />
-          <Route path="/detail/:id" element={<TeamDetail teams={teams}  />} />
+          <Route path="/detail/:id" element={<TeamDetail teams={teams} players={players} />} />
           <Route path="/my-team" element={<p> team</p>} />
           <Route path="/*" element={<p>404 ish</p>} />
         </Routes>

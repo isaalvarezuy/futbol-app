@@ -8,7 +8,7 @@ import * as yup from "yup";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
 
-const AddGameForm = ({ teams }: { teams: Team[] }) => {
+const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
   const schema = yup
     .object({
       team1Goals: yup.number().required(),
@@ -25,12 +25,11 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
     console.log(data);
   };
 
-
   const teamOptions = teams.map(({ id, name }) => {
     return { value: id, label: name };
   });
   return (
-    <CardWrapper title="Add Game">
+    <CardWrapper title="Add Player">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
@@ -80,4 +79,4 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   );
 };
 
-export default AddGameForm;
+export default AddPlayerForm;

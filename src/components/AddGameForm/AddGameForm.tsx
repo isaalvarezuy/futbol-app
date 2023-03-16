@@ -19,6 +19,7 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = (data: any) => {
@@ -40,6 +41,7 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
         <div className="flex w-full gap-2 text-sm font-body">
           <div className="w-full">
             <Select
+              control={control}
               options={teamOptions}
               register={register}
               name={"team1"}

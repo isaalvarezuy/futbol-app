@@ -3,4 +3,5 @@ export interface Player {
   number: number;
   goals: number;
   id: string;
+  team: string;
 }

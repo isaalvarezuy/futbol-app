@@ -7,10 +7,11 @@ export const playersAdapter = (players: any) => {
       number: p.numero,
       goals: p.goles,
       id: p._id,
+      team: p.idEquipo,
     };
     return player;
   });
   const sortedPlayers = adaptedPlayers.sort((a, b) => b.goals - a.goals);
-  const top5GoalScorers = sortedPlayers.slice(0, 5);
-  return top5GoalScorers;
+
+  return sortedPlayers;
 };

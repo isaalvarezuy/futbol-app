@@ -20,15 +20,19 @@ import AddGameForm from "../AddGameForm/AddGameForm";
 import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { Player } from "@/types/responses/Player";
+import { getTeamPlayers } from "@/utils/utils";
 
 interface Props {
   teams?: Team[];
   players?: Player[];
 }
-const TeamDetail = ({ teams, players }: Props) => {
+const TeamDetail = ({ teams, players = [] }: Props) => {
   const { id } = useParams();
+  if (!id) {
+    return <>go back</>;
+  }
   const team = teams?.find((team) => team.id === id);
-  const teamPlayers = players?.filter((player) => player.team === id);
+  const teamPlayers = getTeamPlayers(players, id);
 
   ChartJS.register(
     CategoryScale,
@@ -67,12 +71,12 @@ const TeamDetail = ({ teams, players }: Props) => {
     datasets: [
       {
         label: "Goals per game",
-        data: teamPlayers?.map(player=>player.goals/team.games),
+        data: teamPlayers?.map((player) => player.goals / team.games),
         borderColor: "#D1D5DB",
         backgroundColor: "#D1D5DB",
       },
     ],
-    labels: teamPlayers?.map(player=>player.fullName),
+    labels: teamPlayers?.map((player) => player.name),
   };
 
   const pieData = {
@@ -87,7 +91,7 @@ const TeamDetail = ({ teams, players }: Props) => {
   };
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
-      <div className="grid grid-cols-8 col-span-9 gap-4 ">
+      <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
         <div className="col-span-8">
           <TeamDetailsTable team={team} />
         </div>
@@ -101,18 +105,10 @@ const TeamDetail = ({ teams, players }: Props) => {
             <Pie data={pieData} />
           </ChartWrapper>
         </div>
-      </div>
-      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
-        <div className="col-span-4">
-          {teams && <AddGameForm teams={teams} />}
-        </div>
-        <div className=" col-span-4 ">
-          {teams && <AddPlayerForm teams={teams} />}
-        </div>
-      </div>
-      <div className="grid grid-cols-8 col-span-9 gap-4 ">
         <div className="col-span-5">
-          {teamPlayers && id && <TeamPlayersTable players={teamPlayers} teamId={id} />}
+          {teamPlayers && id && (
+            <TeamPlayersTable players={teamPlayers} teamId={id} />
+          )}
         </div>
         <div className="col-span-3 ">
           <ChartWrapper>
@@ -120,6 +116,15 @@ const TeamDetail = ({ teams, players }: Props) => {
           </ChartWrapper>
         </div>
       </div>
+      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
+        <div className="col-span-4">
+          {teams && players && <AddGameForm teams={teams} players={players} />}
+        </div>
+        <div className=" col-span-4 ">
+          {teams && <AddPlayerForm teams={teams} />}
+        </div>
+      </div>
+      <div className="grid grid-cols-8 col-span-9 gap-4 content-start "></div>
     </div>
   );
 };

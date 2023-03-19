@@ -4,7 +4,7 @@ interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   errors: any;
   name: string;
 }
-const Input = ({ name, register, defaultValue, errors }: InputProps) => {
+const Input = ({ name, register, value, errors, onChange }: InputProps) => {
   if (errors[name]) {
   }
   const hasError = !!errors[name];
@@ -14,7 +14,8 @@ const Input = ({ name, register, defaultValue, errors }: InputProps) => {
       ${hasError ? "border-red-500" : ""}
       `}
       {...register(name)}
-      defaultValue={defaultValue}
+      onChange={onChange}
+      value={value}
     />
   );
 };

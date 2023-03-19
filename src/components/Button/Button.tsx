@@ -18,7 +18,7 @@ const Button = ({
 
   return (
     <button
-      className={`px-3 py-2 text-sm font-medium font-body rounded-md transition-all
+      className={`px-3 py-2 text-sm font-medium font-body rounded-md transition-all flex items-center gap-1 justify-center
   ${classesMapper[variant]}
   `}
       onClick={onClick}

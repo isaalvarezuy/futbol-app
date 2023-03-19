@@ -22,7 +22,7 @@ const PlayersTable = ({ players }: { players: Player[] }) => {
           {topScorers.map((p: Player) => (
             <TableRow key={p.id}>
               <TableCell className="text-left">
-                <>{p.fullName}</>
+                <>{p.name}</>
               </TableCell>
               <TableCell className="text-right">{p.goals}</TableCell>
             </TableRow>

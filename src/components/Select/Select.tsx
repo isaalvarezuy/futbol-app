@@ -3,7 +3,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 
-interface SelectProps extends React.ComponentPropsWithoutRef<"select"> {
+interface SelectProps extends React.ComponentPropsWithRef<"select"> {
   options: SelectOption[];
   onChange?: (value: any) => void;
 }

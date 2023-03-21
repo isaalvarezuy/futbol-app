@@ -1,10 +1,9 @@
 import React from "react";
-interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
-  register: any;
+interface InputProps extends React.ComponentPropsWithRef<"input"> {
   errors: any;
   name: string;
 }
-const Input = ({ name, register, value, errors, onChange }: InputProps) => {
+const Input = ({ name, errors, onChange }: InputProps) => {
   if (errors[name]) {
   }
   const hasError = !!errors[name];
@@ -13,9 +12,8 @@ const Input = ({ name, register, value, errors, onChange }: InputProps) => {
       className={`w-full h-10 px-3 py-2 text-right border border-gray-200 rounded-md
       ${hasError ? "border-red-500" : ""}
       `}
-      {...register(name)}
       onChange={onChange}
-      value={value}
+
     />
   );
 };

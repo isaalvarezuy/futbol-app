@@ -15,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoggedOutLayout />} />
             <Route path="/register" element={<LoggedOutLayout />} />
+            <Route path="/" element={<LoggedOutLayout />} />
             <Route path="/*" element={<LazyLoggedInLayout />} />
           </Routes>
         </BrowserRouter>

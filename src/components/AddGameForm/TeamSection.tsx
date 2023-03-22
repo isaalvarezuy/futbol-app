@@ -40,8 +40,7 @@ const TeamSection = ({ label, teams, players }: Props) => {
   }, [watchTeamGoals]);
 
   useEffect(() => {
-    console.log(players);
-    console.log(watchTeam);
+
     const currentPlayers = getTeamPlayers(players, watchTeam);
     setTeamPlayers(transformToSelectOption(currentPlayers));
   }, [watchTeam, players]);

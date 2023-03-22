@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-import * as yup from "yup";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Team } from "@/types/Team";
 import { Player } from "@/types/responses/Player";
@@ -17,36 +16,38 @@ const AddGameForm = ({
   teams: Team[];
   players: Player[];
 }) => {
-  const schema = yup.object({
-    team1GoalAmount: yup.string().required(),
-    team1: yup.string().required(),
-    team1GoalScorers: yup
-      .array()
-      .required()
-      .test(
-        "total_goals",
-        "The total number of elements must match the sum of goals per player.",
-        function () {
-          console.log(this);
-          const team1GoalScorers: { name: string; amount: string }[] = ([] =
-            this.parent.team1GoalScorers);
-          var totalFromPlayers = team1GoalScorers.reduce(
-            (accum, goalScorer) => accum + parseInt(goalScorer.amount),
-            0
-          );
-          console.log(totalFromPlayers);
-          const totalGoals = this.parent.team1GoalAmount;
-
-          return totalFromPlayers === totalGoals;
-        }
+  const schema = z
+    .object({
+      team1GoalAmount: z.string(),
+      team1: z.string(),
+      team1GoalScorers: z.array(
+        z.object({ playerId: z.string(), amount: z.string() })
       ),
-    /* team2: yup
-      .string()
-      .required()
-      .notOneOf([yup.ref("team1")], "Both teams must be different"), */
-  });
+      team2: z.string(),
+    })
+    .refine(
+      (data) => {
+        const { team1, team2 } = data;
+        return team1 !== team2;
+      },
+      { message: "Both teams must be different" }
+    )
+    .refine(
+      (data) => {
+        const { team1GoalScorers, team1GoalAmount } = data;
+        const totalFromPlayers = team1GoalScorers.reduce(
+          (accum, goalScorer) => accum + parseInt(goalScorer.amount),
+          0
+        );
 
-  const methods = useForm({ resolver: yupResolver(schema), mode: "onChange" });
+        return totalFromPlayers === parseInt(team1GoalAmount);
+      },
+      {
+        message: "Goals per team must match the sum of goals per player.",
+      }
+    );
+
+  const methods = useForm({ resolver: zodResolver(schema) });
   const {
     handleSubmit,
     formState: { errors },

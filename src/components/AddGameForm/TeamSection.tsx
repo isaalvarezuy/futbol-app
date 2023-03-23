@@ -19,6 +19,7 @@ const TeamSection = ({ label, teams, players }: Props) => {
   const {
     control,
     watch,
+    register,
     getValues,
     formState: { errors },
   } = useFormContext();
@@ -30,6 +31,8 @@ const TeamSection = ({ label, teams, players }: Props) => {
 
   const [teamGoals, setTeamGoals] = useState(getValues(`${label}GoalAmount`));
   const [teamPlayers, setTeamPlayers] = useState<SelectOption[]>([]);
+
+  console.log();
   const teamOptions = transformToSelectOption(teams);
 
   const watchTeam = watch(`${label}`);
@@ -40,29 +43,26 @@ const TeamSection = ({ label, teams, players }: Props) => {
   }, [watchTeamGoals]);
 
   useEffect(() => {
-
-    const currentPlayers = getTeamPlayers(players, watchTeam);
-    setTeamPlayers(transformToSelectOption(currentPlayers));
+    setTeamPlayers(
+      transformToSelectOption(getTeamPlayers(players, watchTeam.value))
+    );
   }, [watchTeam, players]);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex w-full gap-2 text-sm font-body">
-        <Controller
-          name={`${label}`}
+        <Select
+          options={teamOptions}
           control={control}
-          render={({ field }) => (
-            <Select options={teamOptions} {...field} ref={null} />
-          )}
+          name={`${label}`}
+          errors={errors}
         />
 
         <div className="w-[60px]">
-          <Controller
-            name={`${label}GoalAmount`}
-            control={control}
-            render={({ field }) => (
-              <Input {...field} errors={errors} type="number" ref={null} />
-            )}
+          <Input
+            errors={errors}
+            type="number"
+            {...register(`${label}GoalAmount`)}
           />
         </div>
       </div>
@@ -71,14 +71,14 @@ const TeamSection = ({ label, teams, players }: Props) => {
         if (parseInt(teamGoals) > 0)
           return (
             <div key={field.id} className="flex w-full gap-2 text-sm font-body">
-              <Controller
-                name={`${prefix}.playerId`}
+              <Select
+                options={teamPlayers}
                 control={control}
-                render={({ field }) => (
-                  <Select options={teamPlayers} {...field} ref={null} />
-                )}
+                name={`${prefix}.player`}
+                errors={errors}
               />
-              <div className="w-[60px]">
+
+               <div className="w-[60px]">
                 <Controller
                   name={`${prefix}.amount`}
                   control={control}
@@ -105,8 +105,8 @@ const TeamSection = ({ label, teams, players }: Props) => {
           variant="secondary"
           onClick={() => {
             append({
-              playerId: teamPlayers[0].value,
-              amount: 1,
+              player: teamPlayers[0],
+              amount: "1",
             });
           }}
         >

@@ -1,22 +1,28 @@
-import React from "react";
-interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
-  register: any;
+import { forwardRef } from "@/utils/fowardRef";
+import  { ComponentPropsWithoutRef, type ForwardedRef } from "react";
+import './Input.css'
+
+interface InputProps extends ComponentPropsWithoutRef<"input"> {
   errors: any;
   name: string;
 }
-const Input = ({ name, register, defaultValue, errors }: InputProps) => {
-  if (errors[name]) {
-  }
-  const hasError = !!errors[name];
-  return (
-    <input
-      className={`w-full h-10 px-3 py-2 text-right border border-gray-200 rounded-md
+const Input = forwardRef(
+  (
+    { name, errors, ...rest }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
+    const hasError = !!errors[name];
+    return (
+      <input
+        name={name}
+        ref={ref}
+        className={`w-full h-10 px-3 py-2 text-right border border-gray-200 rounded-md
       ${hasError ? "border-red-500" : ""}
       `}
-      {...register(name)}
-      defaultValue={defaultValue}
-    />
-  );
-};
+        {...rest}
+      />
+    );
+  }
+);
 
 export default Input;

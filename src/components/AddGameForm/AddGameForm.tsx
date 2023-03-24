@@ -1,81 +1,62 @@
+import { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Team } from "@/types/Team";
-import React, { useEffect } from "react";
-import Button from "../Button/Button";
-import CardWrapper from "../CardWrapper/CardWrapper";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import Input from "../Input/Input";
-import Select from "../Select/Select";
+import { Player } from "@/types/responses/Player";
+import Button from "@/components/Button/Button";
+import CardWrapper from "@/components/CardWrapper/CardWrapper";
+import TeamSection from "./TeamSection";
+import { addGameSchema } from "@/schemas/addGame.schema";
 
-const AddGameForm = ({ teams }: { teams: Team[] }) => {
-  const schema = yup
-    .object({
-      team1Goals: yup.number().required(),
-    })
-    .required();
-
+const AddGameForm = ({
+  teams,
+  players,
+}: {
+  teams: Team[];
+  players: Player[];
+}) => {
+  const methods = useForm({
+    resolver: zodResolver(addGameSchema),
+    defaultValues: {
+      team1: { label: teams[0].name, value: teams[0].id },
+      team1GoalAmount: "0",
+      team1GoalScorers: [],
+      team2: { label: teams[1].name, value: teams[1].id },
+      team2GoalAmount: "0",
+      team2GoalScorers: [],
+    },
+  });
   const {
-    register,
     handleSubmit,
-    control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = methods;
+
   const onSubmit = (data: any) => {
     console.log(data);
   };
 
+  const hasErrors = Object.keys(errors).length > 0;
 
-  const teamOptions = teams.map(({ id, name }) => {
-    return { value: id, label: name };
-  });
   return (
     <CardWrapper title="Add Game">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-2"
-      >
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team1"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team1Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <span className="text-xs text-center font-body">vs.</span>
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team2"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team2Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <Button type="submit">Add Game</Button>
-      </form>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col w-full gap-2"
+        >
+          <TeamSection label="team1" teams={teams} players={players} />
+          <span className="font-body text-xs text-center font-medium text-gray-700">
+            vs.
+          </span>
+          <TeamSection label="team2" teams={teams} players={players} />
+          <Button type="submit">Add Game</Button>
+          {hasErrors && (
+            <p className="text-red-600 font-body text-sm">
+              {Object.values(errors)[0].message}
+            </p>
+          )}
+        </form>
+      </FormProvider>
     </CardWrapper>
   );
 };

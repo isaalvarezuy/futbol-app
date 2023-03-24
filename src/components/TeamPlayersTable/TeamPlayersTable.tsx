@@ -39,7 +39,7 @@ const TeamPlayersTable = ({ players, teamId }: Props) => {
                 <>{p.number}</>
               </TableCell>
               <TableCell className="text-left">
-                <>{p.fullName}</>
+                <>{p.name}</>
               </TableCell>
               <TableCell className="text-right">{p.goals}</TableCell>
               <TableCell className="text-right">

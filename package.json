@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^7.0.0",
     "@headlessui/react": "^1.7.13",
-    "@hookform/resolvers": "^2.9.11",
+    "@hookform/resolvers": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -28,7 +28,8 @@
     "uuid": "^9.0.0",
     "vite-tsconfig-paths": "^4.0.7",
     "web-vitals": "^2.1.4",
-    "yup": "^1.0.2"
+    "yup": "^1.0.2",
+    "zod": "^3.21.4"
   },
   "scripts": {
     "start": "vite",

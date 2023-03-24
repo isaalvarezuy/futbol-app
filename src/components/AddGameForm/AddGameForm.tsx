@@ -19,9 +19,11 @@ const AddGameForm = ({
     resolver: zodResolver(addGameSchema),
     defaultValues: {
       team1: { label: teams[0].name, value: teams[0].id },
-      team1GoalAmount: 0,
+      team1GoalAmount: "0",
       team1GoalScorers: [],
       team2: { label: teams[1].name, value: teams[1].id },
+      team2GoalAmount: "0",
+      team2GoalScorers: [],
     },
   });
   const {
@@ -33,9 +35,7 @@ const AddGameForm = ({
     console.log(data);
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+  const hasErrors = Object.keys(errors).length > 0;
 
   return (
     <CardWrapper title="Add Game">
@@ -45,8 +45,16 @@ const AddGameForm = ({
           className="flex flex-col w-full gap-2"
         >
           <TeamSection label="team1" teams={teams} players={players} />
+          <span className="font-body text-xs text-center font-medium text-gray-700">
+            vs.
+          </span>
           <TeamSection label="team2" teams={teams} players={players} />
           <Button type="submit">Add Game</Button>
+          {hasErrors && (
+            <p className="text-red-600 font-body text-sm">
+              {Object.values(errors)[0].message}
+            </p>
+          )}
         </form>
       </FormProvider>
     </CardWrapper>

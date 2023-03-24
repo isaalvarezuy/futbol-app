@@ -4,10 +4,16 @@ import { Team } from "@/types/Team";
 import { getTeamPlayers, transformToSelectOption } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 import { Plus, Trash2 } from "react-feather";
-import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  useFieldArray,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
+import { FieldValues } from "react-hook-form";
 
 interface Props {
   label: string;
@@ -21,6 +27,7 @@ const TeamSection = ({ label, teams, players }: Props) => {
     watch,
     register,
     getValues,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
@@ -29,10 +36,15 @@ const TeamSection = ({ label, teams, players }: Props) => {
     control,
   });
 
+  const watchGoalScorers = useWatch({
+    control,
+    name: `${label}GoalScorers`,
+    defaultValue: [],
+  });
+
   const [teamGoals, setTeamGoals] = useState(getValues(`${label}GoalAmount`));
   const [teamPlayers, setTeamPlayers] = useState<SelectOption[]>([]);
-
-  console.log();
+  const [canAddGoalScorer, setCanAddGoalScorer] = useState(true);
   const teamOptions = transformToSelectOption(teams);
 
   const watchTeam = watch(`${label}`);
@@ -42,10 +54,32 @@ const TeamSection = ({ label, teams, players }: Props) => {
     setTeamGoals(watchTeamGoals);
   }, [watchTeamGoals]);
 
+  const toggleAddGoalscorerButton = (
+    totalGoalsPerPlayers: number,
+    watchTeamGoals: string
+  ) => {
+    if (totalGoalsPerPlayers >= parseInt(watchTeamGoals)) {
+      setCanAddGoalScorer(false);
+    } else {
+      setCanAddGoalScorer(true);
+    }
+  };
+
+  useEffect(() => {
+    const totalGoalsPerPlayers = watchGoalScorers.reduce(
+      (acc: number, curr: { player: SelectOption; amount: string }) => {
+        return acc + parseInt(curr.amount);
+      },
+      0
+    );
+    toggleAddGoalscorerButton(totalGoalsPerPlayers, watchTeamGoals);
+  }, [watchGoalScorers, watchTeamGoals]);
+
   useEffect(() => {
     setTeamPlayers(
       transformToSelectOption(getTeamPlayers(players, watchTeam.value))
     );
+    setValue(`${label}GoalScorers`, []);
   }, [watchTeam, players]);
 
   return (
@@ -78,16 +112,15 @@ const TeamSection = ({ label, teams, players }: Props) => {
                 errors={errors}
               />
 
-               <div className="w-[60px]">
+              <div className="w-[60px]">
                 <Controller
                   name={`${prefix}.amount`}
                   control={control}
-                  render={({ field }) => (
+                  render={({ field }: { field: FieldValues }) => (
                     <Input
                       errors={errors}
                       type="number"
-                      {...field}
-                      ref={null}
+                      {...register(`${prefix}.amount`)}
                     />
                   )}
                 />
@@ -102,6 +135,7 @@ const TeamSection = ({ label, teams, players }: Props) => {
       })}
       {parseInt(teamGoals) > 0 && (
         <Button
+          disabled={!canAddGoalScorer}
           variant="secondary"
           onClick={() => {
             append({
@@ -112,7 +146,7 @@ const TeamSection = ({ label, teams, players }: Props) => {
         >
           <>
             <Plus className="h-4" />
-            Add player
+            Add goal scorer
           </>
         </Button>
       )}

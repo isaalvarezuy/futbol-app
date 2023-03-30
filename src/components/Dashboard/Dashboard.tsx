@@ -5,12 +5,13 @@ import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import { Player } from "@/types/responses/Player";
 import { Team } from "@/types/Team";
+import AddTeamForm from "../AddTeamForm/AddTeamForm";
 
 interface Props {
-  teams?:Team[];
-  players?:Player[];
+  teams?: Team[];
+  players?: Player[];
 }
-const Dashboard = ({teams,players}:Props) => {
+const Dashboard = ({ teams, players }: Props) => {
   if (!teams || !players) {
     return <p>Loading...</p>;
   }
@@ -26,7 +27,10 @@ const Dashboard = ({teams,players}:Props) => {
         <div className="col-span-5 bg-gray-400 h-60"></div>
       </div>
       <div className="grid content-start grid-cols-4 col-span-4 gap-4 bg-teal-200 ">
-        <div className="h-20 col-span-4 bg-gray-400"></div>
+        <div className="col-span-4">
+          <AddTeamForm />
+        </div>
+
         <div className="h-20 col-span-4 bg-gray-400"></div>
       </div>
 

@@ -4,6 +4,9 @@ import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";
 import Input from "../Input/Input";
 import { Shield } from "react-feather";
+import axios from "axios";
+import InputWrapper from "../InputWrapper/InputWrapper";
+import { addTeam } from "@/services/teams/teams";
 
 const AddTeamForm = () => {
   const { register, formState: errors, handleSubmit, watch } = useForm();
@@ -17,22 +20,13 @@ const AddTeamForm = () => {
     }
   }, [fileWatcher]);
 
-  useEffect(() => {
-    console.log(preview);
-  }, [preview]);
-
   const onSubmit = async (data: any) => {
     console.log(data);
     const formData = new FormData();
-    formData.append("crest", data.crest);
+    formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
-    
-
-    /*  const res = await fetch("http://localhost:3001/add-team", {
-      method: "POST",
-      body: formData,
-    }).then((res) => res.json());
-    console.log(res); */
+    addTeam(formData);
+   
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -47,7 +41,6 @@ const AddTeamForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <Input errors={errors} type="text" {...register(`name`)} />
         <div className="flex gap-2">
           <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
             {!preview ? (
@@ -71,7 +64,12 @@ const AddTeamForm = () => {
           multiple={false}
           hidden
         />
-        <button type="submit">submit</button>
+        <InputWrapper label="Team Name">
+          <Input errors={errors} type="text" {...register(`name`)} />
+        </InputWrapper>
+        <Button variant="primary" type="submit">
+          Add team
+        </Button>
       </form>
     </CardWrapper>
   );

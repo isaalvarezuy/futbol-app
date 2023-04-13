@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AddTeamForm from "./components/AddTeamForm/AddTeamForm";
 import LoggedOutLayout from "./layouts/LoggedOutLayout";
 
 const LazyLoggedInLayout = lazy(
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoggedOutLayout />} />
             <Route path="/register" element={<LoggedOutLayout />} />
+            <Route path="/add-team" element={<AddTeamForm />} />
             <Route path="/*" element={<LazyLoggedInLayout />} />
           </Routes>
         </BrowserRouter>

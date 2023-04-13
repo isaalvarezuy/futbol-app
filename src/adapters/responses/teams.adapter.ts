@@ -5,6 +5,7 @@ import {
 import { Team, PossibleResults } from "@/types/Team";
 
 export const teamsAdapter = (teams: TeamFromResponse[]) => {
+  console.log(teams);
   const adaptedTeams = teams.map((t: TeamFromResponse) => {
     const gameLabelMapper = {
       p: "LOSS",
@@ -12,37 +13,37 @@ export const teamsAdapter = (teams: TeamFromResponse[]) => {
       g: "WIN",
     };
 
-    const lastFiveGames = t.historico.slice(-5);
+    const lastFiveGames = t.gameHistory.slice(-5);
     const lastFiveGamesMapped = lastFiveGames.map(
       (result: PossibleResultsFromResponse) => gameLabelMapper[result]
     );
 
-    const gameResults = t.historico.map(
+    const gameResults = t.gameHistory.map(
       (result: PossibleResultsFromResponse) => gameLabelMapper[result]
     );
 
-    const gameHistory = gameResults.map((result, idx) => {
+    /* const gameHistory = gameResults.map((result, idx) => {
       return {
         result: result,
         against: t.vs[idx],
         goalsScored: t.hisGF[idx],
         goalsReceived: t.hisGC[idx],
       };
-    });
+    }); */
     const adaptedTeam: Team = {
       id: t._id,
-      name: t.nombre,
-      color: t.color,
-      goalsFor: t.gf,
-      goalsAgainst: t.gc,
-      ties: t.pe,
-      loses: t.pp,
-      games: t.pj,
-      wins: t.pg,
-      goalDifference: t.gf - t.gc,
-      points: t.pg * 3 + t.pe,
+      name: t.name,
+      crest: t.imgUrl,
+      goalsFor: t.goalsFor,
+      goalsAgainst: t.goalsAgainst,
+      ties: t.ties,
+      loses: t.loses,
+      games: t.games,
+      wins: t.wins,
+      goalDifference: t.goalsFor - t.goalsAgainst,
+      points: t.games * 3 + t.ties,
       lastFiveGames: lastFiveGamesMapped as PossibleResults[],
-      gameHistory,
+      gameHistory: t.gameHistory,
     };
     return adaptedTeam;
   });

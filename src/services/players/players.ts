@@ -1,7 +1,7 @@
 import { playersAdapter } from "@/adapters/responses/players.adapter";
-import { axiosGet } from "../axios";
+import { oldAPIAxiosGet } from "../axios";
 
 export const getPlayers = async () => {
-  const response = await axiosGet("listarJugadores");
+  const response = await oldAPIAxiosGet("listarJugadores");
   return playersAdapter(response.data);
 };

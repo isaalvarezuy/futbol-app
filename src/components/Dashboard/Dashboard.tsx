@@ -1,6 +1,4 @@
-import { useQuery } from "react-query";
 
-import { getTeams, getPlayers } from "@/services";
 import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import { Player } from "@/types/responses/Player";

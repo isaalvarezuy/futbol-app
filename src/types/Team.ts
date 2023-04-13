@@ -1,7 +1,7 @@
 export interface Team {
   id: string;
   name: string;
-  color: string;
+  crest: string;
   goalsFor: number;
   goalsAgainst: number;
   ties: number;

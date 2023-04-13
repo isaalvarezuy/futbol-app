@@ -1,17 +1,18 @@
 export interface TeamFromResponse {
   _id: string;
-  color: string;
-  gc: number;
-  gf: number;
-  hisGF: number[];
-  hisGC: number[];
-  historico: PossibleResultsFromResponse[];
-  nombre: string;
-  pe: number;
-  pg: number;
-  pj: number;
-  pp: number;
-  vs: string[];
+  name: string;
+  imgUrl: string;
+  goalsFor: number;
+  goalsAgainst: number;
+  ties: number;
+  loses: number;
+  games: number;
+  wins: number;
+  goalDifference: number;
+  points: number;
+  lastFiveGames: any[];
+  gameHistory: any[];
+  __v: number;
 }
 
 export type PossibleResultsFromResponse = "p" | "g" | "e";

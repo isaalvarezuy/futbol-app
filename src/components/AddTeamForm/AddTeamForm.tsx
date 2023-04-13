@@ -7,9 +7,18 @@ import { Shield } from "react-feather";
 import axios from "axios";
 import InputWrapper from "../InputWrapper/InputWrapper";
 import { addTeam } from "@/services/teams/teams";
+import { useMutation, useQueryClient } from "react-query";
 
 const AddTeamForm = () => {
-  const { register, formState: errors, handleSubmit, watch } = useForm();
+  const handleFormSuccess = () => {
+    reset();
+    queryClient.invalidateQueries("get-teams");
+  };
+  const { mutate, isLoading, isSuccess, isError } = useMutation(addTeam, {
+    onSuccess: handleFormSuccess,
+  });
+  const queryClient = useQueryClient();
+  const { register, formState: errors, handleSubmit, watch, reset } = useForm();
 
   const fileWatcher = watch("crest");
   const [preview, setPreview] = useState("");
@@ -25,8 +34,7 @@ const AddTeamForm = () => {
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
-    addTeam(formData);
-   
+    mutate(formData);
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -37,6 +45,9 @@ const AddTeamForm = () => {
 
   return (
     <CardWrapper title="Add Team">
+      {isLoading && "loading"}
+      {isSuccess && "added ok"}
+      {isError && "error"}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"

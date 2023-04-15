@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
+import FileInput from "../FileInput/FileInput";
+import { Camera, Shield } from "react-feather";
 
 const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
   const schema = yup
@@ -34,45 +36,8 @@ const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team1"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team1Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <span className="text-xs text-center font-body">vs.</span>
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team2"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team2Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
+        <FileInput Placeholder={Camera} label="photo" />
+
         <Button type="submit">Add Game</Button>
       </form>
     </CardWrapper>

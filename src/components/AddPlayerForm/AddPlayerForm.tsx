@@ -11,19 +11,14 @@ import FileInput from "../FileInput/FileInput";
 import { Camera, Shield } from "react-feather";
 
 const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
-  const schema = yup
-    .object({
-      team1Goals: yup.number().required(),
-    })
-    .required();
-
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({});
   const onSubmit = (data: any) => {
+    console.log("hola");
     console.log(data);
   };
 
@@ -36,7 +31,11 @@ const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <FileInput Placeholder={Camera} label="photo" />
+        <FileInput
+          Placeholder={Camera}
+          label="photo"
+          register={register("photo")}
+        />
 
         <Button type="submit">Add Game</Button>
       </form>

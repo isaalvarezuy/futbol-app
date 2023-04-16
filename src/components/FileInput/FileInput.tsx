@@ -5,8 +5,9 @@ import Button from "../Button/Button";
 interface Props {
   Placeholder?: ComponentType<IconProps>;
   label?: string;
+  register?: any;
 }
-const FileInput = ({ Placeholder = File, label = "file" }: Props) => {
+const FileInput = ({ Placeholder = File, label = "file", register }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState("");
   const handleClick = () => {
@@ -18,6 +19,7 @@ const FileInput = ({ Placeholder = File, label = "file" }: Props) => {
       const previewUrl = URL.createObjectURL(e.target.files[0]);
       setPreview(previewUrl);
     }
+    register?.onChange(e);
   };
   return (
     <div>
@@ -35,16 +37,18 @@ const FileInput = ({ Placeholder = File, label = "file" }: Props) => {
       </div>
       <input
         type="file"
-        ref={inputRef}
-        /*  {...register(`crest`)} */
-        /*   ref={(e) => {
-          const { ref } = { ...register("crest") };
-          ref(e);
+        {...register}
+        ref={(e) => {
+          if (register) {
+            register?.ref(e);
+          }
           inputRef.current = e;
-        }} */
-        onChange={handleFileChange}
+        }}
+        onChange={(e) => {
+          handleFileChange(e);
+        }}
         multiple={false}
-        hidden
+        className="hidden"
       />
     </div>
   );

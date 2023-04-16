@@ -8,6 +8,7 @@ import axios from "axios";
 import InputWrapper from "../InputWrapper/InputWrapper";
 import { addTeam } from "@/services/teams/teams";
 import { useMutation, useQueryClient } from "react-query";
+import FileInput from "../FileInput/FileInput";
 
 const AddTeamForm = () => {
   const handleFormSuccess = () => {
@@ -39,10 +40,6 @@ const AddTeamForm = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleUploadCrest = () => {
-    inputRef!.current!.click();
-  };
-
   return (
     <CardWrapper title="Add Team">
       {isLoading && "loading"}
@@ -52,28 +49,10 @@ const AddTeamForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <div className="flex gap-2">
-          <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
-            {!preview ? (
-              <Shield className="h-6 w-6 text-gray-400" />
-            ) : (
-              <img src={preview} className="h-7" />
-            )}
-          </div>
-          <Button variant="secondary" onClick={handleUploadCrest}>
-            Upload crest
-          </Button>
-        </div>
-        <input
-          type="file"
-          {...register(`crest`)}
-          ref={(e) => {
-            const { ref } = { ...register("crest") };
-            ref(e);
-            inputRef.current = e;
-          }}
-          multiple={false}
-          hidden
+        <FileInput
+          Placeholder={Shield}
+          label="crest"
+          register={register("crest")}
         />
         <InputWrapper label="Team Name">
           <Input errors={errors} type="text" {...register(`name`)} />

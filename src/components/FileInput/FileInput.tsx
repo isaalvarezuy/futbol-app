@@ -24,14 +24,14 @@ const FileInput = ({ Placeholder = File, label = "file", register }: Props) => {
   return (
     <div>
       <div className="flex gap-2">
-        <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
+        <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
           {!preview ? (
             <Placeholder className="h-5 w-5 text-gray-400" />
           ) : (
             <img src={preview} className="h-7" />
           )}
         </div>
-        <Button variant="secondary" onClick={handleClick}>
+        <Button className='shrink-0' variant="secondary" onClick={handleClick}>
           {preview ? "Update" : "Upload"} {label}
         </Button>
       </div>

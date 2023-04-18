@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 export const playerSchema = z.object({
-  firstName: z.string().min(1, "First Name is required"),
-  lastName: z.string().min(1, "Last Name is required"),
+  name: z.string().min(1, " Name is required"),
   number: z
     .string()
     .min(1, "Number is required")

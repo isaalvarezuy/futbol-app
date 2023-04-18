@@ -12,12 +12,12 @@ import { Camera, Shield } from "react-feather";
 import InputWrapper from "../InputWrapper/InputWrapper";
 import { playerSchema } from "@/schemas/player.schema";
 import { useEffect } from "react";
+import Paragraph from "../Paragraph/Paragraph";
 
-const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
+const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm({ resolver: zodResolver(playerSchema) });
   const onSubmit = (data: any) => {
@@ -25,12 +25,14 @@ const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
     console.log(data);
   };
 
+  const hasErrors = Object.keys(errors).length > 0;
+  const firstError = Object.keys(errors)[0];
+  console.log(Object.keys(errors)[0]);
+
   useEffect(() => {
     console.log(errors);
   }, [errors]);
-  const teamOptions = teams.map(({ id, name }) => {
-    return { value: id, label: name };
-  });
+
   return (
     <CardWrapper title="Add Player">
       <form
@@ -48,13 +50,15 @@ const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
             <Input errors={errors} type="text" {...register(`number`)} />
           </section>
         </section>
-        <InputWrapper label="First Name">
-          <Input errors={errors} type="text" {...register(`firstName`)} />
-        </InputWrapper>
-        <InputWrapper label="Last Name">
-          <Input errors={errors} type="text" {...register(`lastName`)} />
-        </InputWrapper>
 
+        <InputWrapper label="Name">
+          <Input errors={errors} type="text" {...register(`name`)} />
+        </InputWrapper>
+        {hasErrors && (
+          <Paragraph color="text-red-600">
+            {errors[firstError]?.message as string}
+          </Paragraph>
+        )}
         <Button type="submit">Add Player</Button>
       </form>
     </CardWrapper>

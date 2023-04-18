@@ -7,6 +7,7 @@ import Button from "@/components/Button/Button";
 import CardWrapper from "@/components/CardWrapper/CardWrapper";
 import TeamSection from "./TeamSection";
 import { addGameSchema } from "@/schemas/addGame.schema";
+import Paragraph from "../Paragraph/Paragraph";
 
 const AddGameForm = ({
   teams,
@@ -51,9 +52,9 @@ const AddGameForm = ({
           <TeamSection label="team2" teams={teams} players={players} />
           <Button type="submit">Add Game</Button>
           {hasErrors && (
-            <p className="text-red-600 font-body text-sm">
-              {Object.values(errors)[0].message}
-            </p>
+            <Paragraph color="text-red-600" >
+              {Object.values(errors)[0].message as string}
+            </Paragraph>
           )}
         </form>
       </FormProvider>

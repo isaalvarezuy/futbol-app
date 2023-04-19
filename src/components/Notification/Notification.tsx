@@ -1,3 +1,5 @@
+import Paragraph from "../Paragraph/Paragraph";
+
 interface Props {
   message: string;
 }
@@ -6,9 +8,9 @@ const Notification = ({ message }: Props) => {
     <div
       role="alert"
       aria-label="notification"
-      className="w-[680px] bg-green-300 p-4"
+      className="w-[680px] bg-white p-4 rounded border border-gray-200 shadow-md"
     >
-      {message}
+      <Paragraph>{message}</Paragraph>
     </div>
   );
 };

@@ -1,15 +1,21 @@
-
 import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import { Player } from "@/types/responses/Player";
 import { Team } from "@/types/Team";
 import AddTeamForm from "../AddTeamForm/AddTeamForm";
+import Button from "../Button/Button";
+import toast from "react-hot-toast";
+import NotificationContainer from "../NotificationContainer/NotificationContainer";
 
 interface Props {
   teams?: Team[];
   players?: Player[];
 }
+
 const Dashboard = ({ teams, players }: Props) => {
+  const notify = () => {
+    toast("Here is your toast.");
+  };
   if (!teams || !players) {
     return <p>Loading...</p>;
   }
@@ -29,10 +35,12 @@ const Dashboard = ({ teams, players }: Props) => {
           <AddTeamForm />
         </div>
 
-        <div className="h-20 col-span-4 bg-gray-400"></div>
+        <div className="h-20 col-span-4 bg-gray-400">
+          <Button onClick={notify}>show toast</Button>
+          <NotificationContainer />
+        </div>
       </div>
 
-      <div>hola</div>
       <div>hola</div>
       <div>hola</div>
       <div>hola</div>

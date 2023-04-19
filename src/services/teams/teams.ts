@@ -6,6 +6,6 @@ export const getTeams = async () => {
   return teamsAdapter(response.data);
 };
 export const addTeam = async (body: FormData) => {
-  const response = await axiosPost("add-team", body);
+  const response = await axiosPost("teams", body);
   return response;
 };

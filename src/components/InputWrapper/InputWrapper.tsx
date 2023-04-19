@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Paragraph from "../Paragraph/Paragraph";
 
 interface Props {
   children: ReactNode;
@@ -7,8 +8,10 @@ interface Props {
 const InputWrapper = ({ children, label }: Props) => {
   return (
     <div className="space-y-1">
-      <label className="font-body text-sm font-medium text-gray-700 capitalize ">
-        {label}
+      <label>
+        <Paragraph size={14} weight="medium" color="text-gray-700">
+          {label}
+        </Paragraph>
       </label>
       {children}
     </div>

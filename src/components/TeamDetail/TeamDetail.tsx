@@ -121,7 +121,7 @@ const TeamDetail = ({ teams, players = [] }: Props) => {
           {teams && players && <AddGameForm teams={teams} players={players} />}
         </div>
         <div className=" col-span-4 ">
-          {teams && <AddPlayerForm teams={teams} />}
+          {id && <AddPlayerForm teamId={id} />}
         </div>
       </div>
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start "></div>

@@ -1,5 +1,5 @@
 import { Team } from "@/types/Team";
-import React, { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";
 import { useForm } from "react-hook-form";
@@ -7,73 +7,59 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
+import FileInput from "../FileInput/FileInput";
+import { Camera, Shield } from "react-feather";
+import InputWrapper from "../InputWrapper/InputWrapper";
+import { playerSchema } from "@/schemas/player.schema";
+import { useEffect } from "react";
+import Paragraph from "../Paragraph/Paragraph";
 
-const AddPlayerForm = ({ teams }: { teams: Team[] }) => {
-  const schema = yup
-    .object({
-      team1Goals: yup.number().required(),
-    })
-    .required();
-
+const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ resolver: zodResolver(playerSchema) });
   const onSubmit = (data: any) => {
+    console.log("hola");
     console.log(data);
   };
 
-  const teamOptions = teams.map(({ id, name }) => {
-    return { value: id, label: name };
-  });
+  const hasErrors = Object.keys(errors).length > 0;
+  const firstError = Object.keys(errors)[0];
+  console.log(Object.keys(errors)[0]);
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   return (
     <CardWrapper title="Add Player">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team1"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team1Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <span className="text-xs text-center font-body">vs.</span>
-        <div className="flex w-full gap-2 text-sm font-body">
-          <div className="w-full">
-            <Select
-              control={control}
-              options={teamOptions}
-              register={register}
-              name={"team2"}
-              errors={errors}
-            />
-          </div>
-          <div className="w-[60px]">
-            <Input
-              register={register}
-              name="team2Goals"
-              defaultValue={0}
-              errors={errors}
-            />
-          </div>
-        </div>
-        <Button type="submit">Add Game</Button>
+        <section className="flex gap-2">
+          <FileInput
+            Placeholder={Camera}
+            label="photo"
+            register={register("photo")}
+          />
+          <section className="flex w-16 gap-1 items-center">
+            #
+            <Input errors={errors} type="text" {...register(`number`)} />
+          </section>
+        </section>
+
+        <InputWrapper label="Name">
+          <Input errors={errors} type="text" {...register(`name`)} />
+        </InputWrapper>
+        {hasErrors && (
+          <Paragraph color="text-red-600">
+            {errors[firstError]?.message as string}
+          </Paragraph>
+        )}
+        <Button type="submit">Add Player</Button>
       </form>
     </CardWrapper>
   );

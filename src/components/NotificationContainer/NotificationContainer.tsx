@@ -1,20 +1,15 @@
-import toast, { useToaster } from "react-hot-toast";
-import Notification from "../Notification/Notification";
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const NotificationContainer = () => {
-  const { toasts, handlers } = useToaster();
-  const { startPause, endPause } = handlers;
+  const notify = () => toast("Wow so easy !");
+
   return (
-    <div
-      className="fixed bottom-4 left-0 w-full flex flex-col items-center gap-2"
-      onMouseEnter={startPause}
-      onMouseLeave={endPause}
-    >
-      {toasts.map((toast) => {
-        return (
-          <Notification message={toast.message as string} key={toast.id} />
-        );
-      })}
+    <div>
+      <button onClick={notify}>Notify !</button>
+      <ToastContainer />
     </div>
   );
 };

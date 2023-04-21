@@ -5,7 +5,6 @@ import {
 import { Team, PossibleResults } from "@/types/Team";
 
 export const teamsAdapter = (teams: TeamFromResponse[]) => {
-  console.log(teams);
   const adaptedTeams = teams.map((t: TeamFromResponse) => {
     const gameLabelMapper = {
       p: "LOSS",

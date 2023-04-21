@@ -9,11 +9,13 @@ import InputWrapper from "../InputWrapper/InputWrapper";
 import { addTeam } from "@/services/teams/teams";
 import { useMutation, useQueryClient } from "react-query";
 import FileInput from "../FileInput/FileInput";
+import { showNotification } from "@/utils/showNotification";
 
 const AddTeamForm = () => {
   const handleFormSuccess = () => {
     reset();
     queryClient.invalidateQueries("get-teams");
+    showNotification("Team added correctly", 2000, "success");
   };
   const { mutate, isLoading, isSuccess, isError } = useMutation(addTeam, {
     onSuccess: handleFormSuccess,

@@ -6,6 +6,11 @@ export const oldAPIAxiosGet = async (endpoint: string) => {
   const response = await axios.get(`${BASE_URL}${endpoint}`);
   return response;
 };
+
+export const client = axios.create({
+  baseURL: NEW_API_URL,
+});
+
 export const axiosGet = async (endpoint: string) => {
   const response = await axios.get(`${NEW_API_URL}${endpoint}`);
   return response;

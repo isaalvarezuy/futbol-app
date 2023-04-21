@@ -13,7 +13,10 @@ import { showNotification } from "@/utils/showNotification";
 
 const AddTeamForm = () => {
   const handleFormSuccess = () => {
-    reset();
+    reset({
+      crest: "",
+      name: "",
+    });
     queryClient.invalidateQueries("get-teams");
     showNotification("Team added correctly", 2000, "success");
   };
@@ -39,8 +42,6 @@ const AddTeamForm = () => {
     formData.append("name", data.name);
     mutate(formData);
   };
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <CardWrapper title="Add Team">

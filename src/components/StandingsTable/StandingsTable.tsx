@@ -70,7 +70,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
                     <LastFiveGames games={lastFiveGames} />
                   </TableCell>
                   <TableCell className="flex items-center justify-center">
-                    <StandingsTableActions id={id} />
+                    <StandingsTableActions team={team} />
                   </TableCell>
                 </TableRow>
               );

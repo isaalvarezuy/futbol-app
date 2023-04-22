@@ -27,7 +27,6 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
 
   const hasErrors = Object.keys(errors).length > 0;
   const firstError = Object.keys(errors)[0];
-  console.log(Object.keys(errors)[0]);
 
   useEffect(() => {
     console.log(errors);

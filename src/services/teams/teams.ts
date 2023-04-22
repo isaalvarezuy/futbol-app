@@ -3,7 +3,6 @@ import { axiosGet, axiosPost, client } from "@/services/axios";
 
 export const getTeams = async () => {
   const response = await client.get("/teams");
-  console.log(response);
   return teamsAdapter(response.data);
 };
 export const addTeam = async (body: FormData) => {

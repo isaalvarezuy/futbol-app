@@ -10,13 +10,13 @@ import { addTeam } from "@/services/teams/teams";
 import { useMutation, useQueryClient } from "react-query";
 import FileInput from "../FileInput/FileInput";
 import { showNotification } from "@/utils/showNotification";
+import { teamSchema } from "@/schemas/team.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Paragraph from "../Paragraph/Paragraph";
 
 const AddTeamForm = () => {
   const handleFormSuccess = () => {
-    reset({
-      crest: "",
-      name: "",
-    });
+    reset();
     queryClient.invalidateQueries("get-teams");
     showNotification("Team added correctly", 2000, "success");
   };
@@ -24,24 +24,30 @@ const AddTeamForm = () => {
     onSuccess: handleFormSuccess,
   });
   const queryClient = useQueryClient();
-  const { register, formState: errors, handleSubmit, watch, reset } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    reset,
+  } = useForm({
+    resolver: zodResolver(teamSchema),
+  });
 
-  const fileWatcher = watch("crest");
-  const [preview, setPreview] = useState("");
-
-  useEffect(() => {
-    if (fileWatcher && fileWatcher[0]) {
-      setPreview(URL.createObjectURL(fileWatcher[0]));
-    }
-  }, [fileWatcher]);
+  const hasErrors = Object.keys(errors).length > 0;
+  const firstError = Object.keys(errors)[0];
 
   const onSubmit = async (data: any) => {
     console.log(data);
-    const formData = new FormData();
+    console.log("hola");
+
+    /*   const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
-    mutate(formData);
+    mutate(formData); */
   };
+
+  console.log(errors);
 
   return (
     <CardWrapper title="Add Team">
@@ -56,10 +62,16 @@ const AddTeamForm = () => {
           Placeholder={Shield}
           label="crest"
           register={register("crest")}
+          watcher={watch("crest")}
         />
         <InputWrapper label="Team Name">
           <Input errors={errors} type="text" {...register(`name`)} />
         </InputWrapper>
+        {hasErrors && (
+          <Paragraph color="text-red-600">
+            {errors[firstError]?.message as string}
+          </Paragraph>
+        )}
         <Button variant="primary" type="submit">
           Add team
         </Button>

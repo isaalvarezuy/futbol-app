@@ -3,11 +3,11 @@ import { Player } from "@/types/responses/Player";
 export const playersAdapter = (players: any) => {
   const adaptedPlayers: Player[] = players.map((p: any) => {
     const player: Player = {
-      name: `${p.nombre} ${p.apellido}`,
-      number: p.numero,
-      goals: p.goles,
+      name: p.name,
+      number: p.number,
+      goals: p.goals,
       id: p._id,
-      team: p.idEquipo,
+      photo: p.imgUrl,
     };
     return player;
   });

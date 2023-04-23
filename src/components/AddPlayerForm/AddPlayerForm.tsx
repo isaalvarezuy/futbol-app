@@ -13,16 +13,38 @@ import InputWrapper from "../InputWrapper/InputWrapper";
 import { playerSchema } from "@/schemas/player.schema";
 import { useEffect } from "react";
 import Paragraph from "../Paragraph/Paragraph";
+import { addPlayer } from "@/services/players/players";
+import { useMutation, useQueryClient } from "react-query";
+import { showNotification } from "@/utils/showNotification";
 
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(playerSchema) });
+
+  const queryClient = useQueryClient();
+
+  const handleFormSuccess = () => {
+    reset();
+    queryClient.invalidateQueries("get-players");
+    showNotification("Player added correctly", 2000, "success");
+  };
+
+  const { mutate, isLoading, isSuccess, isError } = useMutation(addPlayer, {
+    onSuccess: handleFormSuccess,
+    onError: () => console.log("error"),
+  });
+
   const onSubmit = (data: any) => {
-    console.log("hola");
-    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("photo", data.photo[0]);
+    formData.append("number", data.number);
+    formData.append("team", teamId);
+    mutate(formData);
   };
 
   const hasErrors = Object.keys(errors).length > 0;

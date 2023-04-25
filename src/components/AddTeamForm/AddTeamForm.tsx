@@ -39,12 +39,11 @@ const AddTeamForm = () => {
 
   const onSubmit = async (data: any) => {
     console.log(data);
-    console.log("hola");
 
-    /*   const formData = new FormData();
+    const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
-    mutate(formData); */
+    mutate(formData);
   };
 
   console.log(errors);

@@ -16,10 +16,7 @@ const LoggedInLayout = () => {
       <Sidebar />
       <Container>
         <Routes>
-          <Route
-            path="/dashboard"
-            element={<Dashboard teams={teams} players={players} />}
-          />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/detail/:id"
             element={<TeamDetail teams={teams} players={players} />}

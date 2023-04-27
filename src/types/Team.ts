@@ -1,3 +1,5 @@
+import { Player } from "./responses/Player";
+
 export interface Team {
   id: string;
   name: string;
@@ -12,12 +14,13 @@ export interface Team {
   points: number;
   lastFiveGames: PossibleResults[];
   gameHistory: GameHistory[];
+  players: Player[];
 }
 
 export type PossibleResults = "WIN" | "LOSS" | "TIE";
 export interface GameHistory {
-  result: string;
-  against: string;
-  goalsScored: number;
-  goalsReceived: number;
+  result: PossibleResults;
+  opponent: string;
+  goalsFor: number;
+  goalsAgainst: number;
 }

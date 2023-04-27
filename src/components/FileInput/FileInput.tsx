@@ -24,7 +24,6 @@ const FileInput = ({
   const [preview, setPreview] = useState("");
 
   useEffect(() => {
-    console.log(watcher);
     if (watcher && watcher[0]) {
       setPreview(URL.createObjectURL(watcher[0]));
     }

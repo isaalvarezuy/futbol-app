@@ -19,7 +19,7 @@ const LoggedInLayout = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/detail/:id"
-            element={<TeamDetail teams={teams} players={players} />}
+            element={<TeamDetail />}
           />
           <Route path="/my-team" element={<p> team</p>} />
           <Route path="/*" element={<p>404 ish</p>} />

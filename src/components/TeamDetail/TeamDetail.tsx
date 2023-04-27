@@ -19,20 +19,23 @@ import ChartWrapper from "@/components/ChartWrapper/ChartWrapper";
 import AddGameForm from "../AddGameForm/AddGameForm";
 import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
-import { Player } from "@/types/responses/Player";
-import { getTeamPlayers } from "@/utils/utils";
+import { useQuery } from "react-query";
+import { getTeam } from "@/services/teams/teams";
 
-interface Props {
-  teams?: Team[];
-  players?: Player[];
-}
-const TeamDetail = ({ teams, players = [] }: Props) => {
+const TeamDetail = () => {
   const { id } = useParams();
+  const { data: team } = useQuery({
+    queryKey: ["todos"],
+    queryFn: () => getTeam(id!),
+    enabled: !!id,
+  });
+  console.log(team);
   if (!id) {
     return <>go back</>;
   }
-  const team = teams?.find((team) => team.id === id);
-  const teamPlayers = getTeamPlayers(players, id);
+
+  /*   const team = teams?.find((team) => team.id === id);
+  const teamPlayers = getTeamPlayers(players, id); */
 
   ChartJS.register(
     CategoryScale,
@@ -49,37 +52,39 @@ const TeamDetail = ({ teams, players = [] }: Props) => {
     return <>go back</>;
   }
 
-  const data = {
+  const goalsChart = {
     datasets: [
       {
         label: "Goals scored",
-        data: team.gameHistory.map((game) => game.goalsScored),
+        data: team.gameHistory.map((game) => game.goalsFor),
         borderColor: "#D1D5DB",
         backgroundColor: "#D1D5DB",
       },
       {
         label: "Goals received",
-        data: team.gameHistory.map((game) => game.goalsReceived),
+        data: team.gameHistory.map((game) => game.goalsAgainst),
         borderColor: "#374151",
         backgroundColor: "#374151",
       },
     ],
-    labels: team.gameHistory.map((game) => game.against.slice(0, 4)),
+    labels: team.gameHistory.map((game) => game.opponent.slice(0, 4)),
   };
 
   const playersData = {
     datasets: [
       {
         label: "Goals per game",
-        data: teamPlayers?.map((player) => player.goals / team.games),
+        data: team.players.map(
+          (player) => player.goals / team.gameHistory.length
+        ),
         borderColor: "#D1D5DB",
         backgroundColor: "#D1D5DB",
       },
     ],
-    labels: teamPlayers?.map((player) => player.name),
+    labels: team.players.map((player) => player.name),
   };
 
-  const pieData = {
+  const resultsChart = {
     labels: ["Wins", "Ties", "Losses"],
     datasets: [
       {
@@ -92,6 +97,39 @@ const TeamDetail = ({ teams, players = [] }: Props) => {
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
+        <div className="col-span-8">
+          <TeamDetailsTable team={team} />
+        </div>
+        <div className="col-span-5">
+          <ChartWrapper>
+            <Line data={goalsChart} />
+          </ChartWrapper>
+        </div>
+        <div className="col-span-3 ">
+          <ChartWrapper>
+            <Pie data={resultsChart} />
+          </ChartWrapper>
+        </div>
+        <div className="col-span-5">
+          {team.players && id && (
+            <TeamPlayersTable players={team.players} teamId={id} />
+          )}
+        </div>
+        <div className="col-span-3 ">
+          <ChartWrapper>
+            <Line data={playersData} />
+          </ChartWrapper>
+        </div>
+      </div>
+      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
+        <div className="col-span-4">
+          {/* {team && team.players && <AddGameForm teams={teams} players={players} />} */}
+        </div>
+        <div className=" col-span-4 ">
+          {id && <AddPlayerForm teamId={id} />}
+        </div>
+      </div>
+      {/*  <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
         <div className="col-span-8">
           <TeamDetailsTable team={team} />
         </div>
@@ -116,15 +154,8 @@ const TeamDetail = ({ teams, players = [] }: Props) => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
-        <div className="col-span-4">
-          {teams && players && <AddGameForm teams={teams} players={players} />}
-        </div>
-        <div className=" col-span-4 ">
-          {id && <AddPlayerForm teamId={id} />}
-        </div>
-      </div>
-      <div className="grid grid-cols-8 col-span-9 gap-4 content-start "></div>
+      
+      <div className="grid grid-cols-8 col-span-9 gap-4 content-start "></div> */}
     </div>
   );
 };

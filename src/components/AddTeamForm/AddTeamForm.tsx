@@ -38,15 +38,11 @@ const AddTeamForm = () => {
   const firstError = Object.keys(errors)[0];
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
     mutate(formData);
   };
-
-  console.log(errors);
 
   return (
     <CardWrapper title="Add Team">

@@ -8,6 +8,6 @@ export const getPlayers = async () => {
 
 export const addPlayer = async (body: FormData) => {
   const response = await client.post("/players", body);
-  console.log(response);
+
   return response;
 };

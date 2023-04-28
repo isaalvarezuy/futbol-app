@@ -18,10 +18,9 @@ import { FieldValues } from "react-hook-form";
 interface Props {
   label: string;
   teams: Team[];
-  players: Player[];
 }
 
-const TeamSection = ({ label, teams, players }: Props) => {
+const TeamSection = ({ label, teams }: Props) => {
   const {
     control,
     watch,
@@ -77,10 +76,10 @@ const TeamSection = ({ label, teams, players }: Props) => {
 
   useEffect(() => {
     setTeamPlayers(
-      transformToSelectOption(getTeamPlayers(players, watchTeam.value))
+      transformToSelectOption(getTeamPlayers(watchTeam.value, teams))
     );
     setValue(`${label}GoalScorers`, []);
-  }, [watchTeam, players]);
+  }, [watchTeam]);
 
   return (
     <div className="flex flex-col gap-2">

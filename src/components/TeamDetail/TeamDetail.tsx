@@ -21,6 +21,7 @@ import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { useQuery } from "react-query";
 import { getTeam } from "@/services/teams/teams";
+import { useStore } from "@/hooks/useStore";
 
 const TeamDetail = () => {
   const { id } = useParams();
@@ -29,7 +30,9 @@ const TeamDetail = () => {
     queryFn: () => getTeam(id!),
     enabled: !!id,
   });
-  console.log(team);
+
+  const teams = useStore((state) => state.teams);
+
   if (!id) {
     return <>go back</>;
   }
@@ -123,7 +126,7 @@ const TeamDetail = () => {
       </div>
       <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
         <div className="col-span-4">
-          {/* {team && team.players && <AddGameForm teams={teams} players={players} />} */}
+          {teams && <AddGameForm teams={teams} />}
         </div>
         <div className=" col-span-4 ">
           {id && <AddPlayerForm teamId={id} />}

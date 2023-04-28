@@ -9,13 +9,7 @@ import TeamSection from "./TeamSection";
 import { addGameSchema } from "@/schemas/addGame.schema";
 import Paragraph from "../Paragraph/Paragraph";
 
-const AddGameForm = ({
-  teams,
-  players,
-}: {
-  teams: Team[];
-  players: Player[];
-}) => {
+const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const methods = useForm({
     resolver: zodResolver(addGameSchema),
     defaultValues: {
@@ -45,14 +39,14 @@ const AddGameForm = ({
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full gap-2"
         >
-          <TeamSection label="team1" teams={teams} players={players} />
+          <TeamSection label="team1" teams={teams} />
           <span className="font-body text-xs text-center font-medium text-gray-700">
             vs.
           </span>
-          <TeamSection label="team2" teams={teams} players={players} />
+          <TeamSection label="team2" teams={teams} />
           <Button type="submit">Add Game</Button>
           {hasErrors && (
-            <Paragraph color="text-red-600" >
+            <Paragraph color="text-red-600">
               {Object.values(errors)[0].message as string}
             </Paragraph>
           )}

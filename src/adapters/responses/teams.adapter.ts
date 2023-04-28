@@ -4,8 +4,8 @@ import {
 } from "@/types/responses/Team";
 import { Team, PossibleResults } from "@/types/Team";
 
-export const teamsAdapter = (teams: TeamFromResponse[]) => {
-  const adaptedTeams = teams.map((t: TeamFromResponse) => {
+export const teamsAdapter = (teams: any) => {
+  const adaptedTeams = teams.map((t: any) => {
     const gameLabelMapper = {
       p: "LOSS",
       e: "TIE",
@@ -43,6 +43,7 @@ export const teamsAdapter = (teams: TeamFromResponse[]) => {
       points: t.games * 3 + t.ties,
       lastFiveGames: lastFiveGamesMapped as PossibleResults[],
       gameHistory: t.gameHistory,
+      players: t.players,
     };
     return adaptedTeam;
   });

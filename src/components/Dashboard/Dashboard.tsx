@@ -4,9 +4,19 @@ import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import AddTeamForm from "@/components/AddTeamForm/AddTeamForm";
 import DashboardSkeleton from "@/components/Skeletons/DashboardSkeleton";
+import { useStore } from "@/hooks/useStore";
 
 const Dashboard = () => {
-  const { data: teams } = useQuery(["get-teams"], getTeams);
+  const updateTeams = useStore((state) => state.updateTeams);
+
+  const { data: teams } = useQuery({
+    queryKey: ["get-teams"],
+    queryFn: getTeams,
+    onSuccess: (teams) => {
+      updateTeams(teams)
+    },
+  });
+
   const { data: players } = useQuery(["get-players"], getPlayers);
   if (!teams || !players) {
     return <DashboardSkeleton />;

@@ -14,13 +14,14 @@ const DashboardSkeleton = () => {
         <div className="col-span-5">
           <Loader />
         </div>
-      </div>
-      <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
-        <div className="h-32 col-span-4">
-          <Loader />
-        </div>
-        <div className="h-32 col-span-4">
-          <Loader />
+
+        <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
+          <div className="h-32 col-span-4">
+            <Loader />
+          </div>
+          <div className="h-32 col-span-4">
+            <Loader />
+          </div>
         </div>
       </div>
     </div>

@@ -5,8 +5,8 @@ import { BaseObject } from "@/types/utils/BaseObject";
 
 export const getTeamPlayers = (teamId: string, teams: Team[]) => {
   const selectedTeam = teams.filter((team) => team.id === teamId);
-  console.log(selectedTeam);
-  return selectedTeam[0].players;
+  if (selectedTeam[0]) return selectedTeam[0].players;
+  return [];
 };
 
 export const transformToSelectOption = (array: BaseObject[]) => {

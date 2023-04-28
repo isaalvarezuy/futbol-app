@@ -22,23 +22,20 @@ import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { useQuery } from "react-query";
 import { getTeam } from "@/services/teams/teams";
 import { useStore } from "@/hooks/useStore";
+import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 
 const TeamDetail = () => {
   const { id } = useParams();
-  const { data: team } = useQuery({
+  const teams = useStore((state) => state.teams);
+  const { data: team, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: () => getTeam(id!),
-    enabled: !!id,
+    enabled: !!id || !!teams,
   });
 
-  const teams = useStore((state) => state.teams);
-
-  if (!id) {
-    return <>go back</>;
+  if (!team) {
+    return <TeamDetailSkeleton />;
   }
-
-  /*   const team = teams?.find((team) => team.id === id);
-  const teamPlayers = getTeamPlayers(players, id); */
 
   ChartJS.register(
     CategoryScale,
@@ -132,33 +129,6 @@ const TeamDetail = () => {
           {id && <AddPlayerForm teamId={id} />}
         </div>
       </div>
-      {/*  <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
-        <div className="col-span-8">
-          <TeamDetailsTable team={team} />
-        </div>
-        <div className="col-span-5">
-          <ChartWrapper>
-            <Line data={data} />
-          </ChartWrapper>
-        </div>
-        <div className="col-span-3 ">
-          <ChartWrapper>
-            <Pie data={pieData} />
-          </ChartWrapper>
-        </div>
-        <div className="col-span-5">
-          {teamPlayers && id && (
-            <TeamPlayersTable players={teamPlayers} teamId={id} />
-          )}
-        </div>
-        <div className="col-span-3 ">
-          <ChartWrapper>
-            <Line data={playersData} />
-          </ChartWrapper>
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-8 col-span-9 gap-4 content-start "></div> */}
     </div>
   );
 };

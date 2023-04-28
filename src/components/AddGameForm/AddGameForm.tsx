@@ -13,10 +13,10 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const methods = useForm({
     resolver: zodResolver(addGameSchema),
     defaultValues: {
-      team1: { label: teams[0].name, value: teams[0].id },
+      team1: { label: teams[0]?.name, value: teams[0]?.id },
       team1GoalAmount: "0",
       team1GoalScorers: [],
-      team2: { label: teams[1].name, value: teams[1].id },
+      team2: { label: teams[1]?.name, value: teams[1]?.id },
       team2GoalAmount: "0",
       team2GoalScorers: [],
     },

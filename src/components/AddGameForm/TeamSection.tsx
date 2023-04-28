@@ -79,7 +79,7 @@ const TeamSection = ({ label, teams }: Props) => {
       transformToSelectOption(getTeamPlayers(watchTeam.value, teams))
     );
     setValue(`${label}GoalScorers`, []);
-  }, [watchTeam]);
+  }, [watchTeam, teams]);
 
   return (
     <div className="flex flex-col gap-2">

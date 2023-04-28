@@ -12,8 +12,6 @@ type Action = {
 export const useStore = create<State & Action>((set) => ({
   teams: [],
   updateTeams: (teams: Team[]) => {
-    console.log(teams);
-    console.log("entro");
     set({ teams });
   },
 }));

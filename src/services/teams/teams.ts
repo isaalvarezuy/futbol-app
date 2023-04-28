@@ -7,7 +7,7 @@ export const getTeams = async () => {
   return teamsAdapter(response.data);
 };
 export const getTeam = async (id: string) => {
-  const response = await client.get(`/teams/${id}`);
+  const response = await client.get(`/teamsa/${id}`);
   return teamAdapter(response.data);
 };
 export const addTeam = async (body: FormData) => {

@@ -7,15 +7,7 @@ import DashboardSkeleton from "@/components/Skeletons/DashboardSkeleton";
 import { useStore } from "@/hooks/useStore";
 
 const Dashboard = () => {
-  const updateTeams = useStore((state) => state.updateTeams);
-
-  const { data: teams } = useQuery({
-    queryKey: ["get-teams"],
-    queryFn: getTeams,
-    onSuccess: (teams) => {
-      updateTeams(teams)
-    },
-  });
+  const teams = useStore((state) => state.teams);
 
   const { data: players } = useQuery(["get-players"], getPlayers);
   if (!teams || !players) {

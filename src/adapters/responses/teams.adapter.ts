@@ -17,18 +17,6 @@ export const teamsAdapter = (teams: any) => {
       (result: PossibleResultsFromResponse) => gameLabelMapper[result]
     );
 
-    const gameResults = t.gameHistory.map(
-      (result: PossibleResultsFromResponse) => gameLabelMapper[result]
-    );
-
-    /* const gameHistory = gameResults.map((result, idx) => {
-      return {
-        result: result,
-        against: t.vs[idx],
-        goalsScored: t.hisGF[idx],
-        goalsReceived: t.hisGC[idx],
-      };
-    }); */
     const adaptedTeam: Team = {
       id: t._id,
       name: t.name,
@@ -43,7 +31,9 @@ export const teamsAdapter = (teams: any) => {
       points: t.games * 3 + t.ties,
       lastFiveGames: lastFiveGamesMapped as PossibleResults[],
       gameHistory: t.gameHistory,
-      players: t.players,
+      players: t.players.map(({ _id, ...p }: any) => {
+        return { ...p, id: _id };
+      }),
     };
     return adaptedTeam;
   });

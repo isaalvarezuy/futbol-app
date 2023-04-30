@@ -1,13 +1,13 @@
 import { teamAdapter } from "@/adapters/responses/team.adapter";
 import { teamsAdapter } from "@/adapters/responses/teams.adapter";
-import { axiosGet, axiosPost, client } from "@/services/axios";
+import { client } from "@/services/axios";
 
 export const getTeams = async () => {
   const response = await client.get("/teams");
   return teamsAdapter(response.data);
 };
 export const getTeam = async (id: string) => {
-  const response = await client.get(`/teamsa/${id}`);
+  const response = await client.get(`/teams/${id}`);
   return teamAdapter(response.data);
 };
 export const addTeam = async (body: FormData) => {

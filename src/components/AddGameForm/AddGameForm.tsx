@@ -1,13 +1,15 @@
-import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Team } from "@/types/Team";
-import { Player } from "@/types/responses/Player";
 import Button from "@/components/Button/Button";
 import CardWrapper from "@/components/CardWrapper/CardWrapper";
 import TeamSection from "./TeamSection";
 import { addGameSchema } from "@/schemas/addGame.schema";
 import Paragraph from "../Paragraph/Paragraph";
+import { IAddGameForm, ITeamGoalScorer } from "@/types/forms/AddGameForm";
+import { showNotification } from "@/utils/showNotification";
+import { useMutation, useQueryClient } from "react-query";
+import { addGame } from "@/services/games/games";
 
 const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const methods = useForm({
@@ -24,10 +26,40 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const {
     handleSubmit,
     formState: { errors },
+    reset,
   } = methods;
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const queryClient = useQueryClient();
+  const handleFormSuccess = () => {
+    reset();
+    queryClient.invalidateQueries("get-teams");
+    showNotification("Game added correctly", 2000, "success");
+  };
+
+  const { mutate } = useMutation(addGame, {
+    onSuccess: handleFormSuccess,
+  });
+
+  const formatGoalScorers = (scorers: ITeamGoalScorer[]) => {
+    const formattedScorers = scorers.map((p) => {
+      return {
+        player: p.player.value,
+        amount: Number(p.amount),
+      };
+    });
+    return JSON.stringify(formattedScorers);
+  };
+
+  const onSubmit = (data: IAddGameForm) => {
+    const requestBody = {
+      teamOneId: data.team1.value,
+      teamOneGoals: Number(data.team1GoalAmount),
+      teamOneGoalScorers: formatGoalScorers(data.team1GoalScorers),
+      teamTwoId: data.team2.value,
+      teamTwoGoals: Number(data.team2GoalAmount),
+      teamTwoGoalScorers: formatGoalScorers(data.team2GoalScorers),
+    };
+    mutate(requestBody);
   };
 
   const hasErrors = Object.keys(errors).length > 0;

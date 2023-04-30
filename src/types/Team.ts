@@ -20,7 +20,12 @@ export interface Team {
 export type PossibleResults = "WIN" | "LOSS" | "TIE";
 export interface GameHistory {
   result: PossibleResults;
-  opponent: string;
+  opponent: Opponent;
   goalsFor: number;
   goalsAgainst: number;
+}
+
+interface Opponent {
+  name: string;
+  imgUrl: string;
 }

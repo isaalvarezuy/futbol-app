@@ -23,6 +23,8 @@ import { useQuery } from "react-query";
 import { getTeam } from "@/services/teams/teams";
 import { useStore } from "@/hooks/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
+import TestComponent from "../TestComponent";
+import TeamGoalsPerGame from "../tables/TeamGoalsPerGame";
 
 const TeamDetail = () => {
   const { id } = useParams();
@@ -52,24 +54,6 @@ const TeamDetail = () => {
     return <>go back</>;
   }
 
-  const goalsChart = {
-    datasets: [
-      {
-        label: "Goals scored",
-        data: team.gameHistory.map((game) => game.goalsFor),
-        borderColor: "#D1D5DB",
-        backgroundColor: "#D1D5DB",
-      },
-      {
-        label: "Goals received",
-        data: team.gameHistory.map((game) => game.goalsAgainst),
-        borderColor: "#374151",
-        backgroundColor: "#374151",
-      },
-    ],
-    labels: team.gameHistory.map((game) => game.opponent.slice(0, 4)),
-  };
-
   const playersData = {
     datasets: [
       {
@@ -94,6 +78,7 @@ const TeamDetail = () => {
       },
     ],
   };
+
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
@@ -102,7 +87,7 @@ const TeamDetail = () => {
         </div>
         <div className="col-span-5">
           <ChartWrapper>
-            <Line data={goalsChart} />
+            <TeamGoalsPerGame team={team} />
           </ChartWrapper>
         </div>
         <div className="col-span-3 ">

@@ -50,10 +50,7 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const hasErrors = Object.keys(errors).length > 0;
   const firstError = Object.keys(errors)[0];
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
+ 
   return (
     <CardWrapper title="Add Player">
       <form

@@ -24,7 +24,9 @@ import { getTeam } from "@/services/teams/teams";
 import { useStore } from "@/hooks/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 import TestComponent from "../TestComponent";
-import TeamGoalsPerGame from "../tables/TeamGoalsPerGame";
+import TeamGoalsPerGame from "../charts/TeamGoalsPerGameChart";
+import TeamResultsChart from "../charts/TeamResultsChart";
+import TeamGoalsPerPlayer from "../charts/TeamGoalsPerPlayer";
 
 const TeamDetail = () => {
   const { id } = useParams();
@@ -54,30 +56,7 @@ const TeamDetail = () => {
     return <>go back</>;
   }
 
-  const playersData = {
-    datasets: [
-      {
-        label: "Goals per game",
-        data: team.players.map(
-          (player) => player.goals / team.gameHistory.length
-        ),
-        borderColor: "#D1D5DB",
-        backgroundColor: "#D1D5DB",
-      },
-    ],
-    labels: team.players.map((player) => player.name),
-  };
-
-  const resultsChart = {
-    labels: ["Wins", "Ties", "Losses"],
-    datasets: [
-      {
-        data: [team.wins, team.ties, team.loses],
-        backgroundColor: ["#D1D5DB", "#9CA3AF", "#374151"],
-        borderWidth: 0,
-      },
-    ],
-  };
+  
 
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
@@ -92,7 +71,7 @@ const TeamDetail = () => {
         </div>
         <div className="col-span-3 ">
           <ChartWrapper>
-            <Pie data={resultsChart} />
+            <TeamResultsChart team={team} />
           </ChartWrapper>
         </div>
         <div className="col-span-5">
@@ -102,7 +81,7 @@ const TeamDetail = () => {
         </div>
         <div className="col-span-3 ">
           <ChartWrapper>
-            <Line data={playersData} />
+            <TeamGoalsPerPlayer team={team} />
           </ChartWrapper>
         </div>
       </div>

@@ -5,6 +5,8 @@ import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import AddTeamForm from "@/components/AddTeamForm/AddTeamForm";
 import DashboardSkeleton from "@/components/Skeletons/DashboardSkeleton";
 import { useStore } from "@/hooks/useStore";
+import TeamsGoalsPerGameChart from "../charts/TeamsGoalsPerGameChart";
+import ChartWrapper from "../ChartWrapper/ChartWrapper";
 
 const Dashboard = () => {
   const teams = useStore((state) => state.teams);
@@ -22,14 +24,16 @@ const Dashboard = () => {
         <div className="col-span-3">
           <PlayersTable players={players} />
         </div>
-        <div className="col-span-5 bg-gray-400 h-60"></div>
+        <div className="col-span-5 h-60">
+          <ChartWrapper>
+            <TeamsGoalsPerGameChart teams={teams} />
+          </ChartWrapper>
+        </div>
       </div>
-      <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
+      <div className="grid content-start col-span-4 grid-cols-4 gap-4 ">
         <div className="col-span-4">
           <AddTeamForm />
         </div>
-
-        <div className="h-32 col-span-4"></div>
       </div>
     </div>
   );

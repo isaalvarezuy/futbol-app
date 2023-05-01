@@ -1,7 +1,10 @@
 import React from "react";
+import Spinner from "../Spinner/Spinner";
+import classNames from "classnames";
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   variant?: "primary" | "secondary";
+  loading?: boolean;
 }
 
 const Button = ({
@@ -10,6 +13,7 @@ const Button = ({
   onClick,
   disabled = false,
   type = "button",
+  loading = false,
 }: ButtonProps) => {
   const classesMapper = {
     primary:
@@ -21,13 +25,14 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`px-3 py-2 text-sm font-medium font-body rounded-md transition-all flex items-center gap-1 justify-center
-  ${classesMapper[variant]}
-  `}
+      className={classNames(
+        "px-3 py-2 h-9 text-sm font-medium font-body rounded-md transition-all flex items-center gap-1 justify-center",
+        classesMapper[variant]
+      )}
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {loading ? <Spinner variant={variant} /> : children}
     </button>
   );
 };

@@ -32,7 +32,7 @@ const CustomLegend = ({ legendData }: { legendData: LegendData }) => {
   return (
     <section className="flex gap-4 justify-center">
       {legendData.data.map((d) => (
-        <div className="flex gap-1 items-center">
+        <div key={d.label} className="flex gap-1 items-center">
           {chartIconMapper[legendData.type](d.color)}
           <Paragraph size={12}>{d.label}</Paragraph>
         </div>

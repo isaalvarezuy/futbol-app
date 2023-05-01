@@ -9,7 +9,7 @@ export const teamAdapter = (t: any) => {
     goalsAgainst: t.goalsAgainst,
     ties: t.ties,
     loses: t.loses,
-    games: t.games,
+    games: t.wins + t.loses + t.ties,
     wins: t.wins,
     goalDifference: t.goalsFor - t.goalsAgainst,
     points: t.games * 3 + t.ties,

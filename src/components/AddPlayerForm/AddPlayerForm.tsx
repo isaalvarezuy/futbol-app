@@ -22,6 +22,7 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({ resolver: zodResolver(playerSchema) });
 
@@ -30,10 +31,11 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const handleFormSuccess = () => {
     reset();
     queryClient.invalidateQueries("get-players");
+    queryClient.invalidateQueries("get-team");
     showNotification("Player added correctly", 2000, "success");
   };
 
-  const { mutate, isLoading, isSuccess, isError } = useMutation(addPlayer, {
+  const { mutate, isLoading } = useMutation(addPlayer, {
     onSuccess: handleFormSuccess,
     onError: () => console.log("error"),
   });
@@ -43,14 +45,13 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
     formData.append("name", data.name);
     formData.append("photo", data.photo[0]);
     formData.append("number", data.number);
-    formData.append("team", teamId);
+    formData.append("teamId", teamId);
     mutate(formData);
   };
 
   const hasErrors = Object.keys(errors).length > 0;
   const firstError = Object.keys(errors)[0];
 
- 
   return (
     <CardWrapper title="Add Player">
       <form
@@ -62,6 +63,7 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
             Placeholder={Camera}
             label="photo"
             register={register("photo")}
+            watcher={watch("photo")}
           />
           <section className="flex w-16 gap-1 items-center">
             #
@@ -77,7 +79,9 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
             {errors[firstError]?.message as string}
           </Paragraph>
         )}
-        <Button type="submit">Add Player</Button>
+        <Button type="submit" loading={isLoading}>
+          Add Player
+        </Button>
       </form>
     </CardWrapper>
   );

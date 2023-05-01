@@ -23,8 +23,8 @@ import { useQuery } from "react-query";
 import { getTeam } from "@/services/teams/teams";
 import { useStore } from "@/hooks/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
-import TestComponent from "../TestComponent";
-import TeamGoalsPerGame from "../charts/TeamGoalsPerGameChart";
+
+import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import TeamGoalsPerPlayer from "../charts/TeamGoalsPerPlayer";
 
@@ -32,7 +32,7 @@ const TeamDetail = () => {
   const { id } = useParams();
   const teams = useStore((state) => state.teams);
   const { data: team, isLoading } = useQuery({
-    queryKey: ["todos"],
+    queryKey: ["get-team", id],
     queryFn: () => getTeam(id!),
     enabled: !!id || !!teams,
   });
@@ -41,23 +41,6 @@ const TeamDetail = () => {
     return <TeamDetailSkeleton />;
   }
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement
-  );
-
-  if (!team) {
-    return <>go back</>;
-  }
-
-  
-
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
@@ -65,14 +48,18 @@ const TeamDetail = () => {
           <TeamDetailsTable team={team} />
         </div>
         <div className="col-span-5">
-          <ChartWrapper>
-            <TeamGoalsPerGame team={team} />
-          </ChartWrapper>
+          {team && (
+            <ChartWrapper>
+              <TeamGoalsPerGameChart team={team} />
+            </ChartWrapper>
+          )}
         </div>
         <div className="col-span-3 ">
-          <ChartWrapper>
-            <TeamResultsChart team={team} />
-          </ChartWrapper>
+          {team && (
+            <ChartWrapper>
+              <TeamResultsChart team={team} />
+            </ChartWrapper>
+          )}
         </div>
         <div className="col-span-5">
           {team.players && id && (

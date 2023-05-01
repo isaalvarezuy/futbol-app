@@ -46,9 +46,6 @@ const AddTeamForm = () => {
 
   return (
     <CardWrapper title="Add Team">
-      {isLoading && "loading"}
-      {isSuccess && "added ok"}
-      {isError && "error"}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
@@ -67,7 +64,7 @@ const AddTeamForm = () => {
             {errors[firstError]?.message as string}
           </Paragraph>
         )}
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" loading={isLoading}>
           Add team
         </Button>
       </form>

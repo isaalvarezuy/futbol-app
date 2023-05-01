@@ -25,10 +25,10 @@ export const teamsAdapter = (teams: any) => {
       goalsAgainst: t.goalsAgainst,
       ties: t.ties,
       loses: t.loses,
-      games: t.games,
+      games: t.wins + t.ties + t.loses,
       wins: t.wins,
       goalDifference: t.goalsFor - t.goalsAgainst,
-      points: t.games * 3 + t.ties,
+      points: t.wins * 3 + t.ties,
       lastFiveGames: lastFiveGamesMapped as PossibleResults[],
       gameHistory: t.gameHistory,
       players: t.players.map(({ _id, ...p }: any) => {

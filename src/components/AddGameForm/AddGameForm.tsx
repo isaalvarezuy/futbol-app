@@ -33,10 +33,11 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const handleFormSuccess = () => {
     reset();
     queryClient.invalidateQueries("get-teams");
+    queryClient.invalidateQueries("get-team");
     showNotification("Game added correctly", 2000, "success");
   };
 
-  const { mutate } = useMutation(addGame, {
+  const { mutate, isLoading } = useMutation(addGame, {
     onSuccess: handleFormSuccess,
   });
 
@@ -76,7 +77,9 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
             vs.
           </span>
           <TeamSection label="team2" teams={teams} />
-          <Button type="submit">Add Game</Button>
+          <Button loading={isLoading} type="submit">
+            Add Game
+          </Button>
           {hasErrors && (
             <Paragraph color="text-red-600">
               {Object.values(errors)[0].message as string}

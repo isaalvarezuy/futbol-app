@@ -63,7 +63,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
                       <img
                         src={crest}
                         alt={name}
-                        className="h-6 w-6 object-cover "
+                        className="h-6 w-6 object-contain "
                       />
                       {name}
                     </div>

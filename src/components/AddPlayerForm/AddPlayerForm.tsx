@@ -13,25 +13,44 @@ import InputWrapper from "../InputWrapper/InputWrapper";
 import { playerSchema } from "@/schemas/player.schema";
 import { useEffect } from "react";
 import Paragraph from "../Paragraph/Paragraph";
+import { addPlayer } from "@/services/players/players";
+import { useMutation, useQueryClient } from "react-query";
+import { showNotification } from "@/utils/showNotification";
 
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const {
     register,
     handleSubmit,
+    reset,
+    watch,
     formState: { errors },
   } = useForm({ resolver: zodResolver(playerSchema) });
+
+  const queryClient = useQueryClient();
+
+  const handleFormSuccess = () => {
+    reset();
+    queryClient.invalidateQueries("get-players");
+    queryClient.invalidateQueries("get-team");
+    showNotification("Player added correctly", 2000, "success");
+  };
+
+  const { mutate, isLoading } = useMutation(addPlayer, {
+    onSuccess: handleFormSuccess,
+    onError: () => console.log("error"),
+  });
+
   const onSubmit = (data: any) => {
-    console.log("hola");
-    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("photo", data.photo[0]);
+    formData.append("number", data.number);
+    formData.append("teamId", teamId);
+    mutate(formData);
   };
 
   const hasErrors = Object.keys(errors).length > 0;
   const firstError = Object.keys(errors)[0];
-  console.log(Object.keys(errors)[0]);
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <CardWrapper title="Add Player">
@@ -44,6 +63,7 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
             Placeholder={Camera}
             label="photo"
             register={register("photo")}
+            watcher={watch("photo")}
           />
           <section className="flex w-16 gap-1 items-center">
             #
@@ -59,7 +79,9 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
             {errors[firstError]?.message as string}
           </Paragraph>
         )}
-        <Button type="submit">Add Player</Button>
+        <Button type="submit" loading={isLoading}>
+          Add Player
+        </Button>
       </form>
     </CardWrapper>
   );

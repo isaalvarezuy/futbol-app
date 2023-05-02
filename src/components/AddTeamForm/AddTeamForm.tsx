@@ -10,6 +10,9 @@ import { addTeam } from "@/services/teams/teams";
 import { useMutation, useQueryClient } from "react-query";
 import FileInput from "../FileInput/FileInput";
 import { showNotification } from "@/utils/showNotification";
+import { teamSchema } from "@/schemas/team.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Paragraph from "../Paragraph/Paragraph";
 
 const AddTeamForm = () => {
   const handleFormSuccess = () => {
@@ -21,32 +24,28 @@ const AddTeamForm = () => {
     onSuccess: handleFormSuccess,
   });
   const queryClient = useQueryClient();
-  const { register, formState: errors, handleSubmit, watch, reset } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    reset,
+  } = useForm({
+    resolver: zodResolver(teamSchema),
+  });
 
-  const fileWatcher = watch("crest");
-  const [preview, setPreview] = useState("");
-
-  useEffect(() => {
-    if (fileWatcher && fileWatcher[0]) {
-      setPreview(URL.createObjectURL(fileWatcher[0]));
-    }
-  }, [fileWatcher]);
+  const hasErrors = Object.keys(errors).length > 0;
+  const firstError = Object.keys(errors)[0];
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
     mutate(formData);
   };
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
   return (
     <CardWrapper title="Add Team">
-      {isLoading && "loading"}
-      {isSuccess && "added ok"}
-      {isError && "error"}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
@@ -55,11 +54,17 @@ const AddTeamForm = () => {
           Placeholder={Shield}
           label="crest"
           register={register("crest")}
+          watcher={watch("crest")}
         />
         <InputWrapper label="Team Name">
           <Input errors={errors} type="text" {...register(`name`)} />
         </InputWrapper>
-        <Button variant="primary" type="submit">
+        {hasErrors && (
+          <Paragraph color="text-red-600">
+            {errors[firstError]?.message as string}
+          </Paragraph>
+        )}
+        <Button variant="primary" type="submit" loading={isLoading}>
           Add team
         </Button>
       </form>

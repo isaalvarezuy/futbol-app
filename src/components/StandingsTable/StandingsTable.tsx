@@ -42,6 +42,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
             teams.map((team: Team, idx: number) => {
               const {
                 id,
+                crest,
                 name,
                 goalsFor,
                 goalsAgainst,
@@ -57,7 +58,16 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
               return (
                 <TableRow key={id}>
                   <TableCell>{idx + 1}</TableCell>
-                  <TableCell className="text-left pl-2">{name}</TableCell>
+                  <TableCell className="text-left pl-2">
+                    <div className="flex gap-2">
+                      <img
+                        src={crest}
+                        alt={name}
+                        className="h-6 w-6 object-contain "
+                      />
+                      {name}
+                    </div>
+                  </TableCell>
                   <TableCell>{games}</TableCell>
                   <TableCell>{wins}</TableCell>
                   <TableCell>{ties}</TableCell>
@@ -70,7 +80,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
                     <LastFiveGames games={lastFiveGames} />
                   </TableCell>
                   <TableCell className="flex items-center justify-center">
-                    <StandingsTableActions id={id} />
+                    <StandingsTableActions team={team} />
                   </TableCell>
                 </TableRow>
               );

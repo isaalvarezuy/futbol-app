@@ -9,10 +9,9 @@ interface Props {
   teamId: string;
 }
 const TeamPlayersTable = ({ players, teamId }: Props) => {
-
-  const onRemoveTeam=()=>{
-    console.log('remove player')
-  }
+  const onRemoveTeam = () => {
+    console.log("remove player");
+  };
   return (
     <TableWrapper>
       <table className="w-full">
@@ -22,10 +21,10 @@ const TeamPlayersTable = ({ players, teamId }: Props) => {
               #
             </TableCell>
             <TableCell tag="th" className="text-left">
-              Jugador
+              Player
             </TableCell>
             <TableCell tag="th" className="text-right">
-              Goles
+              Goals
             </TableCell>
             <TableCell tag="th" className="text-right">
               {" "}
@@ -44,7 +43,7 @@ const TeamPlayersTable = ({ players, teamId }: Props) => {
               <TableCell className="text-right">{p.goals}</TableCell>
               <TableCell className="text-right">
                 <button onClick={onRemoveTeam}>
-                <Trash2 className="h-4 text-red-600 hover:text-red-400" />
+                  <Trash2 className="h-4 text-red-600 hover:text-red-400" />
                 </button>
               </TableCell>
             </TableRow>

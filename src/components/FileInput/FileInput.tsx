@@ -1,4 +1,10 @@
-import React, { ChangeEvent, ComponentType, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  ComponentType,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { File, IconProps } from "react-feather";
 import Button from "../Button/Button";
 
@@ -6,10 +12,26 @@ interface Props {
   Placeholder?: ComponentType<IconProps>;
   label?: string;
   register?: any;
+  watcher?: any;
 }
-const FileInput = ({ Placeholder = File, label = "file", register }: Props) => {
+const FileInput = ({
+  Placeholder = File,
+  label = "file",
+  register,
+  watcher,
+}: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState("");
+
+  useEffect(() => {
+    if (watcher && watcher[0]) {
+      setPreview(URL.createObjectURL(watcher[0]));
+    }
+    if (!watcher) {
+      setPreview("");
+    }
+  }, [watcher]);
+
   const handleClick = () => {
     if (!inputRef.current) return;
     inputRef.current.click();
@@ -31,7 +53,7 @@ const FileInput = ({ Placeholder = File, label = "file", register }: Props) => {
             <img src={preview} className="h-7" />
           )}
         </div>
-        <Button className='shrink-0' variant="secondary" onClick={handleClick}>
+        <Button className="shrink-0" variant="secondary" onClick={handleClick}>
           {preview ? "Update" : "Upload"} {label}
         </Button>
       </div>

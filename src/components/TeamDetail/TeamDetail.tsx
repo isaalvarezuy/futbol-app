@@ -26,7 +26,7 @@ import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 
 import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
-import TeamGoalsPerPlayer from "../charts/TeamGoalsPerPlayer";
+import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
 
 const TeamDetail = () => {
   const { id } = useParams();
@@ -68,7 +68,7 @@ const TeamDetail = () => {
         </div>
         <div className="col-span-3 ">
           <ChartWrapper>
-            <TeamGoalsPerPlayer team={team} />
+            <PlayerGoalsPerGame team={team} />
           </ChartWrapper>
         </div>
       </div>

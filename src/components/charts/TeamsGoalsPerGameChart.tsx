@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import CustomImageTick from "./CustomImageTick";
+import CustomLegend from "./CustomLegend";
 
 const TeamsGoalsPerGameChart = ({ teams }: { teams: Team[] }) => {
   const chartData = teams.map((t) => {
@@ -38,6 +39,10 @@ const TeamsGoalsPerGameChart = ({ teams }: { teams: Team[] }) => {
         />
         <YAxis tick={{ fontFamily: "Quicksand", fontSize: "12px" }} />
         <Bar dataKey="goals" fill="#8884d8" />
+        <Legend
+          verticalAlign="top"
+          content={<CustomLegend title="Goals per game" />}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

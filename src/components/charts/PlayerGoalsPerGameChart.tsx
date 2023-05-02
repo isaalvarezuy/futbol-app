@@ -3,19 +3,16 @@ import { Team } from "@/types/Team";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import CustomImageTick from "./CustomImageTick";
+import CustomLegend from "./CustomLegend";
 
-const TeamGoalsPerPlayer = ({ team }: { team: Team }) => {
+const PlayerGoalsPerGame = ({ team }: { team: Team }) => {
   const chartData = team.players.map((p) => {
-    console.log(team.games);
     return {
       name: p.name,
       imgUrl: p.imgUrl,
@@ -24,14 +21,14 @@ const TeamGoalsPerPlayer = ({ team }: { team: Team }) => {
   });
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="90%">
       <BarChart
         data={chartData}
         margin={{
           top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
+          right: 10,
+          left: -15,
+          bottom: 0,
         }}
       >
         <XAxis
@@ -40,24 +37,14 @@ const TeamGoalsPerPlayer = ({ team }: { team: Team }) => {
           tick={<CustomImageTick rounded={true} />}
         />
         <YAxis tick={{ fontFamily: "Quicksand", fontSize: "12px" }} />
-        <Bar dataKey="goals" fill="#8884d8" />
+        <Bar dataKey="goals" fill="#374151" />
+        <Legend
+          verticalAlign="top"
+          content={<CustomLegend title="Goals per game" />}
+        />
       </BarChart>
     </ResponsiveContainer>
   );
 };
 
-export default TeamGoalsPerPlayer;
-
-/* const playersData = {
-    datasets: [
-      {
-        label: "Goals per game",
-        data: team.players.map(
-          (player) => player.goals / team.gameHistory.length
-        ),
-        borderColor: "#D1D5DB",
-        backgroundColor: "#D1D5DB",
-      },
-    ],
-    labels: team.players.map((player) => player.name),
-  }; */
+export default PlayerGoalsPerGame;

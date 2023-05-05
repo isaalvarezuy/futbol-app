@@ -32,7 +32,7 @@ const Modal = ({
             {title}
           </Paragraph>
           <Paragraph>{description}</Paragraph>
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-between gap-2 w-full">
             {secondaryButton}
 
             {primaryButton}

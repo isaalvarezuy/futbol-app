@@ -1,4 +1,5 @@
 import { Team } from "@/types/Team";
+import { playersAdapter } from "./players.adapter";
 
 export const teamAdapter = (t: any) => {
   const adaptedTeam: Team = {
@@ -15,7 +16,7 @@ export const teamAdapter = (t: any) => {
     points: t.games * 3 + t.ties,
     lastFiveGames: [],
     gameHistory: t.gameHistory,
-    players: t.players,
+    players: playersAdapter(t.players),
   };
 
   return adaptedTeam;

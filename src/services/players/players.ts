@@ -11,3 +11,8 @@ export const addPlayer = async (body: FormData) => {
 
   return response;
 };
+
+export const deletePlayer = async (id: string) => {
+  const response = await client.delete(`/players/${id}`);
+  return response;
+};

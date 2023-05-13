@@ -35,7 +35,7 @@ const DeleteTeamModal = ({ isOpen, setIsOpen, team }: Props) => {
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       title="Delete team"
-      description={`Are you sure you want to delete ${team.name}, and all their data? This action cannot be undone.`}
+      description={`Are you sure you want to delete ${team.name}, and its ${team.players.length} players? This action cannot be undone.`}
       icon={<ModalIconWrapper Icon={Trash2} type="error" />}
       primaryButton={primaryButton}
       secondaryButton={secondaryButton}

@@ -3,5 +3,5 @@ export interface Player {
   number: number;
   goals: number;
   id: string;
-  imgUrl: string;
+  photo: string;
 }

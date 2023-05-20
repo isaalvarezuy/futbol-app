@@ -19,7 +19,6 @@ const LoggedInLayout = () => {
       updateTeams(data);
     },
   });
-  const { data: players } = useQuery(["get-players"], getPlayers);
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />

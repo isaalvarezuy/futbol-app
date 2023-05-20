@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { getPlayers, getTeams } from "@/services";
+import { getPlayers } from "@/services";
 import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import AddTeamForm from "@/components/AddTeamForm/AddTeamForm";
@@ -30,7 +30,7 @@ const Dashboard = () => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start col-span-4 grid-cols-4 gap-4 ">
+      <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
         <div className="col-span-4">
           <AddTeamForm />
         </div>

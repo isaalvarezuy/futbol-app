@@ -29,7 +29,6 @@ const LoggedInLayout = () => {
           <Route path="/my-team" element={<p> team</p>} />
           <Route path="/*" element={<p>404 ish</p>} />
         </Routes>
-        <ToastContainer />
       </Container>
     </div>
   );

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddTeamForm from "./components/AddTeamForm/AddTeamForm";
 import LoggedOutLayout from "./layouts/LoggedOutLayout";
 import LoginForm from "./components/LoginForm/LoginForm";
+import { ToastContainer } from "react-toastify";
 
 const LazyLoggedInLayout = lazy(
   () => import(/* webpackChunkName: "featureA" */ "./layouts/LoggedInLayout")
@@ -20,6 +21,7 @@ function App() {
             <Route path="/*" element={<LazyLoggedInLayout />} />
           </Routes>
         </BrowserRouter>
+        <ToastContainer />
       </Suspense>
     </QueryClientProvider>
   );

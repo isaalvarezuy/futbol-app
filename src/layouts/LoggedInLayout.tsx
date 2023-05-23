@@ -8,10 +8,11 @@ import { useQuery } from "react-query";
 import { getPlayers, getTeams } from "@/services";
 import { ToastContainer } from "react-toastify";
 import { useStore } from "@/hooks/useStore";
+import { useSession } from "@/hooks/useSession";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
-
+  const token = useSession((state) => state.token);
   const { data } = useQuery({
     queryKey: ["get-teams"],
     queryFn: getTeams,
@@ -19,6 +20,9 @@ const LoggedInLayout = () => {
       updateTeams(data);
     },
   });
+
+  if (!token) return <p>ooops</p>;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />

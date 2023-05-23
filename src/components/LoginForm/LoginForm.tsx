@@ -10,6 +10,7 @@ import { login } from "@/services/auth/login";
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { useNavigate } from "react-router-dom";
+import { useSession } from "@/hooks/useSession";
 
 const LoginForm = () => {
   const {
@@ -17,6 +18,8 @@ const LoginForm = () => {
     handleSubmit,
     register,
   } = useForm({ resolver: zodResolver(loginSchema) });
+
+  const updateToken = useSession((state) => state.updateToken);
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
@@ -28,16 +31,15 @@ const LoginForm = () => {
   };
 
   const navigate = useNavigate();
-  const goToDashboard = () => {
+  const goToDashboard = (data: any) => {
+    updateToken(data.data.token);
     navigate(`/dashboard`);
   };
 
   const { mutate, isLoading } = useMutation(login, {
     onError: handleError,
-    onSuccess: goToDashboard,
+    onSuccess: (data) => goToDashboard(data),
   });
-
-  console.log(errors);
 
   const onSubmit = (data: any) => {
     mutate(data);

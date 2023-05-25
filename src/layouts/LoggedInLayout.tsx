@@ -5,14 +5,16 @@ import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { useQuery } from "react-query";
-import { getPlayers, getTeams } from "@/services";
+import { getPlayers } from "@/services";
 import { ToastContainer } from "react-toastify";
 import { useStore } from "@/hooks/useStore";
 import { useSession } from "@/hooks/useSession";
+import { useTeams } from "@/services/teams/useTeams";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
-  const token = useSession((state) => state.token);
+  const { getTeams } = useTeams();
+
   const { data } = useQuery({
     queryKey: ["get-teams"],
     queryFn: getTeams,
@@ -21,7 +23,7 @@ const LoggedInLayout = () => {
     },
   });
 
-  if (!token) return <p>ooops</p>;
+  /* if (!token) return <p>ooops</p>; */
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -1,18 +1,6 @@
 import { Team } from "@/types/Team";
 import { useParams } from "react-router-dom";
 import TeamDetailsTable from "@/components/TeamDetailsTable/TeamDetailsTable";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from "chart.js";
-import { Pie } from "react-chartjs-2";
 
 import { Line } from "react-chartjs-2";
 import ChartWrapper from "@/components/ChartWrapper/ChartWrapper";
@@ -20,15 +8,16 @@ import AddGameForm from "../AddGameForm/AddGameForm";
 import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { useQuery } from "react-query";
-import { getTeam } from "@/services/teams/teams";
 import { useStore } from "@/hooks/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 
 import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
+import { useTeams } from "@/services/teams/useTeams";
 
 const TeamDetail = () => {
+  const { getTeam } = useTeams();
   const { id } = useParams();
   const teams = useStore((state) => state.teams);
   const { data: team, isLoading } = useQuery({

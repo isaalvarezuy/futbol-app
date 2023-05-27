@@ -13,11 +13,12 @@ import InputWrapper from "../InputWrapper/InputWrapper";
 import { playerSchema } from "@/schemas/player.schema";
 import { useEffect } from "react";
 import Paragraph from "../Paragraph/Paragraph";
-import { addPlayer } from "@/services/players/players";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
+import { usePlayers } from "@/hooks/services/players/usePlayers";
 
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
+  const { addPlayer } = usePlayers();
   const {
     register,
     handleSubmit,

@@ -5,7 +5,7 @@ import ModalIconWrapper from "./ModalIconWrapper";
 import { Team } from "@/types/Team";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
-import { useTeams } from "@/services/teams/useTeams";
+import { useTeams } from "@/hooks/services/teams/useTeams";
 
 interface Props {
   isOpen: boolean;

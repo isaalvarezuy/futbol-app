@@ -9,9 +9,10 @@ import Paragraph from "../Paragraph/Paragraph";
 import { IAddGameForm, ITeamGoalScorer } from "@/types/forms/AddGameForm";
 import { showNotification } from "@/utils/showNotification";
 import { useMutation, useQueryClient } from "react-query";
-import { addGame } from "@/services/games/games";
+import { useGames } from "@/hooks/services/games/useGames";
 
 const AddGameForm = ({ teams }: { teams: Team[] }) => {
+  const { addGame } = useGames();
   const methods = useForm({
     resolver: zodResolver(addGameSchema),
     defaultValues: {

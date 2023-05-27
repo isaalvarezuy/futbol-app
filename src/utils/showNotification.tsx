@@ -9,7 +9,6 @@ export const showNotification = (
   timeout: number,
   type: NotificationType
 ) => {
-  console.log("hola");
   toast(<Notification message={message} type={type} toast={toast} />, {
     autoClose: timeout,
     position: toast.POSITION.TOP_RIGHT,

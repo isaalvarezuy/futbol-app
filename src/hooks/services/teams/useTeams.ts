@@ -1,10 +1,12 @@
 import { teamAdapter } from "@/adapters/responses/team.adapter";
 import { teamsAdapter } from "@/adapters/responses/teams.adapter";
 import { useSession } from "@/hooks/useSession";
-import { client } from "@/services/axios";
+
 import { Team } from "@/types/Team";
+import { useAxios } from "../useAxios";
 
 export const useTeams = () => {
+  const { client } = useAxios();
   const token = useSession((store) => store.token);
 
   const getTeams = async (): Promise<Team[]> => {

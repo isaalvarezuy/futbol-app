@@ -14,7 +14,7 @@ import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
-import { useTeams } from "@/services/teams/useTeams";
+import { useTeams } from "@/hooks/services/teams/useTeams";
 
 const TeamDetail = () => {
   const { getTeam } = useTeams();

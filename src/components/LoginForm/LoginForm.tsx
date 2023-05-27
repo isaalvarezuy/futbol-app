@@ -6,12 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/login.schema";
 import InputNew from "../InputNew/InputNew";
 import { Eye, EyeOff } from "react-feather";
-import { login } from "@/services/auth/login";
+
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks/useSession";
 import Paragraph from "../Paragraph/Paragraph";
+import { useLogin } from "@/hooks/services/auth/useLogin";
 
 const LoginForm = () => {
   const {
@@ -19,6 +20,8 @@ const LoginForm = () => {
     handleSubmit,
     register,
   } = useForm({ resolver: zodResolver(loginSchema) });
+
+  const { login } = useLogin();
 
   const updateToken = useSession((state) => state.updateToken);
 
@@ -46,12 +49,14 @@ const LoginForm = () => {
     mutate(data);
   };
   return (
-    <div className="w-full"> 
+    <div className="w-full">
       <form
         className="flex flex-col gap-4 p-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Paragraph size={20} weight="semibold">Welcome back</Paragraph>
+        <Paragraph size={20} weight="semibold">
+          Welcome back
+        </Paragraph>
         <InputNew
           label="Username"
           type="text"

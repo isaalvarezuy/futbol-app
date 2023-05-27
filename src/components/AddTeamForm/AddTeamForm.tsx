@@ -4,7 +4,6 @@ import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";
 import Input from "../Input/Input";
 import { Shield } from "react-feather";
-import axios from "axios";
 import InputWrapper from "../InputWrapper/InputWrapper";
 import { useMutation, useQueryClient } from "react-query";
 import FileInput from "../FileInput/FileInput";
@@ -12,7 +11,7 @@ import { showNotification } from "@/utils/showNotification";
 import { teamSchema } from "@/schemas/team.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Paragraph from "../Paragraph/Paragraph";
-import { useTeams } from "@/services/teams/useTeams";
+import { useTeams } from "@/hooks/services/teams/useTeams";
 
 const AddTeamForm = () => {
   const { addTeam } = useTeams();

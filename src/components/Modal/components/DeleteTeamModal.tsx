@@ -4,8 +4,8 @@ import { Trash2 } from "react-feather";
 import ModalIconWrapper from "./ModalIconWrapper";
 import { Team } from "@/types/Team";
 import { useMutation, useQueryClient } from "react-query";
-import { deleteTeam } from "@/services/teams/teams";
 import { showNotification } from "@/utils/showNotification";
+import { useTeams } from "@/services/teams/useTeams";
 
 interface Props {
   isOpen: boolean;
@@ -13,6 +13,7 @@ interface Props {
   team: Team;
 }
 const DeleteTeamModal = ({ isOpen, setIsOpen, team }: Props) => {
+  const { deleteTeam } = useTeams();
   const queryClient = useQueryClient();
   const handleSuccess = () => {
     showNotification("Team was deleted succesfully", 500, "success");

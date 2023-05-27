@@ -6,6 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/login.schema";
 import InputNew from "../InputNew/InputNew";
 import { Eye, EyeOff } from "react-feather";
+import { login } from "@/services/auth/login";
+import { useMutation } from "react-query";
+import { showNotification } from "@/utils/showNotification";
+import { useNavigate } from "react-router-dom";
+import { useSession } from "@/hooks/useSession";
+import Paragraph from "../Paragraph/Paragraph";
 
 const LoginForm = () => {
   const {
@@ -14,19 +20,43 @@ const LoginForm = () => {
     register,
   } = useForm({ resolver: zodResolver(loginSchema) });
 
+  const updateToken = useSession((state) => state.updateToken);
+
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword((show) => !show);
   };
-  console.log(errors);
+
+  const handleError = ({ response }: any) => {
+    showNotification(response.data.error, 500, "error");
+  };
+
+  const navigate = useNavigate();
+  const goToDashboard = (data: any) => {
+    updateToken(data.data.token);
+    navigate(`/dashboard`);
+  };
+
+  const { mutate, isLoading } = useMutation(login, {
+    onError: handleError,
+    onSuccess: (data) => goToDashboard(data),
+  });
+
+  const onSubmit = (data: any) => {
+    mutate(data);
+  };
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <div className="w-full"> 
+      <form
+        className="flex flex-col gap-4 p-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Paragraph size={20} weight="semibold">Welcome back</Paragraph>
         <InputNew
-          label="Email"
+          label="Username"
           type="text"
-          error={errors["email"]}
-          {...register("email")}
+          error={errors["username"]}
+          {...register("username")}
         />
         <InputNew
           label="Password"
@@ -42,7 +72,9 @@ const LoginForm = () => {
           {...register("password")}
         />
 
-        <Button type="submit">click</Button>
+        <Button loading={isLoading} type="submit">
+          Login
+        </Button>
       </form>
     </div>
   );

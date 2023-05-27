@@ -13,7 +13,6 @@ import CustomLegend from "./CustomLegend";
 
 const TeamsGoalsPerGameChart = ({ teams }: { teams: Team[] }) => {
   const chartData = teams.map((t) => {
-    console.log(t);
     return {
       name: t.name,
       imgUrl: t.crest,

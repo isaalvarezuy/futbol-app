@@ -11,6 +11,7 @@ import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks/useSession";
+import Paragraph from "../Paragraph/Paragraph";
 
 const LoginForm = () => {
   const {
@@ -45,11 +46,12 @@ const LoginForm = () => {
     mutate(data);
   };
   return (
-    <div>
+    <div className="w-full"> 
       <form
         className="flex flex-col gap-4 p-4"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <Paragraph size={20} weight="semibold">Welcome back</Paragraph>
         <InputNew
           label="Username"
           type="text"

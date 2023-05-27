@@ -8,7 +8,6 @@ export const useTeams = () => {
   const token = useSession((store) => store.token);
 
   const getTeams = async (): Promise<Team[]> => {
-    console.log("hola");
     const response = await client.get("/teams");
     return teamsAdapter(response.data);
   };
@@ -19,7 +18,7 @@ export const useTeams = () => {
   const addTeam = async (body: FormData) => {
     const response = await client.post("/teams", body, {
       headers: {
-        Authorization: "Bearer",
+        Authorization: `Bearer ${token}`,
       },
     });
     return response;

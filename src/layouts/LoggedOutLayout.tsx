@@ -1,14 +1,16 @@
 import LoginForm from "@/components/LoginForm/LoginForm";
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 const LoggedOutLayout = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/*" element={<p>404 ish</p>} />
-      </Routes>
+    <div className="grid h-screen  grid-cols-12">
+      <section className="col-span-6 flex w-full items-center px-32">
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/*" element={<p>404 ish desde log out</p>} />
+        </Routes>
+      </section>
+      <section className="col-span-6 bg-red-100 h-full"></section>
     </div>
   );
 };

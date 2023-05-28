@@ -2,20 +2,20 @@ import { playersAdapter } from "@/adapters/responses/players.adapter";
 import { useAxios } from "../useAxios";
 
 export const usePlayers = () => {
-  const { client } = useAxios();
+  const { authenticatedAxios } = useAxios();
   const getPlayers = async () => {
-    const response = await client.get("/players");
+    const response = await authenticatedAxios.get("/players");
     return playersAdapter(response.data);
   };
 
   const addPlayer = async (body: FormData) => {
-    const response = await client.post("/players", body);
+    const response = await authenticatedAxios.post("/players", body);
 
     return response;
   };
 
   const deletePlayer = async (id: string) => {
-    const response = await client.delete(`/players/${id}`);
+    const response = await authenticatedAxios.delete(`/players/${id}`);
     return response;
   };
 

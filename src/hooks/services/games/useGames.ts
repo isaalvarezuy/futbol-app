@@ -1,9 +1,9 @@
 import { useAxios } from "../useAxios";
 
 export const useGames = () => {
-  const { client } = useAxios();
+  const { authenticatedAxios } = useAxios();
   const addGame = async (body: any) => {
-    const response = await client.post("/games", body);
+    const response = await authenticatedAxios.post("/games", body);
     return response;
   };
 

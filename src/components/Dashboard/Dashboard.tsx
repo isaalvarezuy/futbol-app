@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { getPlayers } from "@/services";
 import PlayersTable from "@/components/PlayersTable/PlayersTable";
 import StandingsTable from "@/components/StandingsTable/StandingsTable";
 import AddTeamForm from "@/components/AddTeamForm/AddTeamForm";
@@ -7,9 +6,11 @@ import DashboardSkeleton from "@/components/Skeletons/DashboardSkeleton";
 import { useStore } from "@/hooks/useStore";
 import TeamsGoalsPerGameChart from "../charts/TeamsGoalsPerGameChart";
 import ChartWrapper from "../ChartWrapper/ChartWrapper";
+import { usePlayers } from "@/hooks/services/players/usePlayers";
 
 const Dashboard = () => {
   const teams = useStore((state) => state.teams);
+  const { getPlayers } = usePlayers();
 
   const { data: players } = useQuery(["get-players"], getPlayers);
   if (!teams || !players) {

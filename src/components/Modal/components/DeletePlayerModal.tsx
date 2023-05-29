@@ -6,7 +6,7 @@ import Button from "@/components/Button/Button";
 import Modal from "../Modal";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
-import { deletePlayer } from "@/services/players/players";
+import { usePlayers } from "@/hooks/services/players/usePlayers";
 
 interface Props {
   isOpen: boolean;
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const DeletePlayerModal = ({ isOpen, setIsOpen, player }: Props) => {
+  const { deletePlayer } = usePlayers();
   const queryClient = useQueryClient();
   const handleSuccess = () => {
     showNotification(`${player.name} was deleted succesfully`, 500, "success");

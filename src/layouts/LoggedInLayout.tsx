@@ -1,20 +1,15 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
+import { useQuery } from "react-query";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import { useQuery } from "react-query";
-import { getPlayers } from "@/services";
-import { ToastContainer } from "react-toastify";
 import { useStore } from "@/hooks/useStore";
-import { useSession } from "@/hooks/useSession";
-import { useTeams } from "@/services/teams/useTeams";
+import { useTeams } from "@/hooks/services/teams/useTeams";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
   const { getTeams } = useTeams();
-  const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["get-teams"],

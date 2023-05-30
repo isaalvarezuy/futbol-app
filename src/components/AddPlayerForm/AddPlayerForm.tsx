@@ -9,13 +9,14 @@ import Input from "../Input/Input";
 import Select from "../Select/Select";
 import FileInput from "../FileInput/FileInput";
 import { Camera, Shield } from "react-feather";
-import InputWrapper from "../InputWrapper/InputWrapper";
+
 import { playerSchema } from "@/schemas/player.schema";
 import { useEffect } from "react";
 import Paragraph from "../Paragraph/Paragraph";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
+import FieldWrapper from "../FieldWrapper/FieldWrapper";
 
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const { addPlayer } = usePlayers();
@@ -72,9 +73,9 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
           </section>
         </section>
 
-        <InputWrapper label="Name">
+        <FieldWrapper label="Name">
           <Input errors={errors} type="text" {...register(`name`)} />
-        </InputWrapper>
+        </FieldWrapper>
         {hasErrors && (
           <Paragraph color="text-red-600">
             {errors[firstError]?.message as string}

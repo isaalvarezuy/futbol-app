@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";
 import Input from "../Input/Input";
 import { Shield } from "react-feather";
-import InputWrapper from "../InputWrapper/InputWrapper";
+import FieldWrapper from "../FieldWrapper/FieldWrapper";
 import { useMutation, useQueryClient } from "react-query";
 import FileInput from "../FileInput/FileInput";
 import { showNotification } from "@/utils/showNotification";
@@ -56,9 +56,9 @@ const AddTeamForm = () => {
           register={register("crest")}
           watcher={watch("crest")}
         />
-        <InputWrapper label="Team Name">
+        <FieldWrapper label="Team Name">
           <Input errors={errors} type="text" {...register(`name`)} />
-        </InputWrapper>
+        </FieldWrapper>
         {hasErrors && (
           <Paragraph color="text-red-600">
             {errors[firstError]?.message as string}

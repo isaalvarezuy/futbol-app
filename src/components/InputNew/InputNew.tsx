@@ -30,7 +30,7 @@ const InputNew = forwardRef(
         <div className="relative mt-2 rounded-md shadow-sm">
           {iconLeft && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <IconWrapper>{iconLeft}</IconWrapper>
+              <IconWrapper >{iconLeft}</IconWrapper>
             </div>
           )}
           <input
@@ -45,7 +45,7 @@ const InputNew = forwardRef(
           />
           {iconRight && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <IconWrapper>{iconRight}</IconWrapper>
+              <IconWrapper size={16}>{iconRight}</IconWrapper>
             </div>
           )}
         </div>

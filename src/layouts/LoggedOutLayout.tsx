@@ -6,7 +6,7 @@ const LoggedOutLayout = () => {
     <div className="grid h-screen  grid-cols-12">
       <section className="col-span-6 flex w-full items-center px-32">
         <Routes>
-          <Route path="/login" element={<LoginForm />} />
+          <Route  path="/" element={<LoginForm />} />
           <Route path="/*" element={<p>404 ish desde log out</p>} />
         </Routes>
       </section>

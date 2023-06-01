@@ -1,8 +1,5 @@
+import { Colors, Luminance } from "@/types/components/Colors";
 import classnames from "classnames";
-import React from "react";
-
-type Colors = "red" | "purple" | "blue" | "green" | "gray";
-type Luminance = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
 interface Props {
   children: string;

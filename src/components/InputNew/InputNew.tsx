@@ -1,16 +1,12 @@
 import {
   ComponentPropsWithoutRef,
-  ComponentType,
   ForwardedRef,
-  FunctionComponent,
   ReactElement,
   forwardRef,
 } from "react";
 import classnames from "classnames";
-import InputWrapper from "../InputWrapper/InputWrapper";
-import { injectProps } from "@/utils/injectProps";
-import { Icon, IconProps } from "react-feather";
-import { FieldError } from "react-hook-form";
+import FieldWrapper from "../FieldWrapper/FieldWrapper";
+import IconWrapper from "../IconWrapper/IconWrapper";
 
 interface InputProps {
   label?: string;
@@ -30,14 +26,13 @@ const InputNew = forwardRef(
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
-      <InputWrapper label={label} error={error}>
+      <FieldWrapper label={label} error={error}>
         <div className="relative mt-2 rounded-md shadow-sm">
           {iconLeft && (
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              {injectProps(iconLeft, { className: "h-4 w-4" })}
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+              <IconWrapper >{iconLeft}</IconWrapper>
             </div>
           )}
-
           <input
             ref={ref}
             className={classnames(
@@ -50,11 +45,11 @@ const InputNew = forwardRef(
           />
           {iconRight && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {injectProps(iconRight, { className: "h-4 w-4" })}
+              <IconWrapper size={16}>{iconRight}</IconWrapper>
             </div>
           )}
         </div>
-      </InputWrapper>
+      </FieldWrapper>
     );
   }
 );

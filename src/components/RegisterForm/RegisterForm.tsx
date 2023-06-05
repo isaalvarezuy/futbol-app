@@ -15,10 +15,16 @@ import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
 import Link from "../Link/Link";
 import FormWrapper from "../FormWrapper/FormWrapper";
+import Select from "../Select/Select";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {
     showNotification(response.data.error, 500, "error");
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => {
+    setShowPassword((show) => !show);
   };
 
   const onSubmit = (data: FieldValues) => {
@@ -31,7 +37,7 @@ const RegisterForm = () => {
           return (
             <>
               <Paragraph size={20} weight="semibold">
-                Welcome back
+                Create your account
               </Paragraph>
               <InputNew
                 label="Username"
@@ -39,11 +45,25 @@ const RegisterForm = () => {
                 error={errors["username"]}
                 {...register("username")}
               />
+              <InputNew
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                error={errors["password"]}
+                {...register("password")}
+                iconRight={
+                  !showPassword ? (
+                    <Eye onClick={toggleShowPassword} />
+                  ) : (
+                    <EyeOff onClick={toggleShowPassword} />
+                  )
+                }
+              />
+              {/* <Select /> */}
 
-              <Button type="submit">Login</Button>
+              <Button type="submit">Sign up</Button>
               <div className="flex gap-2">
-                <Paragraph>Dont have an account?</Paragraph>
-                <Link to="register">Sign Up</Link>
+                <Paragraph>Already have an account?</Paragraph>
+                <Link to="/">Log In</Link>
               </div>
             </>
           );

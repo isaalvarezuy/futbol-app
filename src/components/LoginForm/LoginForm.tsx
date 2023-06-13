@@ -9,10 +9,11 @@ import { Eye, EyeOff } from "react-feather";
 
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks/useSession";
 import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
+import Link from "../Link/Link";
 
 const LoginForm = () => {
   const {
@@ -80,6 +81,10 @@ const LoginForm = () => {
         <Button loading={isLoading} type="submit">
           Login
         </Button>
+        <div className="flex gap-2">
+          <Paragraph>Dont have an account?</Paragraph>
+          <Link to="register">Sign Up</Link>
+        </div>
       </form>
     </div>
   );

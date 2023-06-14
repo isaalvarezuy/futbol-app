@@ -15,7 +15,7 @@ import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
 import Link from "../Link/Link";
 import FormWrapper from "../FormWrapper/FormWrapper";
-import Select from "../Select/Select";
+import Select from "../SelectNew/Select";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {
@@ -58,7 +58,10 @@ const RegisterForm = () => {
                   )
                 }
               />
-              {/* <Select /> */}
+              <Select
+                {...register("test")}
+                options={[{ label: "1", value: "1" },{ label: "1", value: "1" }]}
+              />
 
               <Button type="submit">Sign up</Button>
               <div className="flex gap-2">

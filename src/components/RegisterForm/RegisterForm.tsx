@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Button from "../Button/Button";
 import { registerSchema } from "@/schemas/register.schema";
@@ -16,20 +16,9 @@ import { useStore } from "@/hooks/useStore";
 import { useQuery } from "react-query";
 
 const RegisterForm = () => {
-  const { getTeams } = useTeams();
-  const updateTeams = useStore((state) => state.updateTeams);
-
   const handleError = ({ response }: any) => {
     showNotification(response.data.error, 500, "error");
   };
-
-  const { data: teams } = useQuery({
-    queryKey: ["get-teams"],
-    queryFn: getTeams,
-    onSuccess: (data) => {
-      updateTeams(data);
-    },
-  });
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
@@ -43,7 +32,7 @@ const RegisterForm = () => {
   return (
     <div className="w-full">
       <FormWrapper schema={registerSchema} onSubmit={onSubmit}>
-        {({ register, errors }) => {
+        {({ register, errors, watch }) => {
           return (
             <>
               <Paragraph size={20} weight="semibold">
@@ -68,17 +57,6 @@ const RegisterForm = () => {
                   )
                 }
               />
-              {teams && (
-                <Select
-                  label="Team"
-                  {...register("team")}
-                  error={errors["password"]}
-                  options={[
-                    ...teams.map((t) => ({ label: t.name, value: t.id })),
-                    { value: "", label: "Create new team" },
-                  ]}
-                />
-              )}
 
               <Button type="submit">Sign up</Button>
               <div className="flex gap-2">

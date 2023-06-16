@@ -8,9 +8,10 @@ import {
   UseFormRegister,
   useForm,
 } from "react-hook-form";
+import { z } from "zod";
 
 type FormProps = {
-  schema: any;
+  schema: z.ZodObject<any>;
   onSubmit: SubmitHandler<FieldValues>;
   children: (methods: {
     errors: FieldErrors<FieldValues>;
@@ -21,11 +22,13 @@ type FormProps = {
 const FormWrapper = ({ schema, onSubmit, children }: FormProps) => {
   const methods = useForm();
 
+  type ValidationSchema = z.infer<typeof schema>;
+  
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm<ValidationSchema>({ resolver: zodResolver(schema) });
 
   return (
     <FormProvider {...methods}>

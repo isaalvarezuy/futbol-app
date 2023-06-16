@@ -10,29 +10,31 @@ import { showNotification } from "@/utils/showNotification";
 import Paragraph from "../Paragraph/Paragraph";
 import Link from "../Link/Link";
 import FormWrapper from "../FormWrapper/FormWrapper";
-import Select from "../SelectNew/Select";
-import { useTeams } from "@/hooks/services/teams/useTeams";
-import { useStore } from "@/hooks/useStore";
-import { useQuery } from "react-query";
+import { useRegister } from "@/hooks/services/auth/useRegister";
+import { useMutation } from "react-query";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {
     showNotification(response.data.error, 500, "error");
   };
 
+  const { register } = useRegister();
+
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword((show) => !show);
   };
 
+  const { mutate, isLoading } = useMutation(register);
   const onSubmit = (data: FieldValues) => {
     console.log(data);
+    mutate(data)
   };
 
   return (
     <div className="w-full">
       <FormWrapper schema={registerSchema} onSubmit={onSubmit}>
-        {({ register, errors, watch }) => {
+        {({ register, errors }) => {
           return (
             <>
               <Paragraph size={20} weight="semibold">
@@ -58,7 +60,7 @@ const RegisterForm = () => {
                 }
               />
 
-              <Button type="submit">Sign up</Button>
+              <Button type="submit" loading={isLoading}>Sign up</Button>
               <div className="flex gap-2">
                 <Paragraph>Already have an account?</Paragraph>
                 <Link to="/">Log In</Link>

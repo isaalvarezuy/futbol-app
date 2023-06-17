@@ -12,6 +12,7 @@ import Link from "../Link/Link";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import { useRegister } from "@/hooks/services/auth/useRegister";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {
@@ -25,10 +26,16 @@ const RegisterForm = () => {
     setShowPassword((show) => !show);
   };
 
-  const { mutate, isLoading } = useMutation(register);
+  const navigate = useNavigate();
+  const handleFormSuccess = () => {
+    navigate(`/dashboard`);
+  };
+
+  const { mutate, isLoading } = useMutation(register, {
+    onSuccess: handleFormSuccess,
+  });
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
-    mutate(data)
+    mutate(data);
   };
 
   return (
@@ -60,7 +67,9 @@ const RegisterForm = () => {
                 }
               />
 
-              <Button type="submit" loading={isLoading}>Sign up</Button>
+              <Button type="submit" loading={isLoading}>
+                Sign up
+              </Button>
               <div className="flex gap-2">
                 <Paragraph>Already have an account?</Paragraph>
                 <Link to="/">Log In</Link>

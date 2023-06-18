@@ -13,6 +13,7 @@ import FormWrapper from "../FormWrapper/FormWrapper";
 import { useRegister } from "@/hooks/services/auth/useRegister";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useSession } from "@/hooks/useSession";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {
@@ -26,14 +27,19 @@ const RegisterForm = () => {
     setShowPassword((show) => !show);
   };
 
+  const updateToken = useSession((state) => state.updateToken);
+
   const navigate = useNavigate();
-  const handleFormSuccess = () => {
-    navigate(`/dashboard`);
-  };
 
   const { mutate, isLoading } = useMutation(register, {
-    onSuccess: handleFormSuccess,
+    onError: ({ response }: any) =>
+      showNotification(response.data.error, 500, "error"),
+    onSuccess: (data) => {
+      updateToken(data.data.token);
+      navigate(`/dashboard`);
+    },
   });
+
   const onSubmit = (data: FieldValues) => {
     mutate(data);
   };

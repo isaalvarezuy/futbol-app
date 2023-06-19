@@ -36,14 +36,13 @@ const LoginForm = () => {
   };
 
   const navigate = useNavigate();
-  const goToDashboard = (data: any) => {
-    updateToken(data.data.token);
-    navigate(`/dashboard`);
-  };
 
   const { mutate, isLoading } = useMutation(login, {
     onError: handleError,
-    onSuccess: (data) => goToDashboard(data),
+    onSuccess: (data) => {
+      updateToken(data.data.token);
+      navigate(`/dashboard`);
+    },
   });
 
   const onSubmit = (data: any) => {

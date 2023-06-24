@@ -7,6 +7,7 @@ import {
   SubmitHandler,
   UseFormRegister,
   useForm,
+  useWatch,
 } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,6 +17,7 @@ type FormProps = {
   children: (methods: {
     errors: FieldErrors<FieldValues>;
     register: UseFormRegister<FieldValues>;
+    watch: any;
   }) => React.ReactNode;
 };
 
@@ -23,10 +25,11 @@ const FormWrapper = ({ schema, onSubmit, children }: FormProps) => {
   const methods = useForm();
 
   type ValidationSchema = z.infer<typeof schema>;
-  
+
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useForm<ValidationSchema>({ resolver: zodResolver(schema) });
 
@@ -36,7 +39,7 @@ const FormWrapper = ({ schema, onSubmit, children }: FormProps) => {
         className="flex flex-col gap-4 p-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {children({ register, errors })}
+        {children({ register, errors, watch })}
       </form>
     </FormProvider>
   );

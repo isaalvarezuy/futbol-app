@@ -21,7 +21,7 @@ interface SelectProps {
   iconLeft?: ReactElement;
   options: SelectOption[];
 }
-const SelectNew = forwardRef(
+const Select = forwardRef(
   (
     {
       label,
@@ -64,4 +64,4 @@ const SelectNew = forwardRef(
   }
 );
 
-export default SelectNew;
+export default Select;

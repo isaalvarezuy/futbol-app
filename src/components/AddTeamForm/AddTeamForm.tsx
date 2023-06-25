@@ -12,7 +12,7 @@ import { teamSchema } from "@/schemas/team.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Paragraph from "../Paragraph/Paragraph";
 import { useTeams } from "@/hooks/services/teams/useTeams";
-import FileInputNew from "../FileInput/FileInputNew";
+import FileInputNew from "../FileInput/FileInput";
 
 const AddTeamForm = () => {
   const { addTeam } = useTeams();
@@ -39,11 +39,11 @@ const AddTeamForm = () => {
   const firstError = Object.keys(errors)[0];
 
   const onSubmit = async (data: any) => {
-    console.log(data)
-   /*  const formData = new FormData();
+    console.log(data);
+    const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);
-    mutate(formData); */
+    mutate(formData);
   };
 
   return (
@@ -52,13 +52,12 @@ const AddTeamForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-2"
       >
-        <FileInputNew {...register("crest")} error={errors["crest"]} />
-        {/*  <FileInput
+        <FileInputNew
+          label="Crest"
           Placeholder={Shield}
-          label="crest"
-          register={register("crest")}
-          watcher={watch("crest")}
-        /> */}
+          {...register("crest")}
+          error={errors["crest"]}
+        />
         <FieldWrapper label="Team Name">
           <Input errors={errors} type="text" {...register(`name`)} />
         </FieldWrapper>

@@ -5,6 +5,7 @@ import React, {
   ComponentType,
   ForwardedRef,
   forwardRef,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -38,8 +39,14 @@ const FileInputNew = forwardRef(
       if (e.target.files && e.target.files[0]) {
         const previewUrl = URL.createObjectURL(e.target.files[0]);
         setPreview(previewUrl);
+      } else {
+        setPreview("")
       }
     };
+
+    useEffect(() => {
+      console.log(rest.value);
+    }, [rest.value]);
     return (
       <div className="flex gap-2 items-center">
         <input

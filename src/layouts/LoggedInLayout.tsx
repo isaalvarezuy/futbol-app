@@ -6,6 +6,7 @@ import TeamDetail from "@/components/TeamDetail/TeamDetail";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { useStore } from "@/hooks/useStore";
 import { useTeams } from "@/hooks/services/teams/useTeams";
+import UserTeam from "@/components/UserTeam/UserTeam";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
@@ -26,7 +27,7 @@ const LoggedInLayout = () => {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/detail/:id" element={<TeamDetail />} />
-          <Route path="/my-team" element={<p> team</p>} />
+          <Route path="/my-team" element={<UserTeam />} />
           <Route path="/*" element={<p>404 ish</p>} />
         </Routes>
       </Container>

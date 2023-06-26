@@ -18,6 +18,7 @@ import { showNotification } from "@/utils/showNotification";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
 import FieldWrapper from "../FieldWrapper/FieldWrapper";
 
+
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const { addPlayer } = usePlayers();
   const {
@@ -64,8 +65,8 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
           <FileInput
             Placeholder={Camera}
             label="photo"
-            register={register("photo")}
-            watcher={watch("photo")}
+            {...register("photo")}
+            error={errors["photo"]}
           />
           <section className="flex w-16 gap-1 items-center">
             #

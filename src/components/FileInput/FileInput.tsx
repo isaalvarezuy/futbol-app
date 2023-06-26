@@ -1,79 +1,92 @@
+import classnames from "classnames";
 import React, {
   ChangeEvent,
+  ComponentPropsWithoutRef,
   ComponentType,
+  ForwardedRef,
+  forwardRef,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { File, IconProps } from "react-feather";
 import Button from "../Button/Button";
+import { File, IconProps } from "react-feather";
 
-interface Props {
-  Placeholder?: ComponentType<IconProps>;
+interface FileInputProps {
   label?: string;
-  register?: any;
-  watcher?: any;
+  error?: any;
+  Placeholder?: ComponentType<IconProps>;
 }
-const FileInput = ({
-  Placeholder = File,
-  label = "file",
-  register,
-  watcher,
-}: Props) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [preview, setPreview] = useState("");
 
-  useEffect(() => {
-    if (watcher && watcher[0]) {
-      setPreview(URL.createObjectURL(watcher[0]));
-    }
-    if (!watcher) {
-      setPreview("");
-    }
-  }, [watcher]);
+const FileInputNew = forwardRef(
+  (
+    {
+      label = "File",
+      error,
+      Placeholder = File,
+      ...rest
+    }: ComponentPropsWithoutRef<"input"> & FileInputProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const handleClick = () => {
+      if (!inputRef.current) return;
+      inputRef.current.click();
+    };
+    const [preview, setPreview] = useState("");
 
-  const handleClick = () => {
-    if (!inputRef.current) return;
-    inputRef.current.click();
-  };
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const previewUrl = URL.createObjectURL(e.target.files[0]);
-      setPreview(previewUrl);
-    }
-    register?.onChange(e);
-  };
-  return (
-    <div>
-      <div className="flex gap-2">
+    const updateFilePreview = (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+        const previewUrl = URL.createObjectURL(e.target.files[0]);
+        setPreview(previewUrl);
+      } else {
+        setPreview("");
+      }
+    };
+
+    useEffect(() => {
+      if (!inputRef?.current?.files || !inputRef.current.files[0]) {
+        setPreview("");
+      }
+    }, [rest]);
+    return (
+      <div className="flex gap-2 items-center">
+        {rest.value}
+        <input
+          type="file"
+          ref={(e) => {
+            if (ref) {
+              if (typeof ref === "function") {
+                ref(e);
+              } else {
+                ref.current = e;
+              }
+            }
+            inputRef.current = e;
+          }}
+          className={classnames(
+            "hidden w-full h-10 px-3 py-2 text-sm border border-gray-200 rounded-md font-body",
+            error && "border-red-600"
+          )}
+          {...rest}
+          onChange={(e) => {
+            rest.onChange && rest.onChange(e);
+            updateFilePreview(e);
+          }}
+        />
         <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
           {!preview ? (
             <Placeholder className="h-5 w-5 text-gray-400" />
           ) : (
-            <img src={preview} className="h-7" />
+            <img src={preview} className="h-7" alt="Upload preview" />
           )}
         </div>
         <Button className="shrink-0" variant="secondary" onClick={handleClick}>
           {preview ? "Update" : "Upload"} {label}
         </Button>
       </div>
-      <input
-        type="file"
-        {...register}
-        ref={(e) => {
-          if (register) {
-            register?.ref(e);
-          }
-          inputRef.current = e;
-        }}
-        onChange={(e) => {
-          handleFileChange(e);
-        }}
-        multiple={false}
-        className="hidden"
-      />
-    </div>
-  );
-};
+    );
+  }
+);
 
-export default FileInput;
+export default FileInputNew;

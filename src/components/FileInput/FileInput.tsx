@@ -40,15 +40,18 @@ const FileInputNew = forwardRef(
         const previewUrl = URL.createObjectURL(e.target.files[0]);
         setPreview(previewUrl);
       } else {
-        setPreview("")
+        setPreview("");
       }
     };
 
     useEffect(() => {
-      console.log(rest.value);
-    }, [rest.value]);
+      if (!inputRef?.current?.files || !inputRef.current.files[0]) {
+        setPreview("");
+      }
+    }, [rest]);
     return (
       <div className="flex gap-2 items-center">
+        {rest.value}
         <input
           type="file"
           ref={(e) => {

@@ -18,7 +18,6 @@ const AddTeamForm = () => {
   const { addTeam } = useTeams();
   const handleFormSuccess = () => {
     reset();
-    console.log('hola ')
     queryClient.invalidateQueries("get-teams");
     showNotification("Team added correctly", 2000, "success");
   };

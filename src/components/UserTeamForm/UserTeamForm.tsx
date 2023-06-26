@@ -1,7 +1,6 @@
 import React from "react";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import Paragraph from "../Paragraph/Paragraph";
-import InputNew from "../InputNew/InputNew";
 import { userTeamSchema } from "@/schemas/userTeam.schema";
 import Button from "../Button/Button";
 import Select from "../SelectNew/Select";
@@ -30,7 +29,6 @@ const UserTeamForm = () => {
 
             <Select
               options={selectOptions}
-              label="team"
               error={errors["team"]}
               {...register("team")}
             />

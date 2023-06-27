@@ -51,7 +51,7 @@ const LoginForm = () => {
   return (
     <div className="w-full">
       <form
-        className="flex flex-col gap-4 p-4"
+        className="flex flex-col gap-2 p-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Paragraph size={20} weight="semibold">

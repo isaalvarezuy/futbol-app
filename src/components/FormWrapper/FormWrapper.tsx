@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
   FieldErrors,
   FieldValues,
   FormProvider,
   SubmitHandler,
   UseFormRegister,
+  UseFormWatch,
   useForm,
-  useWatch,
 } from "react-hook-form";
 import { z } from "zod";
 
@@ -18,6 +18,9 @@ type FormProps = {
   children: (methods: {
     errors: FieldErrors<FieldValues>;
     register: UseFormRegister<FieldValues>;
+    watch: UseFormWatch<{
+      [x: string]: any;
+    }>;
   }) => React.ReactNode;
 };
 
@@ -30,6 +33,7 @@ const FormWrapper = ({ schema, onSubmit, isSuccess, children }: FormProps) => {
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm<ValidationSchema>({ resolver: zodResolver(schema) });
 
@@ -38,14 +42,14 @@ const FormWrapper = ({ schema, onSubmit, isSuccess, children }: FormProps) => {
       reset();
     }
   }, [isSuccess, reset]);
-  
+
   return (
     <FormProvider {...methods}>
       <form
         className="flex flex-col gap-2 p-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {children({ register, errors })}
+        {children({ register, errors, watch })}
       </form>
     </FormProvider>
   );

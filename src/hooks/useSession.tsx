@@ -1,9 +1,9 @@
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import { create } from "zustand";
 
 type User = {
   username: string;
-  team?: string;
+  teamId?: string;
 };
 type State = {
   token: string | null;
@@ -12,6 +12,7 @@ type State = {
 
 type Action = {
   updateToken: (token: string) => void;
+  updateUser: (username: string, teamId: string) => void;
 };
 
 export const useSession = create<State & Action>()(
@@ -21,6 +22,9 @@ export const useSession = create<State & Action>()(
       token: null,
       updateToken: (token: string) => {
         set({ token });
+      },
+      updateUser: (username: string, teamId: string) => {
+        set({ user: { username, teamId } });
       },
     }),
     { name: "user-session" }

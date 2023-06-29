@@ -15,6 +15,8 @@ import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
 import { useTeams } from "@/hooks/services/teams/useTeams";
+import { useSession } from "@/hooks/useSession";
+import classNames from "classnames";
 
 const TeamDetail = () => {
   const { getTeam } = useTeams();
@@ -26,12 +28,19 @@ const TeamDetail = () => {
     enabled: !!id || !!teams,
   });
 
+  const userTeam = useSession((state) => state.user?.teamId);
+  const isUserTeam = userTeam === id;
   if (!team) {
     return <TeamDetailSkeleton />;
   }
 
   return (
-    <div className="grid grid-cols-12 gap-4 p-8 ">
+    <div
+      className={classNames(
+        "grid gap-4 p-8",
+        isUserTeam ? "grid-cols-12" : "grid-cols-8"
+      )}
+    >
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
         <div className="col-span-8">
           <TeamDetailsTable team={team} />
@@ -61,14 +70,16 @@ const TeamDetail = () => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
-        <div className="col-span-4">
-          {teams && <AddGameForm teams={teams} />}
+      {isUserTeam && (
+        <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
+          <div className="col-span-4">
+            {teams && <AddGameForm teams={teams} />}
+          </div>
+          <div className=" col-span-4 ">
+            {id && <AddPlayerForm teamId={id} />}
+          </div>
         </div>
-        <div className=" col-span-4 ">
-          {id && <AddPlayerForm teamId={id} />}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

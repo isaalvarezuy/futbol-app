@@ -6,8 +6,16 @@ import Button from "../Button/Button";
 import Select from "../SelectNew/Select";
 import { useStore } from "@/hooks/useStore";
 import AddTeamForm from "../AddTeamForm/AddTeamForm";
+import { useMutation } from "react-query";
+import { useUsers } from "@/hooks/services/users/useUsers";
+import { useSession } from "@/hooks/useSession";
+
 const UserTeamForm = () => {
   const teams = useStore((store) => store.teams);
+  const { addUserTeam } = useUsers();
+
+  const user = useSession((store) => store.user);
+
   const teamOptions = teams.map((team) => ({
     label: team.name,
     value: team.id,
@@ -16,8 +24,24 @@ const UserTeamForm = () => {
     ...teamOptions,
     { value: "create", label: "Create new team" },
   ];
+
+  const { mutate, isLoading } = useMutation(addUserTeam, {
+    onSuccess: () => console.log("success"),
+  });
+
   return (
-    <FormWrapper onSubmit={(data) => console.log(data)} schema={userTeamSchema}>
+    <FormWrapper
+      onSubmit={(data) => {
+        console.log(data);
+
+        const requestBody = {
+          username: user!.username,
+          teamId: data.team,
+        };
+        mutate(requestBody);
+      }}
+      schema={userTeamSchema}
+    >
       {({ register, errors, watch }) => {
         const team = watch("team");
         const showAddTeamForm = team === "create";

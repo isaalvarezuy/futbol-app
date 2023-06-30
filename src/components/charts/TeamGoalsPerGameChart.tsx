@@ -12,7 +12,6 @@ import { Team } from "@/types/Team";
 import CustomLegend from "./CustomLegend";
 
 const TeamGoalsPerGame = ({ team }: { team: Team }) => {
-  console.log(team,'from detail')
   const data = team.gameHistory.map((game) => ({
     name: game.opponent.name,
     imgUrl: game.opponent.imgUrl,

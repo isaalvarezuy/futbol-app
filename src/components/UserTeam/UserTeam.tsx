@@ -4,8 +4,6 @@ import UserTeamForm from "../UserTeamForm/UserTeamForm";
 
 const UserTeam = () => {
   const user = useSession((store) => store.user);
-  console.log(user)
-
   if (!user?.teamId) return <UserTeamForm />;
 
   return <div> team stats</div>;

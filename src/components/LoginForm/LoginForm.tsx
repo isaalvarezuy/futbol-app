@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "react-feather";
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
 import Link from "../Link/Link";
@@ -45,7 +45,10 @@ const LoginForm = () => {
     onSuccess: (data) => {
       console.log(data);
       updateToken(data.data.token);
-      updateUser(data.data.username, data.data.teamId)
+      const {
+        data: { teamId, username, id },
+      } = data;
+      updateUser(id, username, teamId);
       navigate(`/dashboard`);
     },
   });

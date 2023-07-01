@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 type User = {
   username: string;
+  id: string;
   teamId?: string;
 };
 type State = {
@@ -12,7 +13,7 @@ type State = {
 
 type Action = {
   updateToken: (token: string) => void;
-  updateUser: (username: string, teamId: string) => void;
+  updateUser: (id: string, username: string, teamId: string) => void;
 };
 
 export const useSession = create<State & Action>()(
@@ -23,8 +24,8 @@ export const useSession = create<State & Action>()(
       updateToken: (token: string) => {
         set({ token });
       },
-      updateUser: (username: string, teamId: string) => {
-        set({ user: { username, teamId } });
+      updateUser: (id: string, username: string, teamId: string) => {
+        set({ user: { id, username, teamId } });
       },
     }),
     { name: "user-session" }

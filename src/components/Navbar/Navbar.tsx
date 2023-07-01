@@ -1,7 +1,7 @@
 import React from "react";
 import NavbarItem from "@/components/NavbarItem/NavbarItem";
 import { Shield, Grid } from "react-feather";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 const Navbar = () => {
   const user = useSession((store) => store.user);
   return (

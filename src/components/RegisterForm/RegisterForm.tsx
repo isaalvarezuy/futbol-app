@@ -13,7 +13,7 @@ import FormWrapper from "../FormWrapper/FormWrapper";
 import { useRegister } from "@/hooks/services/auth/useRegister";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 
 const RegisterForm = () => {
   const handleError = ({ response }: any) => {

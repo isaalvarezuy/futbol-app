@@ -4,7 +4,7 @@ import Dashboard from "@/components/Dashboard/Dashboard";
 import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import { useTeams } from "@/hooks/services/teams/useTeams";
 import UserTeam from "@/components/UserTeam/UserTeam";
 

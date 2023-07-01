@@ -8,14 +8,14 @@ import AddGameForm from "../AddGameForm/AddGameForm";
 import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { useQuery } from "react-query";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 
 import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
 import { useTeams } from "@/hooks/services/teams/useTeams";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 import classNames from "classnames";
 
 const TeamDetail = () => {

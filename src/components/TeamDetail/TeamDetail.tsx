@@ -15,8 +15,8 @@ import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
 import { useTeams } from "@/hooks/services/teams/useTeams";
-import { useSession } from "@/hooks/store/useSession";
 import classNames from "classnames";
+import { useUserStore } from "@/hooks/store/useUserStore";
 
 const TeamDetail = () => {
   const { getTeam } = useTeams();
@@ -28,7 +28,7 @@ const TeamDetail = () => {
     enabled: !!id || !!teams,
   });
 
-  const userTeam = useSession((state) => state.user?.teamId);
+  const userTeam = useUserStore((store) => store.user?.team.id);
   const isUserTeam = userTeam === id;
   if (!team) {
     return <TeamDetailSkeleton />;

@@ -30,7 +30,6 @@ const AddTeamForm = () => {
     mutate(formData);
   };
 
-
   return (
     <CardWrapper title="Add Team">
       <FormWrapper
@@ -41,7 +40,6 @@ const AddTeamForm = () => {
         {({ register, errors }) => {
           const hasErrors = Object.keys(errors).length > 0;
           const firstError = Object.keys(errors)[0];
-          console.log(isSuccess);
           return (
             <>
               <FileInputNew

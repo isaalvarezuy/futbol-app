@@ -16,7 +16,7 @@ export const teamAdapter = (t: any) => {
     points: t.games * 3 + t.ties,
     lastFiveGames: [],
     gameHistory: t.gameHistory,
-    players: playersAdapter(t.players),
+    players: t.players ? playersAdapter(t.players) : [],
   };
 
   return adaptedTeam;

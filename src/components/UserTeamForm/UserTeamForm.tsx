@@ -4,17 +4,20 @@ import Paragraph from "../Paragraph/Paragraph";
 import { userTeamSchema } from "@/schemas/userTeam.schema";
 import Button from "../Button/Button";
 import Select from "../SelectNew/Select";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import AddTeamForm from "../AddTeamForm/AddTeamForm";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useUsers } from "@/hooks/services/users/useUsers";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 
 const UserTeamForm = () => {
   const teams = useStore((store) => store.teams);
   const { addUserTeam } = useUsers();
 
-  const user = useSession((store) => store.user);
+  const [user, updateUser] = useSession((store) => [
+    store.user,
+    store.updateUser,
+  ]);
 
   const teamOptions = teams.map((team) => ({
     label: team.name,
@@ -24,9 +27,9 @@ const UserTeamForm = () => {
     ...teamOptions,
     { value: "create", label: "Create new team" },
   ];
-
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(addUserTeam, {
-    onSuccess: () => console.log("success"),
+    onSuccess: (data) => queryClient.invalidateQueries({ queryKey: ["get-user"] }),
   });
 
   return (

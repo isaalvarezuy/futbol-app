@@ -1,3 +1,4 @@
+import { userAdapter } from "@/adapters/responses/user.adapter";
 import { useAxios } from "../useAxios";
 
 export const useUsers = () => {
@@ -10,5 +11,10 @@ export const useUsers = () => {
     return response;
   };
 
-  return { addUserTeam };
+  const getUser = async (id: string) => {
+    const response = await authenticatedAxios.get(`/users/${id}`);
+    return userAdapter(response.data);
+  };
+
+  return { addUserTeam, getUser };
 };

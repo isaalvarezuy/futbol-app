@@ -5,7 +5,7 @@ export const userAdapter = (u: any) => {
   const adaptedTeam: User = {
     id: u._id,
     username: u.username,
-    team: teamAdapter(u.team),
+    team: u.team && teamAdapter(u.team),
   };
 
   return adaptedTeam;

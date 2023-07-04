@@ -12,7 +12,7 @@ import {
 import { z } from "zod";
 
 type FormProps = {
-  schema: z.ZodObject<any>;
+  schema: z.ZodObject<any> | any;
   onSubmit: SubmitHandler<FieldValues>;
   isSuccess?: boolean;
   children: (methods: {

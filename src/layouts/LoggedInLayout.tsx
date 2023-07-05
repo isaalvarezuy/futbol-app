@@ -7,6 +7,9 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import { useStore } from "@/hooks/store/useStore";
 import { useTeams } from "@/hooks/services/teams/useTeams";
 import UserTeam from "@/components/UserTeam/UserTeam";
+import { useUsers } from "@/hooks/services/users/useUsers";
+import { useUserStore } from "@/hooks/store/useUserStore";
+import { useSession } from "@/hooks/store/useSession";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
@@ -18,6 +21,16 @@ const LoggedInLayout = () => {
     onSuccess: (data) => {
       updateTeams(data);
     },
+  });
+
+  const { getUser } = useUsers();
+  const updateUser = useUserStore((store) => store.updateUser);
+  const userId = useSession((store) => store.user!.id);
+
+  const { data: user } = useQuery({
+    queryKey: ["get-user", userId],
+    queryFn: () => getUser(userId),
+    onSuccess: (data) => updateUser(data),
   });
 
   return (

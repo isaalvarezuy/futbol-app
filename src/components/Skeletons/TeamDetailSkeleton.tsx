@@ -1,10 +1,15 @@
-import React from "react";
+import classNames from "classnames";
 import Loader from "../Loader/Loader";
 
-const TeamDetailSkeleton = () => {
+const TeamDetailSkeleton = ({ isUserTeam }: { isUserTeam: boolean }) => {
   return (
-    <div className="grid grid-cols-12 gap-4 p-8 h-screen ">
-      <div className="grid grid-cols-8 col-span-8 gap-4  ">
+    <div
+      className={classNames(
+        "grid gap-4 p-8 h-screen ",
+        isUserTeam ? "grid-cols-12" : "grid-cols-8"
+      )}
+    >
+      <div className="grid grid-cols-8 col-span-9 gap-4  ">
         <div className="col-span-8">
           <Loader />
         </div>
@@ -21,14 +26,16 @@ const TeamDetailSkeleton = () => {
           <Loader />
         </div>
       </div>
-      <div className="grid content-start grid-cols-3 col-span-4 gap-4 ">
-        <div className="h-32 col-span-4">
-          <Loader />
+      {isUserTeam && (
+        <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
+          <div className="h-32 col-span-4">
+            <Loader />
+          </div>
+          <div className="h-32 col-span-4">
+            <Loader />
+          </div>
         </div>
-        <div className="h-32 col-span-4">
-          <Loader />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

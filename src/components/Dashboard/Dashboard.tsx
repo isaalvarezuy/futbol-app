@@ -14,6 +14,7 @@ const Dashboard = () => {
   const { getPlayers } = usePlayers();
 
   const { data: players } = useQuery(["get-players"], getPlayers);
+  
   if (!teams || !players) {
     return <DashboardSkeleton />;
   }

@@ -18,9 +18,9 @@ import { useTeams } from "@/hooks/services/teams/useTeams";
 import classNames from "classnames";
 import { useUserStore } from "@/hooks/store/useUserStore";
 
-const TeamDetail = () => {
+const TeamDetail = ({ teamId }: { teamId?: string }) => {
   const { getTeam } = useTeams();
-  const { id } = useParams();
+  const id = useParams().id || teamId;
   const teams = useStore((state) => state.teams);
   const { data: team, isLoading } = useQuery({
     queryKey: ["get-team", id],
@@ -28,10 +28,10 @@ const TeamDetail = () => {
     enabled: !!id || !!teams,
   });
 
-  const userTeam = useUserStore((store) => store.user?.team.id);
+  const userTeam = useUserStore((store) => store.user?.team?.id);
   const isUserTeam = userTeam === id;
   if (!team) {
-    return <TeamDetailSkeleton />;
+    return <TeamDetailSkeleton isUserTeam={isUserTeam} />;
   }
 
   return (

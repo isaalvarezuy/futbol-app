@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "react-feather";
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
 import Link from "../Link/Link";
@@ -24,7 +24,10 @@ const LoginForm = () => {
 
   const { login } = useLogin();
 
-  const updateToken = useSession((state) => state.updateToken);
+  const [updateToken, updateUser] = useSession((state) => [
+    state.updateToken,
+    state.updateUser,
+  ]);
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
@@ -40,7 +43,12 @@ const LoginForm = () => {
   const { mutate, isLoading } = useMutation(login, {
     onError: handleError,
     onSuccess: (data) => {
+      console.log(data);
       updateToken(data.data.token);
+      const {
+        data: { teamId, username, id },
+      } = data;
+      updateUser(id, username, teamId);
       navigate(`/dashboard`);
     },
   });
@@ -51,7 +59,7 @@ const LoginForm = () => {
   return (
     <div className="w-full">
       <form
-        className="flex flex-col gap-4 p-4"
+        className="flex flex-col gap-2 p-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Paragraph size={20} weight="semibold">

@@ -8,17 +8,19 @@ import AddGameForm from "../AddGameForm/AddGameForm";
 import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import TeamPlayersTable from "../TeamPlayersTable/TeamPlayersTable";
 import { useQuery } from "react-query";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import TeamDetailSkeleton from "../Skeletons/TeamDetailSkeleton";
 
 import TeamGoalsPerGameChart from "../charts/TeamGoalsPerGameChart";
 import TeamResultsChart from "../charts/TeamResultsChart";
 import PlayerGoalsPerGame from "../charts/PlayerGoalsPerGameChart";
 import { useTeams } from "@/hooks/services/teams/useTeams";
+import classNames from "classnames";
+import { useUserStore } from "@/hooks/store/useUserStore";
 
-const TeamDetail = () => {
+const TeamDetail = ({ teamId }: { teamId?: string }) => {
   const { getTeam } = useTeams();
-  const { id } = useParams();
+  const id = useParams().id || teamId;
   const teams = useStore((state) => state.teams);
   const { data: team, isLoading } = useQuery({
     queryKey: ["get-team", id],
@@ -26,12 +28,19 @@ const TeamDetail = () => {
     enabled: !!id || !!teams,
   });
 
+  const userTeam = useUserStore((store) => store.user?.team?.id);
+  const isUserTeam = userTeam === id;
   if (!team) {
-    return <TeamDetailSkeleton />;
+    return <TeamDetailSkeleton isUserTeam={isUserTeam} />;
   }
 
   return (
-    <div className="grid grid-cols-12 gap-4 p-8 ">
+    <div
+      className={classNames(
+        "grid gap-4 p-8",
+        isUserTeam ? "grid-cols-12" : "grid-cols-8"
+      )}
+    >
       <div className="grid grid-cols-8 col-span-9 gap-4 content-start ">
         <div className="col-span-8">
           <TeamDetailsTable team={team} />
@@ -61,14 +70,16 @@ const TeamDetail = () => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
-        <div className="col-span-4">
-          {teams && <AddGameForm teams={teams} />}
+      {isUserTeam && (
+        <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
+          <div className="col-span-4">
+            {teams && <AddGameForm teams={teams} />}
+          </div>
+          <div className=" col-span-4 ">
+            {id && <AddPlayerForm teamId={id} />}
+          </div>
         </div>
-        <div className=" col-span-4 ">
-          {id && <AddPlayerForm teamId={id} />}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

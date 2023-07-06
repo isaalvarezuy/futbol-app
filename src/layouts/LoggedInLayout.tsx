@@ -4,9 +4,12 @@ import Dashboard from "@/components/Dashboard/Dashboard";
 import Container from "@/components/Container/Container";
 import TeamDetail from "@/components/TeamDetail/TeamDetail";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import { useTeams } from "@/hooks/services/teams/useTeams";
 import UserTeam from "@/components/UserTeam/UserTeam";
+import { useUsers } from "@/hooks/services/users/useUsers";
+import { useUserStore } from "@/hooks/store/useUserStore";
+import { useSession } from "@/hooks/store/useSession";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
@@ -20,6 +23,16 @@ const LoggedInLayout = () => {
     },
   });
 
+  const { getUser } = useUsers();
+  const updateUser = useUserStore((store) => store.updateUser);
+  const userId = useSession((store) => store.user!.id);
+
+  const { data: user } = useQuery({
+    queryKey: ["get-user", userId],
+    queryFn: () => getUser(userId),
+    onSuccess: (data) => updateUser(data),
+  });
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />
@@ -27,6 +40,7 @@ const LoggedInLayout = () => {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/detail/:id" element={<TeamDetail />} />
+          <Route path="/my-team/:id" element={<TeamDetail />} />
           <Route path="/my-team" element={<UserTeam />} />
           <Route path="/*" element={<p>404 ish</p>} />
         </Routes>

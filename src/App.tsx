@@ -5,7 +5,7 @@ import AddTeamForm from "./components/AddTeamForm/AddTeamForm";
 import LoggedOutLayout from "./layouts/LoggedOutLayout";
 import LoginForm from "./components/LoginForm/LoginForm";
 import { ToastContainer } from "react-toastify";
-import { useSession } from "./hooks/useSession";
+import { useSession } from "./hooks/store/useSession";
 
 const LazyLoggedInLayout = lazy(
   () => import(/* webpackChunkName: "featureA" */ "./layouts/LoggedInLayout")

@@ -1,6 +1,6 @@
 import { teamAdapter } from "@/adapters/responses/team.adapter";
 import { teamsAdapter } from "@/adapters/responses/teams.adapter";
-import { useSession } from "@/hooks/useSession";
+import { useSession } from "@/hooks/store/useSession";
 
 import { Team } from "@/types/Team";
 import { useAxios } from "../useAxios";

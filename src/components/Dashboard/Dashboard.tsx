@@ -8,6 +8,7 @@ import TeamsGoalsPerGameChart from "../charts/TeamsGoalsPerGameChart";
 import ChartWrapper from "../ChartWrapper/ChartWrapper";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
 import AddGameForm from "../AddGameForm/AddGameForm";
+import EmptyState from "../EmptyState/EmptyState";
 
 const Dashboard = () => {
   const teams = useStore((state) => state.teams);

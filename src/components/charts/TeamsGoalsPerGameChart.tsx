@@ -23,9 +23,6 @@ const TeamsGoalsPerGameChart = ({ teams }: { teams: Team[] }) => {
         goals: t.goalsFor / t.games,
       };
     });
-
-  console.log(chartData);
-
   return (
     <>
       {chartData.length ? (

@@ -22,7 +22,7 @@ const Dashboard = () => {
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 gap-4 col-span-9 ">
-        <div className="col-span-8">
+        <div className="col-span-9">
           <StandingsTable teams={teams} />
         </div>
         <div className="col-span-4 h-full">
@@ -34,7 +34,7 @@ const Dashboard = () => {
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
+      <div className="grid content-start grid-cols-4 col-span-3 gap-4 ">
         <div className="col-span-4">
           <AddTeamForm />
         </div>

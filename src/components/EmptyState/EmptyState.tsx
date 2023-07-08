@@ -5,7 +5,7 @@ import Paragraph from "../Paragraph/Paragraph";
 interface Props {
   icon: any;
   title: string;
-  description: string;
+  description?: string;
 }
 const EmptyState = ({ icon, title, description }: Props) => {
   return (
@@ -16,9 +16,11 @@ const EmptyState = ({ icon, title, description }: Props) => {
       <Paragraph size={16} weight="semibold" className="text-center">
         {title}
       </Paragraph>
-      <Paragraph size={14} className="text-center">
-        {description}
-      </Paragraph>
+      {description && (
+        <Paragraph size={14} className="text-center">
+          {description}
+        </Paragraph>
+      )}
     </div>
   );
 };

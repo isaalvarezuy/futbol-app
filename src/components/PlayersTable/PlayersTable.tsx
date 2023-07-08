@@ -3,13 +3,13 @@ import TableRow from "@/components/TableRow/TableRow";
 import TableWrapper from "@/components/TableWrapper/TableWrapper";
 import { Player } from "@/types/responses/Player";
 import EmptyState from "../EmptyState/EmptyState";
-import { ShieldOff } from "react-feather";
+import { UserX } from "react-feather";
 
 const PlayersTable = ({ players }: { players: Player[] }) => {
   const topScorers = players.slice(0, 5);
 
   return (
-    <TableWrapper >
+    <TableWrapper>
       {players.length ? (
         <table className="w-full">
           <thead>
@@ -42,7 +42,7 @@ const PlayersTable = ({ players }: { players: Player[] }) => {
         </table>
       ) : (
         <EmptyState
-          icon={<ShieldOff />}
+          icon={<UserX />}
           title={"No players have been added yet."}
           description={"Create your first player to see their stats."}
         />

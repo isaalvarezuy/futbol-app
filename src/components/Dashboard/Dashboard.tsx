@@ -25,18 +25,22 @@ const Dashboard = () => {
         <div className="col-span-8">
           <StandingsTable teams={teams} />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-3 h-full">
           <PlayersTable players={players} />
         </div>
-        <div className="col-span-5 h-60">
+        <div className="col-span-5">
           <ChartWrapper>
             <TeamsGoalsPerGameChart teams={teams} />
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start col-span-3 gap-4 ">
-        <AddTeamForm />
-        {teams && <AddGameForm teams={teams} />}
+      <div className="grid content-start grid-cols-4 col-span-4 gap-4 ">
+        <div className="col-span-4">
+          <AddTeamForm />
+        </div>
+        <div className="col-span-4">
+          <AddGameForm />
+        </div>
       </div>
     </div>
   );

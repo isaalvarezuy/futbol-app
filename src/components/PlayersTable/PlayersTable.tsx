@@ -9,7 +9,7 @@ const PlayersTable = ({ players }: { players: Player[] }) => {
   const topScorers = players.slice(0, 5);
 
   return (
-    <TableWrapper>
+    <TableWrapper >
       {players.length ? (
         <table className="w-full">
           <thead>

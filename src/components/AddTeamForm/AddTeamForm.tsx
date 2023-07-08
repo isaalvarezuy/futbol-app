@@ -23,7 +23,6 @@ const AddTeamForm = () => {
   const queryClient = useQueryClient();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);

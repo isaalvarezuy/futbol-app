@@ -25,10 +25,10 @@ const Dashboard = () => {
         <div className="col-span-8">
           <StandingsTable teams={teams} />
         </div>
-        <div className="col-span-3 h-full">
+        <div className="col-span-4 h-full">
           <PlayersTable players={players} />
         </div>
-        <div className="col-span-5">
+        <div className="col-span-4">
           <ChartWrapper>
             <TeamsGoalsPerGameChart teams={teams} />
           </ChartWrapper>

@@ -49,7 +49,7 @@ const LoginForm = () => {
         data: { teamId, username, id },
       } = data;
       updateUser(id, username, teamId);
-      navigate(`/dashboard`);
+      navigate(`/`);
     },
   });
 

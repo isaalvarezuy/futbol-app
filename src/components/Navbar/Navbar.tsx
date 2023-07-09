@@ -8,7 +8,7 @@ const Navbar = () => {
     <nav className="py-8">
       <ul>
         <NavbarItem
-          to="dashboard"
+          to=""
           label="Dashboard"
           icon={<Grid className="h-5" />}
         />

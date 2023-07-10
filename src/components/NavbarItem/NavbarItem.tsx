@@ -1,27 +1,42 @@
 import { ReactElement } from "react";
 import { NavLink } from "react-router-dom";
+import IconWrapper from "../IconWrapper/IconWrapper";
+import Paragraph from "../Paragraph/Paragraph";
+import classNames from "classnames";
 
 interface Props {
-  to: string;
   label: string;
   icon: ReactElement;
 }
-const NavbarItem = ({ to, label, icon }: Props) => {
-  const baseClasses =
-    "text-base font-medium px-4 py-3 rounded-md mb-3 w-full block flex gap-2 items-center";
-  const activeClasses =
-    "text-base font-medium px-4 py-3 rounded-md mb-2 bg-gray-700";
+
+type Options =
+  | { to: string; onClick?: undefined }
+  | { to?: undefined; onClick?: () => void };
+const NavbarItem = ({ to, label, icon, onClick }: Props & Options) => {
   return (
     <li>
-      <NavLink
-        to={to}
-        className={({ isActive }) =>
-          isActive ? `${baseClasses} ${activeClasses}` : baseClasses
-        }
-      >
-        {icon}
-        {label}
-      </NavLink>
+      {to ? (
+        <NavLink
+          to={to}
+          className={({ isActive }) =>
+            classNames(
+              "text-base font-medium px-4 py-3 rounded-md w-full flex gap-2 items-center hover:bg-gray-700",
+              isActive && "bg-gray-700"
+            )
+          }
+        >
+          {icon}
+          {label}
+        </NavLink>
+      ) : (
+        <button
+          className="text-base font-medium px-4 py-3 rounded-md w-full flex gap-2 items-center hover:bg-gray-700"
+          onClick={onClick}
+        >
+          <IconWrapper size={24}>{icon}</IconWrapper>
+          {label}
+        </button>
+      )}
     </li>
   );
 };

@@ -3,7 +3,7 @@ import TableCell from "@/components/TableCell/TableCell";
 import LastFiveGames from "@/components/LastFiveGames/LastFiveGames";
 import TableWrapper from "@/components/TableWrapper/TableWrapper";
 import StandingsTableActions from "@/components/StandingsTableActions/StandingsTableActions";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 
 const StandingsTable = ({ teams }: { teams: Team[] }) => {
   const tableHeaders = [
@@ -52,7 +52,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
                 wins,
                 goalDifference,
                 points,
-                lastFiveGames,
+                gameHistory
               } = team;
 
               return (
@@ -77,7 +77,7 @@ const StandingsTable = ({ teams }: { teams: Team[] }) => {
                   <TableCell>{goalDifference}</TableCell>
                   <TableCell>{points}</TableCell>
                   <TableCell>
-                    <LastFiveGames games={lastFiveGames} />
+                    <LastFiveGames games={gameHistory} />
                   </TableCell>
                   <TableCell className="flex items-center justify-center">
                     <StandingsTableActions team={team} />

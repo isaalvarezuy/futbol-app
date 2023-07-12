@@ -8,7 +8,7 @@ import {
   YAxis,
 } from "recharts";
 import CustomImageTick from "./CustomImageTick";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import CustomLegend from "./CustomLegend";
 import EmptyState from "../EmptyState/EmptyState";
 import { Database, Target } from "react-feather";

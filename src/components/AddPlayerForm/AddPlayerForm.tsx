@@ -1,4 +1,4 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";

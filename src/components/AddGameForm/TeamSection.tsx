@@ -1,6 +1,6 @@
 import { SelectOption } from "@/types/components/SelectOption";
 import { Player } from "@/types/responses/Player";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { getTeamPlayers, transformToSelectOption } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 import { Plus, Trash2 } from "react-feather";

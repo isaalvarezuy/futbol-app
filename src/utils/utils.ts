@@ -1,4 +1,4 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { SelectOption } from "@/types/components/SelectOption";
 import { Player } from "@/types/responses/Player";
 import { BaseObject } from "@/types/utils/BaseObject";

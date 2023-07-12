@@ -1,4 +1,4 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { create } from "zustand";
 
 type State = {

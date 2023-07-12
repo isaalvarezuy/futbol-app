@@ -2,7 +2,7 @@ import Button from "@/components/Button/Button";
 import Modal from "../Modal";
 import { Trash2 } from "react-feather";
 import ModalIconWrapper from "./ModalIconWrapper";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { useTeams } from "@/hooks/services/teams/useTeams";

@@ -1,4 +1,4 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import { useParams } from "react-router-dom";
 import TeamDetailsTable from "@/components/TeamDetailsTable/TeamDetailsTable";
 

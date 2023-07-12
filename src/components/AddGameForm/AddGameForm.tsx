@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import Button from "@/components/Button/Button";
 import CardWrapper from "@/components/CardWrapper/CardWrapper";
 import TeamSection from "./TeamSection";

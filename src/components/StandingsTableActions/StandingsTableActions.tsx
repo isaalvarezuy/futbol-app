@@ -2,7 +2,7 @@ import { ExternalLink, Trash2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import DeleteTeamModal from "../Modal/components/DeleteTeamModal";
 import { useState } from "react";
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 
 const StandingsTableActions = ({ team }: { team: Team }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

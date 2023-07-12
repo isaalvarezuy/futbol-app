@@ -1,22 +1,8 @@
-import {
-  TeamFromResponse,
-  PossibleResultsFromResponse,
-} from "@/types/responses/Team";
-import { Team, PossibleResults } from "@/types/Team";
+import { TeamFromResponse } from "@/types/responses/Team";
+import { Team } from "@/types/models/Team";
 
-export const teamsAdapter = (teams: any) => {
-  const adaptedTeams = teams.map((t: any) => {
-    const gameLabelMapper = {
-      p: "LOSS",
-      e: "TIE",
-      g: "WIN",
-    };
-
-    const lastFiveGames = t.gameHistory.slice(-5);
-    const lastFiveGamesMapped = lastFiveGames.map(
-      (result: PossibleResultsFromResponse) => gameLabelMapper[result]
-    );
-
+export const teamsAdapter = (teams: TeamFromResponse[]) => {
+  const adaptedTeams = teams.map((t: TeamFromResponse) => {
     const adaptedTeam: Team = {
       id: t._id,
       name: t.name,
@@ -29,7 +15,6 @@ export const teamsAdapter = (teams: any) => {
       wins: t.wins,
       goalDifference: t.goalsFor - t.goalsAgainst,
       points: t.wins * 3 + t.ties,
-      lastFiveGames: lastFiveGamesMapped as PossibleResults[],
       gameHistory: t.gameHistory,
       players: t.players.map(({ _id, ...p }: any) => {
         return { ...p, id: _id };

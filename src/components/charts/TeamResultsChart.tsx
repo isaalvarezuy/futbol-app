@@ -1,4 +1,5 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
+import React from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 import CustomLegend from "./CustomLegend";
 import EmptyState from "../EmptyState/EmptyState";

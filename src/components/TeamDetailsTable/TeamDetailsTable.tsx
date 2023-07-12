@@ -1,4 +1,4 @@
-import { Team } from "@/types/Team";
+import { Team } from "@/types/models/Team";
 import React from "react";
 import LastFiveGames from "../LastFiveGames/LastFiveGames";
 import TableCell from "../TableCell/TableCell";

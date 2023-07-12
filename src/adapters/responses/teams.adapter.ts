@@ -16,9 +16,7 @@ export const teamsAdapter = (teams: TeamFromResponse[]) => {
       goalDifference: t.goalsFor - t.goalsAgainst,
       points: t.wins * 3 + t.ties,
       gameHistory: t.gameHistory,
-      players: t.players.map(({ _id, ...p }: any) => {
-        return { ...p, id: _id };
-      }),
+      players: t.players,
     };
     return adaptedTeam;
   });

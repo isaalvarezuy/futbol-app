@@ -1,7 +1,7 @@
 import { SelectOption } from "@/types/components/SelectOption";
 import { forwardRef } from "@/utils/fowardRef";
 import { Combobox, Transition } from "@headlessui/react";
-import { ForwardedRef, Fragment, useEffect, useState } from "react";
+import { ForwardedRef, Fragment,  useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useController } from "react-hook-form";
 

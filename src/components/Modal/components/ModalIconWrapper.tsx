@@ -1,11 +1,13 @@
+import IconWrapper from "@/components/IconWrapper/IconWrapper";
 import { NotificationType } from "@/types/components/NotificationType";
 import classnames from "classnames";
+import { ReactElement } from "react";
 
 interface Props {
-  Icon: any;
+  icon: ReactElement;
   type: NotificationType;
 }
-const ModalIconWrapper = ({ Icon, type }: Props) => {
+const ModalIconWrapper = ({ icon, type }: Props) => {
   const colorMapper = {
     warning: "text-yellow-600 bg-yellow-100",
     error: "text-red-600 bg-red-100",
@@ -19,7 +21,7 @@ const ModalIconWrapper = ({ Icon, type }: Props) => {
         colorMapper[type]
       )}
     >
-      <Icon className="h-5 w-5" />
+      <IconWrapper size={20}>{icon}</IconWrapper>
     </div>
   );
 };

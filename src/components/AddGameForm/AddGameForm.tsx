@@ -10,8 +10,10 @@ import { IAddGameForm, ITeamGoalScorer } from "@/types/forms/AddGameForm";
 import { showNotification } from "@/utils/showNotification";
 import { useMutation, useQueryClient } from "react-query";
 import { useGames } from "@/hooks/services/games/useGames";
+import { useStore } from "@/hooks/store/useStore";
 
-const AddGameForm = ({ teams }: { teams: Team[] }) => {
+const AddGameForm = () => {
+  const teams = useStore((state) => state.teams);
   const { addGame } = useGames();
   const methods = useForm({
     resolver: zodResolver(addGameSchema),

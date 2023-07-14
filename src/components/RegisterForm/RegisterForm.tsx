@@ -36,7 +36,7 @@ const RegisterForm = () => {
       showNotification(response.data.error, 500, "error"),
     onSuccess: (data) => {
       updateToken(data.data.token);
-      navigate(`/dashboard`);
+      navigate(`/`);
     },
   });
 

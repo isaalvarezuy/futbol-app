@@ -8,6 +8,7 @@ import TeamsGoalsPerGameChart from "../charts/TeamsGoalsPerGameChart";
 import ChartWrapper from "../ChartWrapper/ChartWrapper";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
 import AddGameForm from "../AddGameForm/AddGameForm";
+import EmptyState from "../EmptyState/EmptyState";
 
 const Dashboard = () => {
   const teams = useStore((state) => state.teams);
@@ -21,21 +22,25 @@ const Dashboard = () => {
   return (
     <div className="grid grid-cols-12 gap-4 p-8 ">
       <div className="grid grid-cols-8 gap-4 col-span-9 ">
-        <div className="col-span-8">
+        <div className="col-span-9">
           <StandingsTable teams={teams} />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-4 h-full">
           <PlayersTable players={players} />
         </div>
-        <div className="col-span-5 h-60">
+        <div className="col-span-4">
           <ChartWrapper>
             <TeamsGoalsPerGameChart teams={teams} />
           </ChartWrapper>
         </div>
       </div>
-      <div className="grid content-start col-span-3 gap-4 ">
-        <AddTeamForm />
-        {teams && <AddGameForm teams={teams} />}
+      <div className="grid content-start grid-cols-4 col-span-3 gap-4 ">
+        <div className="col-span-4">
+          <AddTeamForm />
+        </div>
+        <div className="col-span-4">
+          <AddGameForm />
+        </div>
       </div>
     </div>
   );

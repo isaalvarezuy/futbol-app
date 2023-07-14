@@ -73,7 +73,7 @@ const TeamDetail = ({ teamId }: { teamId?: string }) => {
       {isUserTeam && (
         <div className="grid content-start grid-cols-3 col-span-3 gap-4 ">
           <div className="col-span-4">
-            {teams && <AddGameForm teams={teams} />}
+            <AddGameForm />
           </div>
           <div className=" col-span-4 ">
             {id && <AddPlayerForm teamId={id} />}

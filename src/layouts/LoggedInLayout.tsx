@@ -10,6 +10,7 @@ import UserTeam from "@/components/UserTeam/UserTeam";
 import { useUsers } from "@/hooks/services/users/useUsers";
 import { useUserStore } from "@/hooks/store/useUserStore";
 import { useSession } from "@/hooks/store/useSession";
+import Page404 from "@/components/404/404";
 
 const LoggedInLayout = () => {
   const updateTeams = useStore((state) => state.updateTeams);
@@ -38,11 +39,11 @@ const LoggedInLayout = () => {
       <Sidebar />
       <Container>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/detail/:id" element={<TeamDetail />} />
           <Route path="/my-team/:id" element={<TeamDetail />} />
           <Route path="/my-team" element={<UserTeam />} />
-          <Route path="/*" element={<p>404 ish</p>} />
+          <Route path="/*" element={<Page404 />} />
         </Routes>
       </Container>
     </div>

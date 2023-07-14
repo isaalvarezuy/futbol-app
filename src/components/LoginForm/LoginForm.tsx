@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import Input from "../Input/Input";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { FieldValues,  useForm } from "react-hook-form";
 import Button from "../Button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/login.schema";
@@ -9,7 +8,7 @@ import { Eye, EyeOff } from "react-feather";
 
 import { useMutation } from "react-query";
 import { showNotification } from "@/utils/showNotification";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks/store/useSession";
 import Paragraph from "../Paragraph/Paragraph";
 import { useLogin } from "@/hooks/services/auth/useLogin";
@@ -53,7 +52,7 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FieldValues) => {
     mutate(data);
   };
   return (

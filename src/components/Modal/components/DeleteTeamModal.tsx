@@ -6,10 +6,11 @@ import { Team } from "@/types/models/Team";
 import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { useTeams } from "@/hooks/services/teams/useTeams";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: any;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   team: Team;
 }
 const DeleteTeamModal = ({ isOpen, setIsOpen, team }: Props) => {

@@ -10,6 +10,7 @@ import Paragraph from "../Paragraph/Paragraph";
 import { useTeams } from "@/hooks/services/teams/useTeams";
 import FileInputNew from "../FileInput/FileInput";
 import FormWrapper from "../FormWrapper/FormWrapper";
+import { FieldValues } from "react-hook-form";
 
 const AddTeamForm = () => {
   const { addTeam } = useTeams();
@@ -22,7 +23,7 @@ const AddTeamForm = () => {
   });
   const queryClient = useQueryClient();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FieldValues) => {
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);

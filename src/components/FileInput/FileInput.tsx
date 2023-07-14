@@ -11,10 +11,11 @@ import React, {
 } from "react";
 import Button from "../Button/Button";
 import { File, IconProps } from "react-feather";
+import { FieldError, FieldErrors, FieldValues } from "react-hook-form";
 
 interface FileInputProps {
   label?: string;
-  error?: any;
+  error?: FieldErrors<FieldValues> | FieldError;
   Placeholder?: ComponentType<IconProps>;
 }
 

@@ -1,10 +1,10 @@
 import { Dialog } from "@headlessui/react";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import Paragraph from "../Paragraph/Paragraph";
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: any;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   title: string;
   description: string;
   icon?: ReactNode;

@@ -13,6 +13,7 @@ import Input from "../Input/Input";
 import { Shield } from "react-feather";
 import CardWrapper from "../CardWrapper/CardWrapper";
 import { useTeams } from "@/hooks/services/teams/useTeams";
+import { FieldValues } from "react-hook-form";
 
 const UserTeamForm = () => {
   const teams = useStore((store) => store.teams);
@@ -57,7 +58,7 @@ const UserTeamForm = () => {
     }
   );
 
-  const createNewTeam = (data: any) => {
+  const createNewTeam = (data: FieldValues) => {
     const formData = new FormData();
     formData.append("crest", data.crest[0]);
     formData.append("name", data.name);

@@ -2,7 +2,7 @@ import { Team } from "@/types/models/Team";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../Button/Button";
 import CardWrapper from "../CardWrapper/CardWrapper";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "../Input/Input";
@@ -17,7 +17,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { showNotification } from "@/utils/showNotification";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
 import FieldWrapper from "../FieldWrapper/FieldWrapper";
-
 
 const AddPlayerForm = ({ teamId }: { teamId: string }) => {
   const { addPlayer } = usePlayers();
@@ -43,7 +42,7 @@ const AddPlayerForm = ({ teamId }: { teamId: string }) => {
     onError: () => console.log("error"),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("photo", data.photo[0]);

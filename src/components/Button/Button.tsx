@@ -25,17 +25,19 @@ const Button = forwardRef(
       secondary:
         "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 disabled:opacity-40",
     };
+    const { className } = rest;
 
     return (
       <button
         ref={ref}
         type={type}
+        {...rest}
         className={classNames(
           "px-3 py-2 h-9 text-sm font-medium font-body rounded-md transition-all flex items-center gap-1 justify-center",
-          classesMapper[variant]
+          classesMapper[variant],
+          className
         )}
         disabled={disabled}
-        {...rest}
       >
         {loading ? <Spinner variant={variant} /> : children}
       </button>

@@ -8,7 +8,7 @@ const Navbar = () => {
     <nav className="py-8 flex flex-col h-full justify-between">
       <ul>
         <NavbarItem
-          to=""
+          to="/"
           label="Dashboard"
           icon={<Grid className="h-5" />}
         />

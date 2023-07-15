@@ -11,17 +11,25 @@ import { showNotification } from "@/utils/showNotification";
 import { useMutation, useQueryClient } from "react-query";
 import { useGames } from "@/hooks/services/games/useGames";
 import { useStore } from "@/hooks/store/useStore";
+import { useUserStore } from "@/hooks/store/useUserStore";
+import { useEffect } from "react";
+import EmptyState from "../EmptyState/EmptyState";
+import { ShieldOff } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 const AddGameForm = () => {
   const teams = useStore((state) => state.teams);
+  const userTeam = useUserStore((store) => store.user?.team);
+  const navigate = useNavigate();
+
   const { addGame } = useGames();
   const methods = useForm({
     resolver: zodResolver(addGameSchema),
     defaultValues: {
-      team1: { label: teams[0]?.name, value: teams[0]?.id },
+      team1: { label: userTeam?.name || "", value: userTeam?.id || "" },
       team1GoalAmount: "0",
       team1GoalScorers: [],
-      team2: { label: teams[1]?.name, value: teams[1]?.id },
+      team2: { label: "", value: "" },
       team2GoalAmount: "0",
       team2GoalScorers: [],
     },
@@ -32,7 +40,20 @@ const AddGameForm = () => {
     reset,
   } = methods;
 
+  useEffect(() => {
+    const otherTeams = teams.filter((team) => team.id !== userTeam?.id);
+    reset({
+      team1: { label: userTeam?.name || "", value: userTeam?.id || "" },
+      team1GoalAmount: "0",
+      team1GoalScorers: [],
+      team2: { label: otherTeams[0]?.name, value: otherTeams[0]?.id },
+      team2GoalAmount: "0",
+      team2GoalScorers: [],
+    });
+  }, [teams, userTeam]);
+
   const queryClient = useQueryClient();
+
   const handleFormSuccess = () => {
     reset();
     queryClient.invalidateQueries("get-teams");
@@ -70,26 +91,40 @@ const AddGameForm = () => {
 
   return (
     <CardWrapper title="Add Game">
-      <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-2"
-        >
-          <TeamSection label="team1" teams={teams} />
-          <span className="font-body text-xs text-center font-medium text-gray-700">
-            vs.
-          </span>
-          <TeamSection label="team2" teams={teams} />
-          <Button loading={isLoading} type="submit">
-            Add Game
-          </Button>
-          {hasErrors && (
-            <Paragraph color="text-red-600">
-              {Object.values(errors)[0].message as string}
-            </Paragraph>
-          )}
-        </form>
-      </FormProvider>
+      {userTeam ? (
+        <FormProvider {...methods}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col w-full gap-2"
+          >
+            <TeamSection label="team1" teams={[userTeam]} />
+            <span className="font-body text-xs text-center font-medium text-gray-700">
+              vs.
+            </span>
+            <TeamSection
+              label="team2"
+              teams={teams.filter((team) => team.id !== userTeam.id)}
+            />
+            <Button loading={isLoading} type="submit">
+              Add Game
+            </Button>
+            {hasErrors && (
+              <Paragraph color="text-red-600">
+                {Object.values(errors)[0].message as string}
+              </Paragraph>
+            )}
+          </form>
+        </FormProvider>
+      ) : (
+        <EmptyState
+          icon={<ShieldOff />}
+          title={"Set your team first"}
+          description="Add your team first to be able to add games."
+          action={
+            <Button onClick={() => navigate("/my-team")}>Set team</Button>
+          }
+        />
+      )}
     </CardWrapper>
   );
 };

@@ -29,8 +29,8 @@ const TeamDetailsTable = ({ team }: { team: Team }) => {
     goalsAgainst,
     goalDifference,
     points,
-    lastFiveGames,
     crest,
+    gameHistory
   } = team;
   return (
     <TableWrapper>
@@ -70,7 +70,7 @@ const TeamDetailsTable = ({ team }: { team: Team }) => {
             <TableCell>{goalDifference}</TableCell>
             <TableCell>{points}</TableCell>
             <TableCell>
-              <LastFiveGames games={lastFiveGames} />
+              <LastFiveGames games={gameHistory} />
             </TableCell>
           </TableRow>
         </tbody>

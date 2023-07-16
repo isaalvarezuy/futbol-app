@@ -9,14 +9,7 @@ interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 
 const Button = forwardRef(
   (
-    {
-      children,
-      variant = "primary",
-      disabled = false,
-      type = "button",
-      loading = false,
-      ...rest
-    }: ButtonProps,
+    { children, variant = "primary", loading = false, ...rest }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
     const classesMapper = {

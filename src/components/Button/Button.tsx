@@ -23,14 +23,12 @@ const Button = forwardRef(
     return (
       <button
         ref={ref}
-        type={type}
         {...rest}
         className={classNames(
           "px-3 py-2 h-9 text-sm font-medium font-body rounded-md transition-all flex items-center gap-1 justify-center",
           classesMapper[variant],
           className
         )}
-        disabled={disabled}
       >
         {loading ? <Spinner variant={variant} /> : children}
       </button>

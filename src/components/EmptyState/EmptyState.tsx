@@ -3,7 +3,7 @@ import IconWrapper from "../IconWrapper/IconWrapper";
 import Paragraph from "../Paragraph/Paragraph";
 
 interface Props {
-  icon: any;
+  icon: ReactElement;
   title: string;
   description?: string;
   action?: ReactElement;

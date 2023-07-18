@@ -7,7 +7,6 @@ import TableWrapper from "../TableWrapper/TableWrapper";
 
 const TeamDetailsTable = ({ team }: { team: Team }) => {
   const tableHeaders = [
-    { label: "#", classes: "" },
     { label: "Team", classes: "pl-2 text-left" },
     { label: "Games", classes: "" },
     { label: "W", classes: "" },
@@ -50,7 +49,6 @@ const TeamDetailsTable = ({ team }: { team: Team }) => {
         </thead>
         <tbody>
           <TableRow>
-            <TableCell>?</TableCell>
             <TableCell className="pl-2 text-left">
               <div className="flex gap-2">
                 <img

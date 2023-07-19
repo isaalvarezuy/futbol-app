@@ -6,6 +6,8 @@ import LoggedOutLayout from "./layouts/LoggedOutLayout";
 import LoginForm from "./components/LoginForm/LoginForm";
 import { ToastContainer } from "react-toastify";
 import { useSession } from "./hooks/store/useSession";
+import Spinner from "./components/Spinner/Spinner";
+import LoadingScreen from "./components/views/Loading/LoadingScreen";
 
 const LazyLoggedInLayout = lazy(
   () => import(/* webpackChunkName: "featureA" */ "./layouts/LoggedInLayout")
@@ -16,10 +18,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<p className="bg-red-200">loading....</p>}>
+      <Suspense fallback={<LoadingScreen />}>
         <BrowserRouter>
           {token ? <LazyLoggedInLayout /> : <LoggedOutLayout />}
-        {/*   <Routes>
+          {/*   <Routes>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<LoggedOutLayout />} />
             <Route path="/*" element={<LazyLoggedInLayout />} />

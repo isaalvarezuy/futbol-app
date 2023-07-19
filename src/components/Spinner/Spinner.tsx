@@ -2,18 +2,29 @@ import classNames from "classnames";
 
 interface Props {
   variant: "primary" | "secondary";
+  size?: "sm" | "md" | "lg";
 }
-const Spinner = ({ variant }: Props) => {
-  const classesMapper = {
+const Spinner = ({ variant, size = "sm" }: Props) => {
+  const colorMapper = {
     primary: "text-gray-600  fill-white",
     secondary: "text-gray-300  fill-gray-800",
+  };
+
+  const sizeMapper = {
+    sm: "w-4 h-4",
+    md: "w-10 h-10",
+    lg: "w-32 h-32",
   };
 
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className={classNames("w-4 h-4 animate-spin", classesMapper[variant])}
+        className={classNames(
+          "animate-spin",
+          colorMapper[variant],
+          sizeMapper[size]
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

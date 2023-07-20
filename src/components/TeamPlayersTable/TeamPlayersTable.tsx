@@ -6,12 +6,15 @@ import TableWrapper from "../TableWrapper/TableWrapper";
 import { useState } from "react";
 import DeletePlayerModal from "../Modal/components/DeletePlayerModal";
 import EmptyState from "../EmptyState/EmptyState";
+import { useUserStore } from "@/hooks/store/useUserStore";
 
 interface Props {
   players: Player[];
   teamId: string;
 }
 const TeamPlayersTable = ({ players, teamId }: Props) => {
+  const userTeam = useUserStore((store) => store.user?.team?.id);
+  const isUserTeam = userTeam === teamId;
   const [showDeletePlayerModal, setShowDeletePlayerModal] = useState(false);
   return (
     <TableWrapper>
@@ -49,9 +52,12 @@ const TeamPlayersTable = ({ players, teamId }: Props) => {
                 </TableCell>
                 <TableCell className="text-right">{p.goals}</TableCell>
                 <TableCell className="text-right">
-                  <button onClick={() => setShowDeletePlayerModal(true)}>
-                    <Trash2 className="h-4 text-red-600 hover:text-red-400" />
-                  </button>
+                  {isUserTeam && (
+                    <button onClick={() => setShowDeletePlayerModal(true)}>
+                      <Trash2 className="h-4 text-red-600 hover:text-red-400" />
+                    </button>
+                  )}
+
                   <DeletePlayerModal
                     isOpen={showDeletePlayerModal}
                     setIsOpen={setShowDeletePlayerModal}

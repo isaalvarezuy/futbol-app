@@ -9,7 +9,7 @@ import { Button } from "ia-moonlight";
 import { useEffect } from "react";
 
 const AddGameForm = () => {
-  const { handleSubmit, register, control, setValue } = useForm();
+  const { handleSubmit, register, control, setValue } = useForm({});
 
   const { getTeams } = useTeams();
   const { data: teams } = useQuery({
@@ -19,7 +19,7 @@ const AddGameForm = () => {
 
   const { fields, append } = useFieldArray({
     control,
-    name: "test", // unique name for your Field Array
+    name: "goalScorers", // unique name for your Field Array
   });
 
   const onSubmit = (data) => {
@@ -27,15 +27,18 @@ const AddGameForm = () => {
   };
 
   const teamGoals = useWatch({ name: "goals1", control });
-  const teamGoalScorers = useWatch({ name: "test", control });
+  const goalScorers = useWatch({ name: "goalScorers", control });
+  const totalGoalsByGoalScorer = goalScorers?.reduce(
+    (total: number, player: typeof goalScorers[number]) =>
+      total + parseInt(player.goals),
+    0
+  );
 
   useEffect(() => {
-    if (!teamGoals) setValue("test", []);
+    if (!teamGoals) setValue("goalScorers", []);
   }, [teamGoals]);
 
-  console.log(teamGoals);
-  console.log(teamGoalScorers);
-
+  const canAddGoalScorer = totalGoalsByGoalScorer < teamGoals;
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,15 +55,21 @@ const AddGameForm = () => {
           </div>
         )}
         {fields.map((field, index) => (
-          <InputNew key={field.id} {...register(`test.${index}.value`)} />
+          <div className="flex" key={field.id}>
+            <InputNew {...register(`goalScorers.${index}.player`)} />
+            <InputNew
+              type="number"
+              {...register(`goalScorers.${index}.goals`)}
+            />
+          </div>
         ))}
         {teamGoals > 1 && (
           <Button
             variant="secondary"
             onClick={() => {
-              append({ test: "test" });
+              append({});
             }}
-            disabled={teamGoalScorers?.length >= teamGoals}
+            disabled={!canAddGoalScorer}
           >
             Add goal scorer
           </Button>

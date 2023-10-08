@@ -1,131 +1,73 @@
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Team } from "@/types/Team";
-import Button from "@/components/Button/Button";
-import CardWrapper from "@/components/CardWrapper/CardWrapper";
-import TeamSection from "./TeamSection";
-import { addGameSchema } from "@/schemas/addGame.schema";
-import Paragraph from "../Paragraph/Paragraph";
-import { IAddGameForm, ITeamGoalScorer } from "@/types/forms/AddGameForm";
-import { showNotification } from "@/utils/showNotification";
-import { useMutation, useQueryClient } from "react-query";
-import { useGames } from "@/hooks/services/games/useGames";
-import { useStore } from "@/hooks/store/useStore";
-import { useUserStore } from "@/hooks/store/useUserStore";
+import { useFieldArray, useForm } from "react-hook-form";
+import Select from "../SelectNew/Select";
+import { useQuery } from "react-query";
+import { useTeams } from "@/hooks/services/teams/useTeams";
+import InputNew from "../InputNew/InputNew";
+/* import {Button} from 'ia-moonlight' */
+import { useWatch } from "react-hook-form";
+import { Button } from "ia-moonlight";
 import { useEffect } from "react";
-import EmptyState from "../EmptyState/EmptyState";
-import { ShieldOff } from "react-feather";
-import { useNavigate } from "react-router-dom";
 
 const AddGameForm = () => {
-  const teams = useStore((state) => state.teams);
-  const userTeam = useUserStore((store) => store.user?.team);
-  const navigate = useNavigate();
+  const { handleSubmit, register, control, setValue } = useForm();
 
-  const { addGame } = useGames();
-  const methods = useForm({
-    resolver: zodResolver(addGameSchema),
-    defaultValues: {
-      team1: { label: userTeam?.name || "", value: userTeam?.id || "" },
-      team1GoalAmount: "0",
-      team1GoalScorers: [],
-      team2: { label: "", value: "" },
-      team2GoalAmount: "0",
-      team2GoalScorers: [],
-    },
+  const { getTeams } = useTeams();
+  const { data: teams } = useQuery({
+    queryKey: ["get-teams"],
+    queryFn: getTeams,
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = methods;
+
+  const { fields, append } = useFieldArray({
+    control,
+    name: "test", // unique name for your Field Array
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const teamGoals = useWatch({ name: "goals1", control });
+  const teamGoalScorers = useWatch({ name: "test", control });
 
   useEffect(() => {
-    const otherTeams = teams.filter((team) => team.id !== userTeam?.id);
-    reset({
-      team1: { label: userTeam?.name || "", value: userTeam?.id || "" },
-      team1GoalAmount: "0",
-      team1GoalScorers: [],
-      team2: { label: otherTeams[0]?.name, value: otherTeams[0]?.id },
-      team2GoalAmount: "0",
-      team2GoalScorers: [],
-    });
-  }, [teams, userTeam]);
+    if (!teamGoals) setValue("test", []);
+  }, [teamGoals]);
 
-  const queryClient = useQueryClient();
-
-  const handleFormSuccess = () => {
-    reset();
-    queryClient.invalidateQueries("get-teams");
-    queryClient.invalidateQueries("get-team");
-    showNotification("Game added correctly", 2000, "success");
-  };
-
-  const { mutate, isLoading } = useMutation(addGame, {
-    onSuccess: handleFormSuccess,
-  });
-
-  const formatGoalScorers = (scorers: ITeamGoalScorer[]) => {
-    const formattedScorers = scorers.map((p) => {
-      return {
-        player: p.player.value,
-        amount: Number(p.amount),
-      };
-    });
-    return JSON.stringify(formattedScorers);
-  };
-
-  const onSubmit = (data: IAddGameForm) => {
-    const requestBody = {
-      teamOneId: data.team1.value,
-      teamOneGoals: Number(data.team1GoalAmount),
-      teamOneGoalScorers: formatGoalScorers(data.team1GoalScorers),
-      teamTwoId: data.team2.value,
-      teamTwoGoals: Number(data.team2GoalAmount),
-      teamTwoGoalScorers: formatGoalScorers(data.team2GoalScorers),
-    };
-    mutate(requestBody);
-  };
-
-  const hasErrors = Object.keys(errors).length > 0;
+  console.log(teamGoals);
+  console.log(teamGoalScorers);
 
   return (
-    <CardWrapper title="Add Game">
-      {userTeam ? (
-        <FormProvider {...methods}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-full gap-2"
-          >
-            <TeamSection label="team1" teams={[userTeam]} />
-            <span className="font-body text-xs text-center font-medium text-gray-700">
-              vs.
-            </span>
-            <TeamSection
-              label="team2"
-              teams={teams.filter((team) => team.id !== userTeam.id)}
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {teams && (
+          <div className="flex gap-2">
+            <Select
+              options={teams?.map((team) => ({
+                value: team.id,
+                label: team.name,
+              }))}
+              {...register("team1")}
             />
-            <Button loading={isLoading} type="submit">
-              Add Game
-            </Button>
-            {hasErrors && (
-              <Paragraph color="text-red-600">
-                {Object.values(errors)[0].message as string}
-              </Paragraph>
-            )}
-          </form>
-        </FormProvider>
-      ) : (
-        <EmptyState
-          icon={<ShieldOff />}
-          title={"Set your team first"}
-          description="Add your team first to be able to add games."
-          action={
-            <Button onClick={() => navigate("/my-team")}>Set team</Button>
-          }
-        />
-      )}
-    </CardWrapper>
+            <InputNew className="w-10" {...register("goals1")} type="number" />
+          </div>
+        )}
+        {fields.map((field, index) => (
+          <InputNew key={field.id} {...register(`test.${index}.value`)} />
+        ))}
+        {teamGoals > 1 && (
+          <Button
+            variant="secondary"
+            onClick={() => {
+              append({ test: "test" });
+            }}
+            disabled={teamGoalScorers?.length >= teamGoals}
+          >
+            Add goal scorer
+          </Button>
+        )}
+        <button type="submit">click</button>
+      </form>
+    </div>
   );
 };
 

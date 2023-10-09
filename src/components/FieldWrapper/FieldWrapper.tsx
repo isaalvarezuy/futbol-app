@@ -9,7 +9,7 @@ interface Props {
 }
 const InputWrapper = ({ children, label, error }: Props) => {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-full">
       {label && (
         <label>
           <Paragraph size={14} weight="medium" color="text-gray-700">

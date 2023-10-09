@@ -20,6 +20,7 @@ interface SelectProps {
   error?: any;
   iconLeft?: ReactElement;
   options: SelectOption[];
+  containerClassName?: string;
 }
 const Select = forwardRef(
   (
@@ -28,12 +29,14 @@ const Select = forwardRef(
       error,
       iconLeft,
       options,
+      className,
+      containerClassName,
       ...rest
     }: ComponentPropsWithoutRef<"select"> & SelectProps,
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
     return (
-      <FieldWrapper label={label} error={error}>
+      <FieldWrapper label={label} error={error} >
         <div className="relative mt-2 rounded-md shadow-sm ">
           {iconLeft && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -45,7 +48,8 @@ const Select = forwardRef(
             className={classnames(
               "w-full h-10 px-3 py-2 text-sm border border-gray-200 rounded-md font-body  ",
               error && "border-red-600",
-              iconLeft && "pl-9"
+              iconLeft && "pl-9",
+              className
             )}
             {...rest}
           >

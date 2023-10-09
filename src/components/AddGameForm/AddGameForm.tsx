@@ -7,14 +7,16 @@ import InputNew from "../InputNew/InputNew";
 import { useWatch } from "react-hook-form";
 import { Button } from "ia-moonlight";
 import { useEffect } from "react";
+import { getTeamPlayers } from "@/utils/utils";
+import { Team } from "@/types/Team";
 
-const AddGameForm = () => {
-  const { handleSubmit, register, control, setValue } = useForm({});
-
-  const { getTeams } = useTeams();
-  const { data: teams } = useQuery({
-    queryKey: ["get-teams"],
-    queryFn: getTeams,
+const AddGameForm = ({ teams }: { teams: Team[] }) => {
+  const { handleSubmit, register, control, setValue } = useForm({
+    defaultValues: {
+      team: teams[0].id,
+      goals: 0,
+      goalScorers: [],
+    },
   });
 
   const { fields, append } = useFieldArray({
@@ -22,11 +24,12 @@ const AddGameForm = () => {
     name: "goalScorers", // unique name for your Field Array
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 
-  const teamGoals = useWatch({ name: "goals1", control });
+  const team = useWatch({ name: "team", control });
+  const teamGoals = useWatch({ name: "goals", control });
   const goalScorers = useWatch({ name: "goalScorers", control });
   const totalGoalsByGoalScorer = goalScorers?.reduce(
     (total: number, player: typeof goalScorers[number]) =>
@@ -34,14 +37,20 @@ const AddGameForm = () => {
     0
   );
 
+  const teamPlayers = getTeamPlayers(team, teams);
+  console.log(teamPlayers);
+
+  console.log(team);
   useEffect(() => {
     if (!teamGoals) setValue("goalScorers", []);
   }, [teamGoals]);
 
+  
+
   const canAddGoalScorer = totalGoalsByGoalScorer < teamGoals;
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         {teams && (
           <div className="flex gap-2">
             <Select
@@ -49,17 +58,25 @@ const AddGameForm = () => {
                 value: team.id,
                 label: team.name,
               }))}
-              {...register("team1")}
+              {...register("team")}
             />
-            <InputNew className="w-10" {...register("goals1")} type="number" />
+            <InputNew className="w-10" {...register("goals")} type="number" />
           </div>
         )}
         {fields.map((field, index) => (
-          <div className="flex" key={field.id}>
-            <InputNew {...register(`goalScorers.${index}.player`)} />
+          <div className="flex gap-2 w-full" key={field.id}>
+            <Select
+              className="w-full"
+              options={teamPlayers?.map((player) => ({
+                value: player.id,
+                label: player.name,
+              }))}
+          /*     {...register(`goalScorers.${index}.player`)} */
+            />
             <InputNew
+              className="w-10"
               type="number"
-              {...register(`goalScorers.${index}.goals`)}
+            /*   {...register(`goalScorers.${index}.goals`)} */
             />
           </div>
         ))}

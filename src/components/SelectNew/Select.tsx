@@ -36,7 +36,7 @@ const Select = forwardRef(
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
     return (
-      <FieldWrapper label={label} error={error} >
+      <FieldWrapper label={label} error={error} className={containerClassName}>
         <div className="relative mt-2 rounded-md shadow-sm ">
           {iconLeft && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">

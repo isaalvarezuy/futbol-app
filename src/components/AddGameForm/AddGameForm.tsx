@@ -45,8 +45,6 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
     if (!teamGoals) setValue("goalScorers", []);
   }, [teamGoals]);
 
-  
-
   const canAddGoalScorer = totalGoalsByGoalScorer < teamGoals;
   return (
     <div>
@@ -60,23 +58,26 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
               }))}
               {...register("team")}
             />
-            <InputNew className="w-10" {...register("goals")} type="number" />
+            <InputNew
+              containerClassName="w-16"
+              {...register("goals")}
+              type="number"
+            />
           </div>
         )}
         {fields.map((field, index) => (
           <div className="flex gap-2 w-full" key={field.id}>
             <Select
-              className="w-full"
               options={teamPlayers?.map((player) => ({
                 value: player.id,
                 label: player.name,
               }))}
-          /*     {...register(`goalScorers.${index}.player`)} */
+                  {...register(`goalScorers.${index}.player`)}
             />
             <InputNew
-              className="w-10"
+              containerClassName="w-16"
               type="number"
-            /*   {...register(`goalScorers.${index}.goals`)} */
+                {...register(`goalScorers.${index}.goals`)}
             />
           </div>
         ))}

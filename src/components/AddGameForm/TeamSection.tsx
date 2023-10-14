@@ -10,25 +10,31 @@ import { useEffect, useState } from "react";
 
 interface Props {
   teams: Team[];
+  id: number;
 }
 
-const TeamSection = ({ teams }: Props) => {
+const TeamSection = ({ teams, id }: Props) => {
+  const [goalScorerField, goalsField, teamField] = [
+    `goalScorers${id}`,
+    `goals${id}`,
+    `team${id}`,
+  ];
   const { register, control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "goalScorers",
+    name: goalScorerField,
   });
 
-  const teamGoals = useWatch({ name: "goals" });
-  const team = useWatch({ name: "team" });
+  const teamGoals = useWatch({ name: goalsField });
+  const team = useWatch({ name: teamField });
   const [teamPlayers, setTeamPlayers] = useState(getTeamPlayers(team, teams));
 
   useEffect(() => {
     setTeamPlayers(getTeamPlayers(team, teams));
-    setValue("goalScorers", []);
+    setValue(goalScorerField, []);
   }, [team]);
 
-  const goalScorers = useWatch({ name: "goalScorers" });
+  const goalScorers = useWatch({ name: goalScorerField });
   const totalGoalsByGoalScorer = goalScorers?.reduce(
     (total: number, player: typeof goalScorers[number]) =>
       total + parseInt(player.goals),
@@ -46,11 +52,11 @@ const TeamSection = ({ teams }: Props) => {
               value: team.id,
               label: team.name,
             }))}
-            {...register("team")}
+            {...register(teamField)}
           />
           <InputNew
             containerClassName="w-16"
-            {...register("goals")}
+            {...register(goalsField)}
             type="number"
           />
         </div>
@@ -63,12 +69,12 @@ const TeamSection = ({ teams }: Props) => {
               value: player.id,
               label: player.name,
             }))}
-            {...register(`goalScorers.${index}.player`)}
+            {...register(`${goalScorerField}.${index}.player`)}
           />
           <InputNew
             containerClassName="w-16"
             type="number"
-            {...register(`goalScorers.${index}.goals`)}
+            {...register(`${goalScorerField}.${index}.goals`)}
           />
           <button onClick={() => remove(index)}>
             <Trash2 className="h-4 text-red-600 hover:text-red-400" />

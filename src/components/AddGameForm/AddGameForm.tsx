@@ -12,9 +12,17 @@ type TeamType = {
 };
 
 const AddGameForm = ({ teams }: { teams: Team[] }) => {
-  const methods = useForm({ defaultValues: { team: teams[1].id, goals: 2 } });
+  const methods = useForm({
+    defaultValues: {
+      team1: teams[1].id,
+      goals1: 0,
+      goalScorers1: [],
+      team2: teams[2].id,
+      goals2: 0,
+      goalScorers2: [],
+    },
+  });
 
-  const { register, handleSubmit } = methods;
   const onSubmit = (data: any) => {
     console.log(data);
   };
@@ -23,7 +31,8 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
     <div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <TeamSection teams={teams} />
+          <TeamSection teams={teams} id={1} />
+          <TeamSection teams={teams} id={2} />
           <button type="submit">submit</button>
         </form>
       </FormProvider>

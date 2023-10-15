@@ -3,15 +3,9 @@ import { Team } from "@/types/Team";
 import TeamSection from "./TeamSection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addGameSchema } from "@/schemas/addGame.schema";
-
-type TeamType = {
-  team: string;
-  goals: number;
-  goalScorers: {
-    player: string;
-    goals: string;
-  }[];
-};
+import Paragraph from "@/components/Paragraph/Paragraph";
+import { Button } from "ia-moonlight";
+import CardWrapper from "@/components/CardWrapper/CardWrapper";
 
 const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const methods = useForm({
@@ -26,7 +20,10 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
     },
   });
 
-  console.log(methods.formState.errors);
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   /*   teamOneId: data.team1.value,
       teamOneGoals: Number(data.team1GoalAmount),
@@ -38,20 +35,28 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   /*  player: p.player.value,
         amount: Number(p.amount), */
 
+  const hasErrors = Object.keys(errors).length > 0;
   const onSubmit = (data: any) => {
     console.log(data);
   };
 
   return (
-    <div>
+    <CardWrapper title="Add Game">
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TeamSection teams={teams} id={1} />
           <TeamSection teams={teams} id={2} />
-          <button type="submit">submit</button>
+          {hasErrors && (
+            <Paragraph color="text-red-600">
+              {Object.values(errors)[0].message as string}
+            </Paragraph>
+          )}
+          <Button className="mt-2 w-full" type="submit">
+            Add game
+          </Button>
         </form>
       </FormProvider>
-    </div>
+    </CardWrapper>
   );
 };
 

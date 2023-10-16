@@ -10,6 +10,6 @@ export interface IAddGameForm {
 }
 
 export interface ITeamGoalScorer {
-  player: SelectOption;
-  amount: string;
+  player: string;
+  goals: string;
 }

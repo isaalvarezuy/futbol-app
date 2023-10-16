@@ -6,9 +6,15 @@ import { addGameSchema } from "@/schemas/addGame.schema";
 import Paragraph from "@/components/Paragraph/Paragraph";
 import { Button } from "ia-moonlight";
 import CardWrapper from "@/components/CardWrapper/CardWrapper";
+import { z } from "zod";
+import { useMutation, useQueryClient } from "react-query";
+import { useGames } from "@/hooks/services/games/useGames";
+import { showNotification } from "@/utils/showNotification";
+import { ITeamGoalScorer } from "@/types/forms/AddGameForm";
 
+type FormValues = z.infer<typeof addGameSchema>;
 const AddGameForm = ({ teams }: { teams: Team[] }) => {
-  const methods = useForm({
+  const methods = useForm<FormValues>({
     resolver: zodResolver(addGameSchema),
     defaultValues: {
       team1: teams[1].id,
@@ -23,21 +29,44 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
   const {
     handleSubmit,
     formState: { errors },
+    reset,
   } = methods;
 
-  /*   teamOneId: data.team1.value,
-      teamOneGoals: Number(data.team1GoalAmount),
-      teamOneGoalScorers: formatGoalScorers(data.team1GoalScorers),
-      teamTwoId: data.team2.value,
-      teamTwoGoals: Number(data.team2GoalAmount),
-      teamTwoGoalScorers: formatGoalScorers(data.team2GoalScorers), */
+  const queryClient = useQueryClient();
 
-  /*  player: p.player.value,
-        amount: Number(p.amount), */
+  const handleFormSuccess = () => {
+    reset();
+    queryClient.invalidateQueries("get-teams");
+    queryClient.invalidateQueries("get-team");
+    showNotification("Game added correctly", 2000, "success");
+  };
+
+  const { addGame } = useGames();
+  const { mutate, isLoading } = useMutation(addGame, {
+    onSuccess: handleFormSuccess,
+  });
+
+ 
+
+  const formatGoalScorers = (scorers: ITeamGoalScorer[]) => {
+    const formattedScorers = scorers.map((p) => ({
+      player: p.player,
+      amount: Number(p.goals),
+    }));
+    return JSON.stringify(formattedScorers);
+  };
 
   const hasErrors = Object.keys(errors).length > 0;
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: FormValues) => {
+    const requestBody = {
+      teamOneId: data.team1,
+      teamOneGoals: Number(data.goals1),
+      teamOneGoalScorers: formatGoalScorers(data.goalScorers1),
+      teamTwoId: data.team2,
+      teamTwoGoals: Number(data.goals2),
+      teamTwoGoalScorers: formatGoalScorers(data.goalScorers2),
+    };
+    mutate(requestBody);
   };
 
   return (
@@ -51,7 +80,7 @@ const AddGameForm = ({ teams }: { teams: Team[] }) => {
               {Object.values(errors)[0].message as string}
             </Paragraph>
           )}
-          <Button className="mt-2 w-full" type="submit">
+          <Button className="mt-2 w-full" type="submit" loading={isLoading}>
             Add game
           </Button>
         </form>

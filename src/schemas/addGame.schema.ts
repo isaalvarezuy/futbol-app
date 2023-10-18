@@ -2,27 +2,27 @@ import { z } from "zod";
 
 export const addGameSchema = z
   .object({
-    team1GoalAmount: z.string().min(1),
-    team1: z.object({ value: z.string(), label: z.string() }),
-    team1GoalScorers: z.array(
+    goals1: z.string().min(1),
+    team1: z.string().min(1),
+    goalScorers1: z.array(
       z.object({
-        player: z.object({ label: z.string(), value: z.string() }),
-        amount: z.string(),
+        player: z.string(),
+        goals: z.string(),
       })
     ),
-    team2GoalScorers: z.array(
+    goalScorers2: z.array(
       z.object({
-        player: z.object({ label: z.string(), value: z.string() }),
-        amount: z.string(),
+        player: z.string(),
+        goals: z.string(),
       })
     ),
-    team2GoalAmount: z.string().min(1),
-    team2: z.object({ value: z.string(), label: z.string() }),
+    goals2: z.string().min(1),
+    team2: z.string().min(1),
   })
   .refine(
     (data) => {
       const { team1, team2 } = data;
-      return team1.value !== team2.value;
+      return team1 !== team2;
     },
     {
       path: ["team1", "team2"],
@@ -31,31 +31,32 @@ export const addGameSchema = z
   )
   .refine(
     (data) => {
-      const { team1GoalScorers, team1GoalAmount } = data;
-      const totalFromPlayers = team1GoalScorers.reduce(
-        (accum, goalScorer) => accum + parseInt(goalScorer.amount),
+      const { goalScorers1, goals1 } = data;
+      if (!goalScorers1) return true;
+      const totalFromPlayers = goalScorers1?.reduce(
+        (accum, goalScorer) => accum + parseInt(goalScorer.goals),
         0
       );
 
-      return totalFromPlayers === parseInt(team1GoalAmount);
+      return totalFromPlayers === Number(goals1);
     },
     {
-      path: ["team1GoalAmount"],
+      path: ["goals1"],
       message: "Goals per team must match the sum of goals per player.",
     }
   )
   .refine(
     (data) => {
-      const { team2GoalScorers, team2GoalAmount } = data;
-      const totalFromPlayers = team2GoalScorers.reduce(
-        (accum, goalScorer) => accum + parseInt(goalScorer.amount),
+      const { goalScorers2, goals2 } = data;
+      if (!goalScorers2) return true;
+      const totalFromPlayers = goalScorers2?.reduce(
+        (accum, goalScorer) => accum + parseInt(goalScorer.goals),
         0
       );
-
-      return totalFromPlayers === parseInt(team2GoalAmount);
+      return totalFromPlayers === Number(goals2);
     },
     {
-      path: ["team2GoalAmount"],
+      path: ["goals2"],
       message: "Goals per team must match the sum of goals per player.",
     }
   );

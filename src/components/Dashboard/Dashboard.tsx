@@ -8,13 +8,18 @@ import TeamsGoalsPerGameChart from "../charts/TeamsGoalsPerGameChart";
 import ChartWrapper from "../ChartWrapper/ChartWrapper";
 import { usePlayers } from "@/hooks/services/players/usePlayers";
 import AddGameForm from "../AddGameForm/AddGameForm";
+import { useTeams } from "@/hooks/services/teams/useTeams";
 
 const Dashboard = () => {
-  const teams = useStore((state) => state.teams);
   const { getPlayers } = usePlayers();
+  const { getTeams } = useTeams();
+  const { data: teams } = useQuery({
+    queryKey: ["get-teams"],
+    queryFn: getTeams,
+  });
 
   const { data: players } = useQuery(["get-players"], getPlayers);
-  
+
   if (!teams || !players) {
     return <DashboardSkeleton />;
   }
@@ -38,7 +43,7 @@ const Dashboard = () => {
           <AddTeamForm />
         </div>
         <div className="col-span-4">
-          <AddGameForm />
+          {teams && <AddGameForm teams={teams} />}
         </div>
       </div>
     </div>

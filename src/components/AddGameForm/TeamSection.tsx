@@ -1,152 +1,102 @@
-import { SelectOption } from "@/types/components/SelectOption";
-import { Player } from "@/types/responses/Player";
 import { Team } from "@/types/Team";
-import { getTeamPlayers, transformToSelectOption } from "@/utils/utils";
-import React, { useEffect, useState } from "react";
+import Select from "@/components/SelectNew/Select";
+import InputNew from "@/components/InputNew/InputNew";
 import { Plus, Trash2 } from "react-feather";
-import {
-  Controller,
-  useFieldArray,
-  useFormContext,
-  useWatch,
-} from "react-hook-form";
-import Button from "../Button/Button";
-import Input from "../Input/Input";
-import Select from "../Select/Select";
-import { FieldValues } from "react-hook-form";
+import { Button } from "ia-moonlight";
+import IconWrapper from "@/components/IconWrapper/IconWrapper";
+import { getTeamPlayers } from "@/utils/utils";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 interface Props {
-  label: string;
   teams: Team[];
+  id: number;
 }
 
-const TeamSection = ({ label, teams }: Props) => {
-  const {
-    control,
-    watch,
-    register,
-    getValues,
-    setValue,
-    formState: { errors },
-  } = useFormContext();
-
+const TeamSection = ({ teams, id }: Props) => {
+  const [goalScorerField, goalsField, teamField] = [
+    `goalScorers${id}`,
+    `goals${id}`,
+    `team${id}`,
+  ];
+  const { register, control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    name: `${label}GoalScorers`,
     control,
+    name: goalScorerField,
   });
 
-  const watchGoalScorers = useWatch({
-    control,
-    name: `${label}GoalScorers`,
-    defaultValue: [],
-  });
-
-  const [teamGoals, setTeamGoals] = useState(getValues(`${label}GoalAmount`));
-  const [teamPlayers, setTeamPlayers] = useState<SelectOption[]>([]);
-  const [canAddGoalScorer, setCanAddGoalScorer] = useState(true);
-  const teamOptions = transformToSelectOption(teams);
-
-  const watchTeam = watch(`${label}`);
-  const watchTeamGoals = watch(`${label}GoalAmount`);
+  const teamGoals = useWatch({ name: goalsField });
+  const team = useWatch({ name: teamField });
+  const [teamPlayers, setTeamPlayers] = useState(getTeamPlayers(team, teams));
 
   useEffect(() => {
-    setTeamGoals(watchTeamGoals);
-  }, [watchTeamGoals]);
+    setTeamPlayers(getTeamPlayers(team, teams));
+    setValue(goalScorerField, []);
+  }, [team]);
 
-  const toggleAddGoalscorerButton = (
-    totalGoalsPerPlayers: number,
-    watchTeamGoals: string
-  ) => {
-    if (totalGoalsPerPlayers >= parseInt(watchTeamGoals)) {
-      setCanAddGoalScorer(false);
-    } else {
-      setCanAddGoalScorer(true);
-    }
-  };
-
-  useEffect(() => {
-    const totalGoalsPerPlayers = watchGoalScorers.reduce(
-      (acc: number, curr: { player: SelectOption; amount: string }) => {
-        return acc + parseInt(curr.amount);
-      },
-      0
-    );
-    toggleAddGoalscorerButton(totalGoalsPerPlayers, watchTeamGoals);
-  }, [watchGoalScorers, watchTeamGoals]);
-
-  useEffect(() => {
-    setTeamPlayers(
-      transformToSelectOption(getTeamPlayers(watchTeam.value, teams))
-    );
-    setValue(`${label}GoalScorers`, []);
-  }, [watchTeam, teams]);
+  const goalScorers = useWatch({ name: goalScorerField });
+  const totalGoalsByGoalScorer = goalScorers?.reduce(
+    (total: number, player: typeof goalScorers[number]) =>
+      total + parseInt(player.goals),
+    0
+  );
+  const canAddGoalScorer =
+    !totalGoalsByGoalScorer || totalGoalsByGoalScorer < teamGoals;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex w-full gap-2 text-sm font-body">
-        <Select
-          options={teamOptions}
-          control={control}
-          name={`${label}`}
-          errors={errors}
-        />
-
-        <div className="w-[60px]">
-          <Input
-            errors={errors}
+    <div>
+      {teams && (
+        <div className="flex gap-2">
+          <Select
+            options={teams.map((team) => ({
+              value: team.id,
+              label: team.name,
+            }))}
+            {...register(teamField)}
+          />
+          <InputNew
+            containerClassName="w-16"
+            {...register(goalsField)}
             type="number"
-            {...register(`${label}GoalAmount`)}
           />
         </div>
-      </div>
-      {fields.map((field, index) => {
-        const prefix = `${label}GoalScorers[${index}]`;
-        if (parseInt(teamGoals) > 0)
-          return (
-            <div key={field.id} className="flex w-full gap-2 text-sm font-body">
-              <Select
-                options={teamPlayers}
-                control={control}
-                name={`${prefix}.player`}
-                errors={errors}
-              />
+      )}
 
-              <div className="w-[60px]">
-                <Controller
-                  name={`${prefix}.amount`}
-                  control={control}
-                  render={({ field }: { field: FieldValues }) => (
-                    <Input
-                      errors={errors}
-                      type="number"
-                      {...register(`${prefix}.amount`)}
-                    />
-                  )}
-                />
-              </div>
-              <div className="w-[30px] flex items-center">
-                <button onClick={() => remove(index)}>
-                  <Trash2 className="h-4 text-red-600 hover:text-red-400" />
-                </button>
-              </div>
-            </div>
-          );
-      })}
-      {parseInt(teamGoals) > 0 && (
+      {fields.map((field, index) => (
+        <div className="flex gap-2 w-full items-center" key={field.id}>
+          <Select
+            options={teamPlayers?.map((player) => ({
+              value: player.id,
+              label: player.name,
+            }))}
+            {...register(`${goalScorerField}.${index}.player`)}
+          />
+          <InputNew
+            containerClassName="w-16"
+            type="number"
+            {...register(`${goalScorerField}.${index}.goals`)}
+          />
+          <button onClick={() => remove(index)}>
+            <Trash2 className="h-4 text-red-600 hover:text-red-400" />
+          </button>
+        </div>
+      ))}
+      {teamGoals > 0 && (
         <Button
-          disabled={!canAddGoalScorer}
           variant="secondary"
           onClick={() => {
             append({
-              player: teamPlayers[0],
-              amount: "1",
+              player: teamPlayers?.[0]?.id || "",
+              goals: "0",
             });
           }}
+          className="w-full mt-2"
+          disabled={!canAddGoalScorer}
         >
-          <>
-            <Plus className="h-4" />
-            Add goal scorer
-          </>
+          <IconWrapper size={16}>
+            <Plus />
+          </IconWrapper>
+          Add goal scorer
         </Button>
       )}
     </div>
